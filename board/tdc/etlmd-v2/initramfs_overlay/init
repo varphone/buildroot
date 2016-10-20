@@ -1,0 +1,54 @@
+#!/bin/sh
+# Print message tag
+TAG="[   Initramfs]"
+# Mount procfs if not ready
+test -r /proc/mounts
+#if [ $? -eq 0 ]; then
+#	grep -q proc /proc/mounts
+#fi
+if [ $? -ne 0 ]; then
+	mount -t proc proc /proc
+fi
+# Mount devtmpfs if not ready
+grep -q devtmpfs /proc/mounts
+if [ $? -ne 0 ]; then
+	mount -t devtmpfs devtmpfs /dev
+fi
+# Setup stdio
+exec 0</dev/console
+exec 1>/dev/console
+exec 2>/dev/console
+# Get root dev and mode from /proc/cmdline
+ROOTDEV=`sed -n 's/root=\([^ ]*\).*/\1/p' /proc/cmdline`
+ROOTMODE=`sed -n 's/root=[^\s]\+\s+\(ro\|rw\).*/\1/p' /proc/cmdline`
+# If not set, use readonly as default
+if [[ -z "${ROOTMODE}" ]]; then
+	ROOTMODE=ro
+fi
+# If ROOTDEV set, mount the real rootfs and switch
+if [[ -n "${ROOTDEV}" -a "${ROOTDEV}" != "/dev/ram0" ]]; then
+	echo "${TAG} Real rootfs on ${ROOTDEV}"
+	test -b ${ROOTDEV}
+	if [ $? -ne 0 ]; then
+		echo "${TAG} Rootfs device ${ROOTDEV} does not exists."
+		umount /proc
+		export BOOT_ERROR=ERDNF
+		exec /sbin/init $*
+	fi
+	ln -s ${ROOTDEV} /dev/root
+	mkdir -p /real_root
+	mount -o ${ROOTMODE} /dev/root /real_root
+	if [ $? -ne 0 ]; then
+		echo "${TAG} Mount rootfs failed."
+		umount /proc
+		export BOOT_ERROR=EMNRD
+		exec /sbin/init $*
+		
+	fi
+	umount /proc
+	exec switch_root /real_root /sbin/init $*
+fi
+# Otherwise, just enter the initramfs
+echo "${TAG} Enter initramfs only."
+umount /proc
+exec /sbin/init $*
