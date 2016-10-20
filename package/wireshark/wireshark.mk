@@ -6,7 +6,7 @@
 
 WIRESHARK_VERSION = 2.2.1
 WIRESHARK_SOURCE = wireshark-$(WIRESHARK_VERSION).tar.bz2
-WIRESHARK_SITE = http://www.wireshark.org/download/src/all-versions
+WIRESHARK_SITE = https://www.wireshark.org/download/src/all-versions
 WIRESHARK_LICENSE = wireshark license
 WIRESHARK_LICENSE_FILES = COPYING
 WIRESHARK_DEPENDENCIES = host-pkgconf libpcap libglib2
@@ -40,7 +40,8 @@ endif
 # Qt4 needs accessibility, we don't support it
 ifeq ($(BR2_PACKAGE_QT5BASE_WIDGETS),y)
 WIRESHARK_CONF_OPTS += --with-qt=5
-WIRESHARK_DEPENDENCIES += qt5base
+WIRESHARK_DEPENDENCIES += qt5base qt5tools
+WIRESHARK_CONF_ENV += ac_cv_path_QTCHOOSER=""
 # Seems it expects wrappers and passes a -qt=X parameter for version
 WIRESHARK_MAKE_OPTS += \
 	MOC="$(HOST_DIR)/usr/bin/moc" \
