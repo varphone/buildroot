@@ -1,4 +1,5 @@
 #!/bin/sh
+#
 # Print message tag
 TAG="[   Initramfs]"
 # Mount procfs if not ready
@@ -18,37 +19,150 @@ fi
 exec 0</dev/console
 exec 1>/dev/console
 exec 2>/dev/console
-# Get root dev and mode from /proc/cmdline
-ROOTDEV=`sed -n 's/root=\([^ ]*\).*/\1/p' /proc/cmdline`
-ROOTMODE=`sed -n 's/root=[^\s]\+\s+\(ro\|rw\).*/\1/p' /proc/cmdline`
-# If not set, use readonly as default
-if [[ -z "${ROOTMODE}" ]]; then
-	ROOTMODE=ro
-fi
-# If ROOTDEV set, mount the real rootfs and switch
-if [[ -n "${ROOTDEV}" -a "${ROOTDEV}" != "/dev/ram0" ]]; then
-	echo "${TAG} Real rootfs on ${ROOTDEV}"
-	test -b ${ROOTDEV}
+# Parsing kernel cmdline
+CMDLINE=`cat /proc/cmdline`
+ROOT_DEV=
+ROOT_OPT=
+ROOT_FST=
+OVERLAYROOT=
+OVERLAYROOT_DEV=
+OVERLAYROOT_OPT=
+OVERLAYROOT_FST=
+MOUNT_OPTS=
+for V in ${CMDLINE}; do
+	case $V in
+		root*)
+			ROOT_DEV=`echo $V | cut -d= -f2`
+			;;
+		ro)
+			ROOT_OPT=ro
+			;;
+		rw)
+			ROOT_OPT=rw
+			;;
+		rootfstype*)
+			ROOT_FST=`echo $V | cut -d= -f2`
+			;;
+		originroot*)
+			ORIGINROOT=$V
+			ORIGINROOT_DEV=`echo $V | cut -d: -f1`
+			ORIGINROOT_OPT=`echo $V | cut -d: -f2`
+			ORIGINROOT_FST=`echo $V | cut -d: -f3`
+			;;
+		overlayroot*)
+			OVERLAYROOT=`echo $V | cut -d= -f2`
+			OVERLAYROOT_DEV=`echo $OVERLAYROOT | cut -d: -f1`
+			OVERLAYROOT_OPT=`echo $OVERLAYROOT | cut -d: -f2`
+			OVERLAYROOT_FST=`echo $OVERLAYROOT | cut -d: -f3`
+			;;
+		*);;
+	esac
+done
+# Enter system with initramfs
+enter_initramfs_only()
+{
+	echo "${TAG} Entery initramfs only."
+	umount /proc
+	exec /sbin/init $*
+}
+# 
+enter_origin_rootfs()
+{
+	echo "${TAG} Rootfs on ${ROOT_DEV}"
+	# Check device
+	test -b ${ROOT_DEV}
 	if [ $? -ne 0 ]; then
-		echo "${TAG} Rootfs device ${ROOTDEV} does not exists."
-		umount /proc
-		export BOOT_ERROR=ERDNF
-		exec /sbin/init $*
+		echo "${TAG} Rootfs device ${ROOT_DEV} does not exists."
+		export BOOT_ERROR=ERARDNF
+		enter_initramfs_only $*
 	fi
-	ln -s ${ROOTDEV} /dev/root
-	mkdir -p /real_root
-	mount -o ${ROOTMODE} /dev/root /real_root
+	# Check settigns
+	if [[ -z "${ROOT_OPT}" ]]; then
+		MOUNT_OPTS="${MOUNT_OPTS}-o ${ROOT_OPT} "
+	fi
+	if [[ -z "${ROOT_FST}" ]]; then
+		MOUNT_OPTS="${MOUNT_OPTS}-t ${ROOT_FST} "
+	fi
+	# Make symblos
+	ln -s ${ROOT_DEV} /dev/root
+	#
+	mount ${MOUNT_OPTS} ${ROOT_DEV} /system
+	umount /proc
+	exec switch_root /system /sbin/init $*
+}
+# Enter system with overlayfs
+enter_overlayfs()
+{
+	echo "${TAG} Origin rootfs on ${ORIGINROOT_DEV}"
+	echo "${TAG} Overlay rootfs on ${OVERLAYROOT_DEV}"
+	test -b ${ORIGINROOT_DEV}
 	if [ $? -ne 0 ]; then
-		echo "${TAG} Mount rootfs failed."
-		umount /proc
-		export BOOT_ERROR=EMNRD
-		exec /sbin/init $*
-		
+		echo "${TAG} Origin rootfs device ${ORIGINROOT_DEV} does not exists."
+		export BOOT_ERROR=EORRDNF
+		enter_initramfs_only $*
+	fi
+	test -b ${OVERLAYROOT_DEV}
+	if [ $? -ne 0 ]; then
+		echo "${TAG} Overlay rootfs device ${OVERLAYROOT_DEV} does not exists."
+		export BOOT_ERROR=EOVRDNF
+		enter_initramfs_only $*
+	fi
+	if [[ -z "${OVERLAYROOT_OPT}" ]]; then
+		OVERLAYROOT_OPT=rw
+	fi
+	if [[ -z "${OVERLAYROOT_FST}" ]]; then
+		OVERLAYROOT_FST=ext2
+	fi
+	# Make dev symbols
+	ln -s ${ROOT_DEV} /dev/root-origin
+	ln -s ${OVERLAYROOT_DEV} /dev/root-overlay
+	# Mount origin rootfs
+	MOUNT_OPTS=
+	if [[ -z "${ROOT_OPT}" ]]; then
+		MOUNT_OPTS="${MOUNT_OPTS}-o ${ROOT_OPT}"
+	fi
+	if [[ -z "${ROOT_FST}" ]]; then
+		MOUNT_OPTS="${MOUNT_OPTS}-t ${ROOT_FST}"
+	fi
+	mount ${MOUNT_OPTS} ${ROOT_DEV} /system-origin
+	if [ $? -ne 0 ]; then
+		echo "${TAG} Mount origin rootfs failed."
+		export BOOT_ERROR=EMNORRD
+		enter_initramfs_only $*
+	fi
+	# Mout overlay rootfs
+	MOUNT_OPTS=
+	if [[ -z "${OVERLAYROOT_OPT}" ]]; then
+		MOUNT_OPTS="${MOUNT_OPTS}-o ${OVERLAYROOT_OPT}"
+	fi
+	if [[ -z "${ROOT_FST}" ]]; then
+		MOUNT_OPTS="${MOUNT_OPTS}-t ${OVERLAYROOT_FST}"
+	fi
+	mount ${MOUNT_OPTS} ${OVERLAYROOT_DEV} /system-overlay
+	if [ $? -ne 0 ]; then
+		echo "${TAG} Mount overlay rootfs failed."
+		export BOOT_ERROR=EMNOVRD
+		enter_initramfs_only $*
+	fi
+	# Mout overlayfs
+	mount -t overlay overlay -olowerdir=/system-overlay:/system-origin /system
+	if [ $? -ne 0 ]; then
+		echo "${TAG} Mount overlayfs failed."
+		export BOOT_ERROR=EMNOVFS
+		enter_initramfs_only $*
 	fi
 	umount /proc
-	exec switch_root /real_root /sbin/init $*
+	exec switch_root /system /sbin/init $*
+}
+# If root setted, ans not /dev/ram0
+if [[ -n "${ROOT_DEV}" -a "${ROOT_DEV}" != "/dev/ram0" ]]; then
+	# if overlayroot setted, use overlayfs mode
+	if [[ -n "${OVERLAYROOT}" ]]; then
+		enter_overlayfs $*
+	else
+		enter_rawfs $*
+	fi
 fi
 # Otherwise, just enter the initramfs
-echo "${TAG} Enter initramfs only."
-umount /proc
-exec /sbin/init $*
+enter_initramfs_only $*
+exit $?
