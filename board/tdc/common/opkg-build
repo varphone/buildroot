@@ -1,0 +1,171 @@
+#!/bin/bash
+
+# Global
+MODE=build
+OUTPUT_FILE=
+OUTPUT_DIR=
+PACKAGE_DIR=
+PACKAGE_EXT=opk
+# Control
+PACKAGE=
+VERSION=1.0.0
+ARCHITECTURE=all
+MAINTAINER=$(whoami)
+SECTION=base
+PRIORITY=standard
+DESCRIPTION=
+SOURCE=
+DEPENDS=
+
+build()
+{
+	if [ -n "${OUTPUT_DIR}" ]; then
+		if [ -d "${OUTPUT_DIR}"]; then
+			mkdir -p "${OUTPUT_DIR}"
+		fi
+	fi
+	if [ -z "${OUTPUT_DIR}" ]; then
+		OUTPUT_DIR=$(dirname $(realpath "${PACKAGE_DIR}"))
+	fi
+	# Setup build directory
+	BUILD_DIR="${OUTPUT_DIR}/.opkg-build"
+	mkdir -p "${BUILD_DIR}"
+	# Setup output file
+	if [ -z "${OUTPUT_FILE}" ]; then
+		OUTPUT_FILE="${PACKAGE}_${VERSION}_${ARCHITECTURE}.${PACKAGE_EXT}"
+	fi
+	OUTPUT="${OUTPUT_DIR}/${OUTPUT_FILE}"
+	(cd "${PACKAGE_DIR}/CONTROL" && tar -zcf "${BUILD_DIR}/control.tar.gz" --owner=0 --group=0 *)
+	(cd "${PACKAGE_DIR}" && tar -zcf "${BUILD_DIR}/data.tar.gz" --owner=0 --group=0 --exclude CONTROL *)
+	echo "2.0" > "${BUILD_DIR}/debian-binary";
+	rm -f "${OUTPUT}"
+	(cd "${BUILD_DIR}" && ar -crf "${OUTPUT}" control.tar.gz data.tar.gz debian-binary)
+	rm -rf "${BUILD_DIR}"
+	echo "========================================================================"
+	echo "[opkg]: ${OUTPUT} build ok."
+	cat "${PACKAGE_DIR}/CONTROL/control" | sed 's/^/\t/'
+	echo "========================================================================"
+}
+
+init()
+{
+	mkdir -p "${PACKAGE_DIR}"
+	mkdir -p "${PACKAGE_DIR}/CONTROL"
+	# Make control file
+	F="${PACKAGE_DIR}/CONTROL/control"
+	echo "Package: ${PACKAGE}" > "$F";
+	echo "Version: ${VERSION}" >> "$F";
+	echo "Architecture: ${ARCHITECTURE}" >> "$F";
+	echo "Maintainer: ${MAINTAINER}" >> "$F";
+	echo "Section: ${SECTION}" >> "$F";
+	echo "Priority: ${PRIORITY}" >> "$F";
+	echo "Description: ${DESCRIPTION}" >> "$F";
+	echo "Source: ${SOURCE}" >> "$F";
+	echo "Depends: ${DEPENDS}" >> "$F";
+	# Make preinst script
+	F="${PACKAGE_DIR}/CONTROL/preinst"
+	echo '#!/bin/sh' > "${F}"
+	echo 'echo [opkg]: Preparing to install ...' >> "${F}"
+	echo >> "${F}"
+	chmod a+x "${F}"
+	# Make postinst script
+	F="${PACKAGE_DIR}/CONTROL/postinst"
+	echo '#!/bin/sh' > "${F}"
+	echo 'echo [opkg]: Finalizing install ...' >> "${F}"
+	echo >> "${F}"
+	chmod a+x "${F}"
+	# Make prerm script
+	F="${PACKAGE_DIR}/CONTROL/prerm"
+	echo '#!/bin/sh' > "${F}"
+	echo 'echo [opkg]: Preparing to remove ...' >> "${F}"
+	echo >> "${F}"
+	chmod a+x "${F}"
+	# Make postrm script
+	F="${PACKAGE_DIR}/CONTROL/postrm"
+	echo '#!/bin/sh' >> "${F}"
+	echo 'echo [opkg]: Finalizing remove ...' >> "${F}"
+	echo >> "${F}"
+	chmod a+x "${F}"
+}
+
+usage()
+{
+	echo "$0 [options] <package directory>"
+	echo "Options:"
+	echo "  -i,--init               Initialize a empty package"
+	echo "  -b,--build              Build package"
+	echo "  -f,--output <F>         Specfied output file"
+	echo "  -O,--output-dir <D>     Specfied output directory"
+	echo "  -p,--package <S>        Package name"
+	echo "  -v,--version <S>        Package version"
+	echo "  -a,--architecture <L>   Package architecture"
+	echo "    all,arm,x86,x86_64,..."
+	echo "  -m,--maintainer <S>     Package maintainer"
+	echo "    \"Foo Bar, foo@bar.com\""
+	echo "  -s,--section <L>        Package section"
+	echo "    admin,base,comm,editors,graphics,libs,misc,net,text,web,x11,..."
+	echo "  -P,--priority <L>       Package priority"
+	echo "    required,standard,important,optional,extra"
+	echo "  -d,--description <S>    Package description"
+	echo "  -S,--source <U>         Package source url"
+	echo "    http:/xxxx/foo-version.tar.gz"
+	echo "  -D,--depends <L>        Package dependencies"
+	echo "    \"pkg1,pkg2,pkg3,...\""
+	echo
+	exit 0
+}
+
+while true; do
+	case $1 in
+		-i|--init) MODE=init; shift;;
+		-b|--build) MODE=build; shift;;
+		-f|--output) OUTPUT=$2; shift 2;;
+		-O|--output-dir) OUTPUT_DIR=$2; shift 2;;
+		-p|--package) PACKAGE=$2; shift 2;;
+		-v|--version) VERSION=$2; shift 2;;
+		-a|--architecture) ARCHITECTURE=$2; shift 2;;
+		-m|--maintainer) MAINTAINER=$2; shift 2;;
+		-s|--section) SECTION=$2; shift 2;;
+		-P|--priority) PRIORITY=$2; shift 2;;
+		-d|--description) DESCRIPTION=$2; shift 2;;
+		-S|--source) SOURCE=$2; shift 2;;
+		-D|--depends) DEPENDS=$2; shift 2;;
+		-*) shift;;
+		*) PACKAGE_DIR=$1; shift;;
+	esac
+	if [ -z $1 ]; then
+		break
+	fi
+done
+
+if [ -z "$PACKAGE_DIR" ]; then
+	usage
+fi
+
+if [ -z "${PACKAGE}" ]; then
+	PACKAGE=$(basename "${PACKAGE_DIR}")
+fi
+
+if [ -r "${PACKAGE_DIR}/CONTROL/control" ]; then
+	F="${PACKAGE_DIR}/CONTROL/control"
+	PACKGE=$(grep "Package:" "${F}" | sed 's/Package:\s*\(.*\)/\1/')
+	VERSION=$(grep "Version:" "${F}" | sed 's/Version:\s*\(.*\)/\1/')
+	ARCHITECTURE=$(grep "Architecture:" "${F}" | sed 's/Architecture:\s*\(.*\)/\1/')
+	MAINTAINER=$(grep "Maintainer:" "${F}" | sed 's/Maintainer:\s*\(.*\)/\1/')
+	SECTION=$(grep "Section:" "${F}" | sed 's/Section:\s*\(.*\)/\1/')
+	PRIORITY=$(grep "Priority:" "${F}" | sed 's/Priority:\s*\(.*\)/\1/')
+	DESCRIPTION=$(grep "Description:" "${F}" | sed 's/Description:\s*\(.*\)/\1/')
+	SOURCE=$(grep "Source:" "${F}" | sed 's/Source:\s*\(.*\)/\1/')
+	DEPENDS=$(grep "Depends:" "${F}" | sed 's/Depends:\s*\(.*\)/\1/')
+fi
+
+if [[ "$MODE" = "init" ]]; then
+	init
+fi
+
+if [[ "${MODE}" = "build" ]]; then
+	build
+fi
+
+exit $?
+
