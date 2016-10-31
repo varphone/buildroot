@@ -253,6 +253,8 @@ F:	package/tor/
 F:	package/transmission/
 F:	package/tvheadend/
 F:	package/unixodbc/
+F:	package/vdr/
+F:	package/vdr-plugin-vnsiserver/
 F:	package/vlc/
 F:	package/vnstat/
 F:	package/x11r7/
@@ -520,6 +522,7 @@ F:	package/libdmtx/
 F:	package/libsodium/
 F:	package/php-amqp/
 F:	package/python-cherrypy/
+F:	package/rabbitmq-server/
 F:	package/sane-backends/
 F:	package/ucl/
 F:	package/upx/
@@ -531,6 +534,7 @@ F:	configs/nitrogen*
 F:	package/freescale-imx/
 F:	package/gstreamer1/gst1-imx/
 F:	package/libimxvpuapi/
+F:	package/mfgtools/
 F:	package/sshpass/
 
 N:	Geoff Levand <geoff@infradead.org>

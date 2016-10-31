@@ -95,6 +95,21 @@ define check_host_rpath
 endef
 GLOBAL_INSTRUMENTATION_HOOKS += check_host_rpath
 
+define step_check_build_dir_one
+	if [ -d $(2) ]; then \
+		printf "%s: installs files in %s\n" $(1) $(2) >&2; \
+		exit 1; \
+	fi
+endef
+
+define step_check_build_dir
+	$(if $(filter install-staging,$(2)),\
+		$(if $(filter end,$(1)),$(call step_check_build_dir_one,$(3),$(STAGING_DIR)/$(O))))
+	$(if $(filter install-target,$(2)),\
+		$(if $(filter end,$(1)),$(call step_check_build_dir_one,$(3),$(TARGET_DIR)/$(O))))
+endef
+GLOBAL_INSTRUMENTATION_HOOKS += step_check_build_dir
+
 # User-supplied script
 ifneq ($(BR2_INSTRUMENTATION_SCRIPTS),)
 define step_user
@@ -315,6 +330,16 @@ $$(error Configuration error: both "$(3)" and $$(BR2_PACKAGE_PROVIDES_$(2))\
 are selected as providers for virtual package "$(1)". Only one provider can\
 be selected at a time. Please fix your configuration)
 endif
+endef
+
+define pkg-graph-depends
+	@$$(INSTALL) -d $$(GRAPHS_DIR)
+	@cd "$$(CONFIG_DIR)"; \
+	$$(TOPDIR)/support/scripts/graph-depends $$(BR2_GRAPH_DEPS_OPTS) \
+		-p $(1) $(2) -o $$(GRAPHS_DIR)/$$(@).dot
+	dot $$(BR2_GRAPH_DOT_OPTS) -T$$(BR_GRAPH_OUT) \
+		-o $$(GRAPHS_DIR)/$$(@).$$(BR_GRAPH_OUT) \
+		$$(GRAPHS_DIR)/$$(@).dot
 endef
 
 ################################################################################
@@ -698,14 +723,14 @@ $(1)-show-version:
 $(1)-show-depends:
 			@echo $$($(2)_FINAL_ALL_DEPENDENCIES)
 
+$(1)-show-rdepends:
+			@echo $$($(2)_RDEPENDENCIES)
+
 $(1)-graph-depends: graph-depends-requirements
-			@$$(INSTALL) -d $$(GRAPHS_DIR)
-			@cd "$$(CONFIG_DIR)"; \
-			$$(TOPDIR)/support/scripts/graph-depends $$(BR2_GRAPH_DEPS_OPTS) \
-				-p $(1) -o $$(GRAPHS_DIR)/$$(@).dot
-			dot $$(BR2_GRAPH_DOT_OPTS) -T$$(BR_GRAPH_OUT) \
-				-o $$(GRAPHS_DIR)/$$(@).$$(BR_GRAPH_OUT) \
-				$$(GRAPHS_DIR)/$$(@).dot
+	$(call pkg-graph-depends,$(1),--direct)
+
+$(1)-graph-rdepends: graph-depends-requirements
+	$(call pkg-graph-depends,$(1),--reverse)
 
 $(1)-all-source:	$(1)-source
 $(1)-all-source:	$$(foreach p,$$($(2)_FINAL_ALL_DEPENDENCIES),$$(p)-all-source)
@@ -853,6 +878,10 @@ ifneq ($$($(2)_PROVIDES),)
 $$(foreach pkg,$$($(2)_PROVIDES),\
 	$$(eval $$(call virt-provides-single,$$(pkg),$$(call UPPERCASE,$$(pkg)),$(1))$$(sep)))
 endif
+
+# Register package as a reverse-dependencies of all its dependencies
+$$(eval $$(foreach p,$$($(2)_FINAL_ALL_DEPENDENCIES),\
+	$$(call UPPERCASE,$$(p))_RDEPENDENCIES += $(1)$$(sep)))
 
 # Ensure unified variable name conventions between all packages Some
 # of the variables are used by more than one infrastructure; so,
