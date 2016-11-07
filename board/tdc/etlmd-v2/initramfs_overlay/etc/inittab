@@ -19,6 +19,7 @@
 ::sysinit:/bin/mkdir -p /dev/shm
 ::sysinit:/bin/mount -a
 ::sysinit:/bin/hostname -F /etc/hostname
+::sysinit:/etc/profile
 # now run any rc scripts
 ::sysinit:/etc/init.d/rcS
 

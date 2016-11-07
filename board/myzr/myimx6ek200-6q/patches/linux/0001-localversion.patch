@@ -1,0 +1,6 @@
+diff -Naur a/localversion b/localversion
+--- a/localversion	2016-10-18 20:07:02.567666510 +0800
++++ b/localversion	2016-10-18 20:07:56.831811803 +0800
+@@ -1 +1 @@
+--2666-gbdde708
++-1611

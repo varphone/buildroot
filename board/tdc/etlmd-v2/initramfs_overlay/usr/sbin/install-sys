@@ -1,46 +1,81 @@
 #!/bin/sh
 
-DEV=
+SOURCE_DEV=
+TARGET_DEV=
 YES=
 
 check_device_size()
 {
-	CAP=$(blockdev --getsize64 $1)
-	if [ -z ${CAP} ]; then
-		echo "The target device $1 not valid."
-		echo 2;
+	CAP=$(blockdev --getsize64 $1 2> /dev/null)
+	if [ -z "${CAP}" ]; then
+		echo "### The target device $1 not valid."
+		exit 1;
 	fi
 
 	if [ ${CAP} -lt $2 ]; then
-		echo "The Target device $1(${CAP} < $2) too small."
-		exit 3;
+		echo "### The Target device $1(${CAP} < $2) too small."
+		exit 1;
 	fi
+}
+
+find_source_dev()
+{
+	BLKS=$(blkid | tr -s '\n' ';')
+	IFS=';'
+	for BLK in ${BLKS}
+	do
+		DEV=
+		LABEL=
+		TYPE=
+		UUID=
+		IFS=' '
+		for INFO in ${BLK}
+		do
+			case ${INFO} in
+				'LABEL="ETLMDV2"')
+					LABEL=$(echo ${INFO} | cut -d= -f2)
+					SOURCE_DEV=${DEV}
+					;;
+				*)
+					DEV=$(echo ${INFO} | cut -d: -f1)
+					;;
+			esac
+		done
+		IFS=';'
+	done
 }
 
 for var in "$@"; do
 	if [[ "${var}" = "-y" ]]; then
 		YES=y
 	else
-		DEV=${var}
+		TARGET_DEV=${var}
 	fi
 done
 
-if [[ -z "${DEV}" ]]; then
+if [[ -z "${TARGET_DEV}" ]]; then
 	echo "Usage: install-sys <block device>"
 	echo "  Example: install-sys /dev/sda"
-	exit 1;
+	exit 1
 fi
 
-check_device_size ${DEV}1 100000000
-check_device_size ${DEV}2 200000000
-check_device_size ${DEV}3 200000000
-check_device_size ${DEV}4 200000000
-check_device_size ${DEV}5 200000000
-check_device_size ${DEV}6 200000000
+find_source_dev
 
-echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-echo "!!! Warning: All data on \"${DEV}\" will be destroy !!!"
-echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+if [ -z "${SOURCE_DEV}" ]; then
+	echo "### Error: Install source not found."
+	exit 1
+fi
+
+echo "=== Install source: ${SOURCE_DEV}"
+
+check_device_size ${TARGET_DEV}1 100000000
+check_device_size ${TARGET_DEV}2 200000000
+check_device_size ${TARGET_DEV}3 100000000
+check_device_size ${TARGET_DEV}4 500000000
+check_device_size ${TARGET_DEV}5 500000000
+
+echo
+echo "!!! Warning: All data on \"${TARGET_DEV}\" will be destroy !!!"
 echo
 if [[ -z "${YES}" ]]; then
 	read -p "Are you sure? [yes|no]: "
@@ -51,13 +86,50 @@ if [[ -z "${YES}" ]]; then
 	esac
 fi
 
-mount ${DEV}1 /mnt
-rm -rf /mnt/*.*
-tar -xvf boot.tgz -C/mnt/
+mkdir -p /mnt/source
+mkdir -p /mnt/target
+
+echo "=== Mount install source ..."
+mount ${SOURCE_DEV} /mnt/source
+if [ $? -ne 0 ]; then
+	echo "### Error: Failed to mount install source."
+	exit 1
+fi
+
+test -r /mnt/source/dist/boot.tgz
+if [ $? -ne 0 ]; then
+	echo "### Error: Install source: dist/boot.tgz not found."
+	umount /mnt/source
+	exit 1
+fi
+
+test -r /mnt/source/dist/system.ext2
+if [ $? -ne 0 ]; then
+	echo "### Error: Install source: dist/system.ext2 not found."
+	umount /mnt/source
+	exit 1
+fi
+
+echo "=== Install boot ..."
+mount ${TARGET_DEV}1 /mnt/target
+rm -rf /mnt/target/*.*
+tar -xvf /mnt/source/dist/boot.tgz -C/mnt/target/
+umount /mnt/target
+
+echo "=== Install recovery ..."
+mount ${TARGET_DEV}2 /mnt/target
+rm -rf /mnt/target/*.*
+cp -apr /mnt/source/dist /mnt/target/
+tar -xvf /mnt/source/dist/boot.tgz -C/mnt/target/
+umount /mnt/target
+
+echo "=== Install system ..."
+dd if=/mnt/source/dist/system.ext2 of=${TARGET_DEV}4 bs=512
+
+umount /mnt/source
+sync
 
 echo
-echo "======================================================="
-echo "===        System installation complete.            ==="
-echo "======================================================="
+echo "=== System installation complete."
 exit $?
 

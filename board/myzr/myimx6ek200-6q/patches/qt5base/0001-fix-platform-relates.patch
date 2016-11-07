@@ -1,0 +1,31 @@
+diff -Naur a/mkspes/devices/linux-buildroot-g++/qmake.conf b/mkspecs/devices/linux-buildroot-g++/qmake.conf
+--- a/mkspecs/devices/linux-buildroot-g++/qmake.conf	1970-01-01 08:00:00.000000000 +0800
++++ b/mkspecs/devices/linux-buildroot-g++/qmake.conf	2016-10-19 12:00:51.483516489 +0800
+@@ -0,0 +1,22 @@
++#
++# qmake configuration for the Freescale iMX6 boards (single, dual and quad)
++#
++
++include(../common/linux_device_pre.conf)
++
++QMAKE_LIBS_EGL         += -lEGL
++QMAKE_LIBS_OPENGL_ES2  += -lGLESv2 -lEGL -lGAL
++QMAKE_LIBS_OPENVG      += -lOpenVG -lEGL -lGAL
++
++IMX6_CFLAGS             = -DLINUX=1 -DEGL_API_FB=1
++QMAKE_CFLAGS           += $$IMX6_CFLAGS
++QMAKE_CXXFLAGS         += $$IMX6_CFLAGS
++
++DISTRO_OPTS +=
++
++# Preferred eglfs backend
++EGLFS_DEVICE_INTEGRATION = eglfs_viv
++
++include(../common/linux_arm_device_post.conf)
++
++load(qt_config)
+diff -Naur a/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h b/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h
+--- a/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h	1970-01-01 08:00:00.000000000 +0800
++++ b/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h	2016-10-19 12:22:42.736113686 +0800
+@@ -0,0 +1 @@
++#include "../../linux-g++/qplatformdefs.h"

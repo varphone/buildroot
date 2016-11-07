@@ -77,10 +77,13 @@ enter_origin_rootfs()
 		enter_initramfs_only $*
 	fi
 	# Check settigns
-	if [[ -z "${ROOT_OPT}" ]]; then
+	if [ -z "${ROOT_OPT}" ]; then
+		ROOT_OPT=ro
+	fi
+	if [ -n "${ROOT_OPT}" ]; then
 		MOUNT_OPTS="${MOUNT_OPTS}-o ${ROOT_OPT} "
 	fi
-	if [[ -z "${ROOT_FST}" ]]; then
+	if [ -n "${ROOT_FST}" ]; then
 		MOUNT_OPTS="${MOUNT_OPTS}-t ${ROOT_FST} "
 	fi
 	# Make symblos
@@ -93,11 +96,11 @@ enter_origin_rootfs()
 # Enter system with overlayfs
 enter_overlayfs()
 {
-	echo "${TAG} Origin rootfs on ${ORIGINROOT_DEV}"
-	echo "${TAG} Overlay rootfs on ${OVERLAYROOT_DEV}"
-	test -b ${ORIGINROOT_DEV}
+	echo "${TAG} Origin rootfs on ${ROOT_DEV},${ROOT_OPT},${ROOT_FST}"
+	echo "${TAG} Overlay rootfs on ${OVERLAYROOT_DEV},${OVERLAYROOT_OPT},${OVERLAYROOT_FST}"
+	test -b ${ROOT_DEV}
 	if [ $? -ne 0 ]; then
-		echo "${TAG} Origin rootfs device ${ORIGINROOT_DEV} does not exists."
+		echo "${TAG} Origin rootfs device ${ROOT_DEV} does not exists."
 		export BOOT_ERROR=EORRDNF
 		enter_initramfs_only $*
 	fi
@@ -107,10 +110,14 @@ enter_overlayfs()
 		export BOOT_ERROR=EOVRDNF
 		enter_initramfs_only $*
 	fi
-	if [[ -z "${OVERLAYROOT_OPT}" ]]; then
+	# Check settings
+	if [ -z "${ROOT_OPT}" ]; then
+		ROOT_OPT=ro
+	fi
+	if [ -z "${OVERLAYROOT_OPT}" ]; then
 		OVERLAYROOT_OPT=rw
 	fi
-	if [[ -z "${OVERLAYROOT_FST}" ]]; then
+	if [ -z "${OVERLAYROOT_FST}" ]; then
 		OVERLAYROOT_FST=ext2
 	fi
 	# Make dev symbols
@@ -118,12 +125,13 @@ enter_overlayfs()
 	ln -s ${OVERLAYROOT_DEV} /dev/root-overlay
 	# Mount origin rootfs
 	MOUNT_OPTS=
-	if [[ -z "${ROOT_OPT}" ]]; then
+	if [ -n "${ROOT_OPT}" ]; then
 		MOUNT_OPTS="${MOUNT_OPTS}-o ${ROOT_OPT}"
 	fi
-	if [[ -z "${ROOT_FST}" ]]; then
+	if [ -n "${ROOT_FST}" ]; then
 		MOUNT_OPTS="${MOUNT_OPTS}-t ${ROOT_FST}"
 	fi
+	mkdir -p /system-origin
 	mount ${MOUNT_OPTS} ${ROOT_DEV} /system-origin
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount origin rootfs failed."
@@ -132,20 +140,23 @@ enter_overlayfs()
 	fi
 	# Mout overlay rootfs
 	MOUNT_OPTS=
-	if [[ -z "${OVERLAYROOT_OPT}" ]]; then
+	if [ -n "${OVERLAYROOT_OPT}" ]; then
 		MOUNT_OPTS="${MOUNT_OPTS}-o ${OVERLAYROOT_OPT}"
 	fi
-	if [[ -z "${ROOT_FST}" ]]; then
+	if [ -n "${ROOT_FST}" ]; then
 		MOUNT_OPTS="${MOUNT_OPTS}-t ${OVERLAYROOT_FST}"
 	fi
+	mkdir -p /system-overlay
 	mount ${MOUNT_OPTS} ${OVERLAYROOT_DEV} /system-overlay
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount overlay rootfs failed."
 		export BOOT_ERROR=EMNOVRD
 		enter_initramfs_only $*
 	fi
+	mkdir -p /system-overlay/upper
+	mkdir -p /system-overlay/work
 	# Mout overlayfs
-	mount -t overlay overlay -olowerdir=/system-overlay:/system-origin /system
+	mount -t overlay overlay -o lowerdir=/system-origin,upperdir=/system-overlay/upper,workdir=/system-overlay/work /system
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount overlayfs failed."
 		export BOOT_ERROR=EMNOVFS
@@ -155,9 +166,9 @@ enter_overlayfs()
 	exec switch_root /system /sbin/init $*
 }
 # If root setted, ans not /dev/ram0
-if [[ -n "${ROOT_DEV}" -a "${ROOT_DEV}" != "/dev/ram0" ]]; then
+if [ -n "${ROOT_DEV}" -a "${ROOT_DEV}" != "/dev/ram0" ]; then
 	# if overlayroot setted, use overlayfs mode
-	if [[ -n "${OVERLAYROOT}" ]]; then
+	if [ -n "${OVERLAYROOT}" ]; then
 		enter_overlayfs $*
 	else
 		enter_rawfs $*
