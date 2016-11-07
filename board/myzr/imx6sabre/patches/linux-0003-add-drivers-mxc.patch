@@ -1,0 +1,24 @@
+From 63169460355efbb22e700706cb6876004472204c Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Tue, 18 Oct 2016 17:08:19 +0800
+Subject: [PATCH 3/3] add drivers/mxc
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ drivers/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/Kconfig b/drivers/Kconfig
+index d2ac339..fcf6da5 100644
+--- a/drivers/Kconfig
++++ b/drivers/Kconfig
+@@ -198,4 +198,6 @@ source "drivers/hwtracing/intel_th/Kconfig"
+ 
+ source "drivers/fpga/Kconfig"
+ 
++source "drivers/mxc/Kconfig"
++
+ endmenu
+-- 
+2.7.4
+
