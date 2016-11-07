@@ -34,18 +34,6 @@ SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 # build by preventing it from being forwarded to sub-make calls.
 ifneq ("$(origin O)", "command line")
 O := $(CURDIR)/output
-else
-# Other packages might also support Linux-style out of tree builds
-# with the O=<dir> syntax (E.G. BusyBox does). As make automatically
-# forwards command line variable definitions those packages get very
-# confused. Fix this by telling make to not do so.
-MAKEOVERRIDES :=
-# Strangely enough O is still passed to submakes with MAKEOVERRIDES
-# (with make 3.81 atleast), the only thing that changes is the output
-# of the origin function (command line -> environment).
-# Unfortunately some packages don't look at origin (E.G. uClibc 0.9.31+)
-# To really make O go away, we have to override it.
-override O := $(O)
 endif
 
 # Check if the current Buildroot execution meets all the pre-requisites.
@@ -95,7 +83,7 @@ else # umask / $(CURDIR) / $(O)
 all:
 
 # Set and export the version string
-export BR2_VERSION := 2016.11-git
+export BR2_VERSION := 2016.11-rc1
 
 # Save running make version since it's clobbered by the make package
 RUNNING_MAKE_VERSION := $(MAKE_VERSION)
@@ -154,6 +142,13 @@ BR_BUILDING = y
 else ifneq ($(filter-out $(nobuild_targets),$(MAKECMDGOALS)),)
 BR_BUILDING = y
 endif
+
+# We call make recursively to build packages. The command-line overrides that
+# are passed to Buildroot don't apply to those package build systems. In
+# particular, we don't want to pass down the O=<dir> option for out-of-tree
+# builds, because the value specified on the command line will not be correct
+# for packages.
+MAKEOVERRIDES :=
 
 # Include some helper macros and variables
 include support/misc/utils.mk
