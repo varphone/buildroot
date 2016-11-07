@@ -1,0 +1,52 @@
+diff --git a/arch/arm/boot/dts/imx6qdl-sabresd.dtsi b/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
+index a6d445c..1321342 100644
+--- a/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
++++ b/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
+@@ -167,9 +167,19 @@
+ &fec {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_enet>;
+-	phy-mode = "rgmii";
++	phy-mode = "rmii";
++	phy-handle = <&phy0>
+ 	phy-reset-gpios = <&gpio1 25 0>;
+ 	status = "okay";
++	
++	mdio {
++		#address-cell = <0>;
++		#size-cell = <0>;
++
++		phy0: ethernet-phy@0 { /* LAN7820A */
++			reg = <0>;
++		};
++	};
+ };
+ 
+ &hdmi {
+@@ -385,6 +395,12 @@
+ 			>;
+ 		};
+ 
++		pinctrl_enet_irq: enetirqgrp {
++			fsl,pins = <
++				MX6QDL_PAD_GPIO_6__ENET_IRQ		0x000b1
++			>;
++		};
++
+ 		pinctrl_gpio_keys: gpio_keysgrp {
+ 			fsl,pins = <
+ 				MX6QDL_PAD_EIM_D29__GPIO3_IO29 0x1b0b0
+diff --git a/drivers/net/ethernet/freescale/fec_main.c b/drivers/net/ethernet/freescale/fec_main.c
+index f6147ff..817e0a7 100644
+--- a/drivers/net/ethernet/freescale/fec_main.c
++++ b/drivers/net/ethernet/freescale/fec_main.c
+@@ -1963,8 +1963,7 @@ static int fec_enet_mii_probe(struct net_device *ndev)
+ 
+ 	/* mask with MAC supported features */
+ 	if (fep->quirks & FEC_QUIRK_HAS_GBIT) {
+-		phy_dev->supported &= PHY_GBIT_FEATURES;
+-		phy_dev->supported &= ~SUPPORTED_1000baseT_Half;
++		phy_dev->supported &= PHY_BASIC_FEATURES;
+ #if !defined(CONFIG_M5272)
+ 		phy_dev->supported |= SUPPORTED_Pause;
+ #endif
