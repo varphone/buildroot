@@ -52,6 +52,8 @@ source "package/freescale-imx/libz160/Config.in"
 endif
 if BR2_PACKAGE_FREESCALE_IMX_PLATFORM_IMX6Q
 source "package/freescale-imx/imx-gpu-viv/Config.in"
+source "package/freescale-imx/imx-gpu-viv-bin-3.0.35-4.1.0/Config.in"
+source "package/freescale-imx/kernel-module-imx-gpu-viv/Config.in"
 endif
 
 endif
