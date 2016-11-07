@@ -1,0 +1,20 @@
+config BR2_PACKAGE_IMX_GPU_VIV_BIN_3_0_35_4_1_0
+	bool "imx-gpu-viv-bin-3.0.35-4.1.0"
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_HAS_LIBOPENVG
+	help
+	  GPU prebuilt libaries for myimx6.
+
+if BR2_PACKAGE_IMX_GPU_VIV_BIN_3_0_35_4_1_0
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "imx-gpu-viv-bin-3.0.35-4.1.0"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "imx-gpu-viv-bin-3.0.35-4.1.0"
+
+config BR2_PACKAGE_PROVIDES_LIBOPENVG
+	default "imx-gpu-viv-bin-3.0.35-4.1.0"
+
+endif
