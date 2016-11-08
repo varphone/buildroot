@@ -12,7 +12,7 @@ diff -Naur a/usr/lib/pkgconfig/egl.pc b/usr/lib/pkgconfig/egl.pc
 +Description: OpenGL Extensions
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB
 diff -Naur a/usr/lib/pkgconfig/gles_cl.pc b/usr/lib/pkgconfig/gles_cl.pc
 --- a/usr/lib/pkgconfig/gles_cl.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/gles_cl.pc	2016-10-19 09:38:35.047997114 +0800
@@ -27,7 +27,7 @@ diff -Naur a/usr/lib/pkgconfig/gles_cl.pc b/usr/lib/pkgconfig/gles_cl.pc
 +Description: OpenGLES Lite Profile
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLES_CL -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/gles_cm.pc b/usr/lib/pkgconfig/gles_cm.pc
 --- a/usr/lib/pkgconfig/gles_cm.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/gles_cm.pc	2016-10-19 09:38:25.136060743 +0800
@@ -42,7 +42,7 @@ diff -Naur a/usr/lib/pkgconfig/gles_cm.pc b/usr/lib/pkgconfig/gles_cm.pc
 +Description: OpenGLES Common Profile
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLES_CM -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/gles.pc b/usr/lib/pkgconfig/gles.pc
 --- a/usr/lib/pkgconfig/gles.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/gles.pc	2016-10-19 09:34:51.779553183 +0800
@@ -57,7 +57,7 @@ diff -Naur a/usr/lib/pkgconfig/gles.pc b/usr/lib/pkgconfig/gles.pc
 +Description: OpenGL
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLESv1_CM -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/glesv1_cl.pc b/usr/lib/pkgconfig/glesv1_cl.pc
 --- a/usr/lib/pkgconfig/glesv1_cl.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/glesv1_cl.pc	2016-10-19 09:39:42.375603634 +0800
@@ -72,7 +72,7 @@ diff -Naur a/usr/lib/pkgconfig/glesv1_cl.pc b/usr/lib/pkgconfig/glesv1_cl.pc
 +Description: OpenGLESv1 Lite Profile
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLESv1_CL -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/glesv1_cm.pc b/usr/lib/pkgconfig/glesv1_cm.pc
 --- a/usr/lib/pkgconfig/glesv1_cm.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/glesv1_cm.pc	2016-10-19 09:40:06.107480000 +0800
@@ -87,7 +87,7 @@ diff -Naur a/usr/lib/pkgconfig/glesv1_cm.pc b/usr/lib/pkgconfig/glesv1_cm.pc
 +Description: OpenGLESv1 Common Profile
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLESv1_CM -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/glesv1.pc b/usr/lib/pkgconfig/glesv1.pc
 --- a/usr/lib/pkgconfig/glesv1.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/glesv1.pc	2016-10-19 09:39:16.151749137 +0800
@@ -102,7 +102,7 @@ diff -Naur a/usr/lib/pkgconfig/glesv1.pc b/usr/lib/pkgconfig/glesv1.pc
 +Description: OpenGLESv1 (Default)
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLESv1_CM -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/glesv2.pc b/usr/lib/pkgconfig/glesv2.pc
 --- a/usr/lib/pkgconfig/glesv2.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/glesv2.pc	2016-10-19 09:34:51.779553183 +0800
@@ -117,7 +117,7 @@ diff -Naur a/usr/lib/pkgconfig/glesv2.pc b/usr/lib/pkgconfig/glesv2.pc
 +Description: OpenGL
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lGLESv2 -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
 diff -Naur a/usr/lib/pkgconfig/opencl.pc b/usr/lib/pkgconfig/opencl.pc
 --- a/usr/lib/pkgconfig/opencl.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/opencl.pc	2016-10-19 09:41:40.259058092 +0800
@@ -132,7 +132,7 @@ diff -Naur a/usr/lib/pkgconfig/opencl.pc b/usr/lib/pkgconfig/opencl.pc
 +Description: OpenCL
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lOpenCL -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB
 diff -Naur a/usr/lib/pkgconfig/openvg.pc b/usr/lib/pkgconfig/openvg.pc
 --- a/usr/lib/pkgconfig/openvg.pc	1970-01-01 08:00:00.000000000 +0800
 +++ b/usr/lib/pkgconfig/openvg.pc	2016-10-19 09:34:51.779553183 +0800
@@ -147,4 +147,4 @@ diff -Naur a/usr/lib/pkgconfig/openvg.pc b/usr/lib/pkgconfig/openvg.pc
 +Description: OpenVG
 +URL: http://www.opengl.org
 +Libs: -L${libdir} -lOpenVG -lEGL
-+Cflags: -I${includedir} -DEGL_API_FB
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB
