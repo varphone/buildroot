@@ -1,0 +1,25 @@
+menuconfig BR2_PACKAGE_HISILICON
+	bool "Hisilicon platform supports"
+	depends on BR2_arm
+	help
+	  Those packages provide hisilicon platform supports.
+
+if BR2_PACKAGE_HISILICON
+choice
+	prompt "Hisilicon platform"
+
+config BR2_PACKAGE_HISILICON_PLATFORM_HI3531
+	bool "Hi3531"
+
+endchoice
+
+config BR2_PACKAGE_FREESCALE_IMX_PLATFORM
+	string
+	default "HI3531" if BR2_PACKAGE_HISILICON_PLATFORM_HI3531
+
+if BR2_PACKAGE_HISILICON_PLATFORM_HI3531
+source "package/hisilicon/hi3531-mpp-drv/Config.in"
+#source "package/hisilicon/hi3531-mpp-lib/Config.in"
+endif
+
+endif
