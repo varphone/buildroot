@@ -1,0 +1,9 @@
+comment "hi3531-mpp-drv needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL
+
+config BR2_PACKAGE_HI3531_MPP_DRV
+	bool "hi3531-mpp-drv"
+	depends on BR2_LINUX_KERNEL
+	help
+	  Kernel loadable module for Hi3531 MPP.
+
