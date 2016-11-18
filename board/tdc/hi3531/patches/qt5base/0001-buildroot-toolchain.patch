@@ -1,0 +1,34 @@
+diff -Naur a/mkspecs/devices/linux-buildroot-g++/qmake.conf b/mkspecs/devices/linux-buildroot-g++/qmake.conf
+--- a/mkspecs/devices/linux-buildroot-g++/qmake.conf	1970-01-01 08:00:00.000000000 +0800
++++ b/mkspecs/devices/linux-buildroot-g++/qmake.conf	2016-10-19 12:23:40.100507931 +0800
+@@ -0,0 +1,25 @@
++# Qt5 has a mechanism to support "device" profiles, so that people can
++# specify the compiler, compiler flags and so on for a specific device.
++
++# We leverage this mechanism in the Buildroot packaging of qt5 to
++# simplify cross-compilation: we have our own "device" definition, which
++# allows us to easily pass the cross-compiler paths and flags from our
++# qt5.mk.
++
++include(../common/linux_device_pre.conf)
++
++# modifications to g++-unix.conf
++QMAKE_CC                = $${CROSS_COMPILE}gcc
++QMAKE_CXX               = $${CROSS_COMPILE}g++
++
++# modifications to gcc-base.conf
++QMAKE_CFLAGS           += $${BR_COMPILER_CFLAGS}
++QMAKE_CXXFLAGS         += $${BR_COMPILER_CXXFLAGS}
++QMAKE_CXXFLAGS_RELEASE += -O3
++CONFIG                 += nostrip
++
++QMAKE_LIBS             += -lrt -lpthread -ldl
++QMAKE_CFLAGS_ISYSTEM   =
++
++include(../common/linux_device_post.conf)
++load(qt_config)
+diff -Naur a/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h b/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h
+--- a/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h	1970-01-01 08:00:00.000000000 +0800
++++ b/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h	2016-10-19 12:23:04.412262597 +0800
+@@ -0,0 +1 @@
++#include "../../linux-g++/qplatformdefs.h"
