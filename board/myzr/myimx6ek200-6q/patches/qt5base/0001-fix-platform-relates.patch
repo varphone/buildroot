@@ -21,7 +21,7 @@ diff -Naur a/mkspes/devices/linux-buildroot-g++/qmake.conf b/mkspecs/devices/lin
 +# Preferred eglfs backend
 +EGLFS_DEVICE_INTEGRATION = eglfs_viv
 +
-+include(../common/linux_arm_device_post.conf)
++include(../common/linux_device_post.conf)
 +
 +load(qt_config)
 diff -Naur a/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h b/mkspecs/devices/linux-buildroot-g++/qplatformdefs.h
