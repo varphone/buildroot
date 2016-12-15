@@ -1,9 +1,8 @@
 bin
 dev
 etc
-init
 lib
-lib64
+lib32
 media
 mnt
 opt
@@ -12,7 +11,6 @@ root
 run
 sbin
 sys
-system
 tmp
 usr/bin
 usr/lib/libarchive.so
