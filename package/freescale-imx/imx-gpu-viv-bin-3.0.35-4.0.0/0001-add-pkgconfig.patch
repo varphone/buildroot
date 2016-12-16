@@ -1,0 +1,150 @@
+diff -Naur a/usr/lib/pkgconfig/egl.pc b/usr/lib/pkgconfig/egl.pc
+--- a/usr/lib/pkgconfig/egl.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/egl.pc	2016-10-19 09:36:53.231892585 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: egl
++Version: 1.0.0
++Description: OpenGL Extensions
++URL: http://www.opengl.org
++Libs: -L${libdir} -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB
+diff -Naur a/usr/lib/pkgconfig/gles_cl.pc b/usr/lib/pkgconfig/gles_cl.pc
+--- a/usr/lib/pkgconfig/gles_cl.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/gles_cl.pc	2016-10-19 09:38:35.047997114 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: gles_cl
++Version: 1.0.0
++Description: OpenGLES Lite Profile
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLES_CL -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/gles_cm.pc b/usr/lib/pkgconfig/gles_cm.pc
+--- a/usr/lib/pkgconfig/gles_cm.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/gles_cm.pc	2016-10-19 09:38:25.136060743 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: gles_cm
++Version: 1.0.0
++Description: OpenGLES Common Profile
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLES_CM -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/gles.pc b/usr/lib/pkgconfig/gles.pc
+--- a/usr/lib/pkgconfig/gles.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/gles.pc	2016-10-19 09:34:51.779553183 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: gles
++Version: 1.0.0
++Description: OpenGL
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLESv1_CM -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/glesv1_cl.pc b/usr/lib/pkgconfig/glesv1_cl.pc
+--- a/usr/lib/pkgconfig/glesv1_cl.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/glesv1_cl.pc	2016-10-19 09:39:42.375603634 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: glesv1_cl
++Version: 1.0.0
++Description: OpenGLESv1 Lite Profile
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLESv1_CL -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/glesv1_cm.pc b/usr/lib/pkgconfig/glesv1_cm.pc
+--- a/usr/lib/pkgconfig/glesv1_cm.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/glesv1_cm.pc	2016-10-19 09:40:06.107480000 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: glesv1_cm
++Version: 1.0.0
++Description: OpenGLESv1 Common Profile
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLESv1_CM -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/glesv1.pc b/usr/lib/pkgconfig/glesv1.pc
+--- a/usr/lib/pkgconfig/glesv1.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/glesv1.pc	2016-10-19 09:39:16.151749137 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: glesv1
++Version: 1.0.0
++Description: OpenGLESv1 (Default)
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLESv1_CM -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/glesv2.pc b/usr/lib/pkgconfig/glesv2.pc
+--- a/usr/lib/pkgconfig/glesv2.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/glesv2.pc	2016-10-19 09:34:51.779553183 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: glesv2
++Version: 2.0.0
++Description: OpenGL
++URL: http://www.opengl.org
++Libs: -L${libdir} -lGLESv2 -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
+diff -Naur a/usr/lib/pkgconfig/opencl.pc b/usr/lib/pkgconfig/opencl.pc
+--- a/usr/lib/pkgconfig/opencl.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/opencl.pc	2016-10-19 09:41:40.259058092 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: opencl
++Version: 2.0.0
++Description: OpenCL
++URL: http://www.opengl.org
++Libs: -L${libdir} -lOpenCL -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB
+diff -Naur a/usr/lib/pkgconfig/openvg.pc b/usr/lib/pkgconfig/openvg.pc
+--- a/usr/lib/pkgconfig/openvg.pc	1970-01-01 08:00:00.000000000 +0800
++++ b/usr/lib/pkgconfig/openvg.pc	2016-10-19 09:34:51.779553183 +0800
+@@ -0,0 +1,11 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include
++
++Name: openvg
++Version: 2.0.0
++Description: OpenVG
++URL: http://www.opengl.org
++Libs: -L${libdir} -lOpenVG -lEGL
++Cflags: -I${includedir} -DLINUX -DEGL_API_FB
