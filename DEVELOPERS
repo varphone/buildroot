@@ -212,7 +212,6 @@ F:	package/mjpg-streamer/
 F:	package/mplayer/
 F:	package/perl-crypt-openssl-random/
 F:	package/perl-crypt-openssl-rsa/
-F:	package/perl-db-file/
 F:	package/perl-digest-sha1/
 F:	package/perl-encode-detect/
 F:	package/perl-encode-locale/
@@ -428,6 +427,7 @@ F:	package/eudev/
 F:	package/hicolor-icon-theme/
 F:	package/jemalloc/
 F:	package/ninja/
+F:	package/skalibs/
 F:	package/smack/
 F:	package/xvisor/
 
@@ -468,7 +468,9 @@ F:	board/warp7/
 F:	configs/freescale_imx*
 F:	configs/imx6ulpico_defconfig
 F:	configs/mx6cubox_defconfig
+F:	configs/mx6sx_udoo_neo_defconfig
 F:	configs/mx6udoo_defconfig
+F:	configs/wandboard_defconfig
 F:	configs/warp7_defconfig
 
 N:	Fabio Porcedda <fabio.porcedda@gmail.com>
@@ -764,6 +766,7 @@ F:	package/glibmm/
 F:	package/gtkmm3/
 F:	package/libpqxx/
 F:	package/pangomm/
+F:	package/rpm/
 F:	package/yad/
 
 N:	Jan Pedersen <jp@jp-embedded.com>
@@ -1151,7 +1154,7 @@ F:	package/libunistring/
 
 N:	Peter Korsgaard <peter@korsgaard.com>
 F:	board/orangepi/
-F:	configs/orangepipc_defconfig
+F:	configs/orangepi_pc_defconfig
 F:	package/flickcurl/
 F:	package/libfastjson/
 F:	package/lzop/
@@ -1267,6 +1270,7 @@ F:	package/enlightenment/
 F:	package/expedite/
 F:	package/iqvlinux/
 F:	package/liblinear/
+F:	package/linux-syscall-support/
 F:	package/mcelog/
 F:	package/openpowerlink/
 F:	package/stress-ng/
@@ -1289,6 +1293,7 @@ F:	package/python-tornado/
 N:	Ryan Coe <bluemrp9@gmail.com>
 F:	package/inadyn/
 F:	package/libite/
+F:	package/mariadb/
 
 N:	Ryan Wilkins <ryan@deadfrog.net>
 F:	package/biosdevname/
@@ -1632,6 +1637,7 @@ F:	package/bluez_utils/
 F:	package/boost/
 F:	package/bootstrap/
 F:	package/cannelloni/
+F:	package/can-utils/
 F:	package/circus/
 F:	package/feh/
 F:	package/giblib/

@@ -4,10 +4,14 @@
 #
 ################################################################################
 
-UTIL_LINUX_VERSION_MAJOR = 2.28
-UTIL_LINUX_VERSION = $(UTIL_LINUX_VERSION_MAJOR).2
+UTIL_LINUX_VERSION_MAJOR = 2.29
+UTIL_LINUX_VERSION = $(UTIL_LINUX_VERSION_MAJOR)
 UTIL_LINUX_SOURCE = util-linux-$(UTIL_LINUX_VERSION).tar.xz
 UTIL_LINUX_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/util-linux/v$(UTIL_LINUX_VERSION_MAJOR)
+
+# For 0001-build-sys-prefer-pkg-config-for-ncurses.patch and
+# 0002-build-sys-cleanup-UL_NCURSES_CHECK.patch
+UTIL_LINUX_AUTORECONF = YES
 
 # README.licensing claims that some files are GPLv2-only, but this is not true.
 # Some files are GPLv3+ but only in tests.
@@ -41,10 +45,22 @@ ifeq ($(BR2_PACKAGE_BUSYBOX),y)
 UTIL_LINUX_DEPENDENCIES += busybox
 endif
 
-ifeq ($(BR2_PACKAGE_NCURSES),y)
-UTIL_LINUX_DEPENDENCIES += ncurses
+ifeq ($(BR2_USE_WCHAR),y)
+UTIL_LINUX_CONF_OPTS += --enable-widechar
 else
-UTIL_LINUX_CONF_OPTS += --without-ncurses
+UTIL_LINUX_CONF_OPTS += --disable-widechar
+endif
+
+ifeq ($(BR2_PACKAGE_NCURSES_WCHAR),y)
+UTIL_LINUX_DEPENDENCIES += ncurses
+UTIL_LINUX_CONF_OPTS += --with-ncursesw
+UTIL_LINUX_CONF_ENV += NCURSESW5_CONFIG=$(STAGING_DIR)/usr/bin/$(NCURSES_CONFIG_SCRIPTS)
+else ifeq ($(BR2_PACKAGE_NCURSES):$(BR2_USE_WCHAR),y:)
+UTIL_LINUX_DEPENDENCIES += ncurses
+UTIL_LINUX_CONF_OPTS += --without-ncursesw --with-ncurses
+UTIL_LINUX_CONF_ENV += NCURSES5_CONFIG=$(STAGING_DIR)/usr/bin/$(NCURSES_CONFIG_SCRIPTS)
+else
+UTIL_LINUX_CONF_OPTS += --without-ncursesw --without-ncurses
 endif
 
 ifeq ($(BR2_NEEDS_GETTEXT_IF_LOCALE),y)
@@ -135,6 +151,7 @@ HOST_UTIL_LINUX_CONF_OPTS += \
 	--enable-libmount \
 	--enable-libuuid \
 	--without-ncurses \
+	--without-ncursesw \
 	--without-tinfo
 
 ifeq ($(BR2_PACKAGE_HOST_UTIL_LINUX),y)
