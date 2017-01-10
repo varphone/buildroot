@@ -39,9 +39,12 @@ if [[ "${BUILD_INITRD}" = "y" ]]; then
 	echo "### Compress with gzip ..."
 	gzip -c "${BINARIES_DIR}/initrd.cpio" > "${BINARIES_DIR}/initrd.cpio.gz"
 
-	echo "### Install to target/boot ..."
+	echo "### Make u-boot image ..."
+	mkimage -A arm -O linux -T ramdisk -a 13000000 -e 13000000 -n "Ramdisk Image" -d "${BINARIES_DIR}/initrd.cpio.gz" "${BINARIES_DIR}/initrd.img"
+
+	#echo "### Install to target/boot ..."
 	#cp -apv "${BINARIES_DIR}/initrd.cpio" "${TARGET_DIR}/boot/"
-	cp -apv "${BINARIES_DIR}/initrd.cpio.gz" "${TARGET_DIR}/boot/"
+	#cp -apv "${BINARIES_DIR}/initrd.img" "${TARGET_DIR}/boot/"
 fi
 
 exit $?
