@@ -158,11 +158,11 @@ enter_overlayfs()
 		export BOOT_ERROR=EMNOVRD
 		enter_initramfs_only $*
 	fi
-	#mkdir -p /system-overlay/upper
-	#mkdir -p /system-overlay/work
+	mkdir -p /system-overlay/upper
+	mkdir -p /system-overlay/work
 	# Mout overlayfs
 	mkdir -p /system
-	mount -t overlayfs overlayfs -o exec,lowerdir=/system-origin,upperdir=/system-overlay /system
+	mount -t overlay overlay -o exec,lowerdir=/system-origin,upperdir=/system-overlay/upper,workdir=/system-overlay/work /system
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount overlayfs failed."
 		export BOOT_ERROR=EMNOVFS
