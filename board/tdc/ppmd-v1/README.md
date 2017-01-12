@@ -43,7 +43,7 @@ sa
 ```
 tftp ${loadaddr} ppmd-v1/images/initrd.cpio.gz
 nand erase 500000 a00000
-nand write ${lodaddr} 500000 ${filesize}
+nand write ${loadaddr} 500000 ${filesize}
 setenv initrdsize ${filesize}
 sa
 ```
@@ -53,7 +53,7 @@ sa
 ```
 tftp ${loadaddr} ppmd-v1/images/rootfs.squashfs
 nand erase f00000 1e00000
-nand write ${lodaddr} 0xf00000 ${filesize}
+nand write ${loadaddr} f00000 ${filesize}
 setenv rootfssize ${filesize}
 sa
 ```
