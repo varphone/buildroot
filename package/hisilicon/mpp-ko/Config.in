@@ -1,0 +1,10 @@
+comment "mpp-ko needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL
+
+config BR2_PACKAGE_HISILICON_MPP_KO
+	bool "mpp-ko"
+	depends on BR2_LINUX_KERNEL
+	depends on BR2_PACKAGE_HISILICON
+	help
+	  Kernel loadable module for Hi3516/Hi3531 MPP.
+
