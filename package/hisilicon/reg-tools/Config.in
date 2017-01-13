@@ -1,0 +1,13 @@
+comment "reg-tools needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL
+
+config BR2_PACKAGE_HISILICON_REG_TOOLS
+	bool "reg-tools"
+	depends on BR2_LINUX_KERNEL
+	depends on BR2_PACKAGE_HISILICON
+	help
+	  Userspace register tools for Hi3516/Hi3531.
+
+config BR2_PACKAGE_HISILICON_REG_TOOLS_GPIO_I2C
+	bool "Use GPIO I2C"
+	depends on BR2_PACKAGE_HISILICON_REG_TOOLS
