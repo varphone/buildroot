@@ -1,0 +1,12 @@
+config BR2_PACKAGE_TDC_XPR
+	bool "xpr"
+	depends on BR2_PACKAGE_TDC
+	help
+	  X Portable Runtime for TDC.
+
+config BR2_PACKAGE_TDC_XPR_VERSION
+	string "version"
+	default "2.0"
+	depends on BR2_PACKAGE_TDC_XPR
+	help
+	  Tag version on git repo.
