@@ -1,5 +1,7 @@
 # Board: PPMD-V1
 
+浮台光电监控设备(第一版)，基于 Hi3531 平台构建。
+
 ## GnuPG 信息
 
 - 默认标识：`rdst-ppmd-v1`
@@ -7,12 +9,12 @@
 
 ## NAND FLASH 分区
 
-- `boot` *1M* - 存放 u-boot
-- `kernel` *4M* - 存放 LINUX 内核镜像
-- `initrd` *10M* - 存放 LINUX INITRAMFS 镜像
-- `rootfs` *30M* - 存放只读的根文件系统
-- `misc` *8M* - 存放重要的配置文件或其他在恢复出厂设置时都不会被清除的内容
-- `cache` *-* - 存放可变的文件或设备在出厂后安装的程序或更新
+- `boot` *1M* - 存放 u-boot 镜像。
+- `kernel` *4M* - 存放 LINUX 内核镜像。
+- `initrd` *10M* - 存放 LINUX INITRAMFS 镜像。
+- `rootfs` *30M* - 存放只读的根文件系统。
+- `misc` *8M* - 存放重要的配置文件或其他在恢复出厂设置时都不会被清除的内容。
+- `cache` *(剩余空间)* - 存放可变的文件或设备在出厂后安装的程序或更新，通过 overlayfs 覆盖在只读的 rootfs 之上。
 
 ```
 0x000000000000-0x000000100000 : "boot"
