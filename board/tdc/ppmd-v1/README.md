@@ -65,5 +65,6 @@ sa
 ```
 nand read 81000000 500000 ${initrdsize}
 tftp ${loadaddr} ${bootfile}
+bootm
 ```
 
