@@ -17,10 +17,9 @@
 ### Build
 
 ```
-export O=/opt/myzr/myimxek200-6q-4.1.15
-make myzr_myimx6ek200_6q_4.1.15_defconfig
-make source
-make
+make O=/opt/myzr/myimxek200-6q-4.1.15 myzr_myimx6ek200_6q_4.1.15_defconfig
+make O=/opt/myzr/myimxek200-6q-4.1.15 source
+make O=/opt/myzr/myimxek200-6q-4.1.15
 ```
 
 ## tdc/6a-v2
@@ -30,12 +29,39 @@ make
 ### Build
 
 ```
-export O=/opt/tdc/6a-v2
-make tdc_6a_v2_defconfig
-make source
-make
+make O=/opt/tdc/6a-v2 tdc_6a_v2_defconfig
+make O=/opt/tdc/6a-v2 source
+make O=/opt/tdc/6a-v2
 ```
 
 
 ## tdc/etlmd-v2
+
+输电线路监控设备第二版。
+
+[详细资料](board/tdc/etlmd-v2/README.md)
+
+### Build
+
+```
+make O=/opt/tdc/etlmd-v2 tdc_etlmd_v2_defconfig
+make O=/opt/tdc/etlmd-v2 source
+make O=/opt/tdc/etlmd-v2
+```
+
+
+## tdc/ppmd-v1
+
+光电浮台监控设备，基于 Hi3531 平台。
+
+[详细资料](board/tdc/ppmd-v1/README.md)
+
+### Build
+
+```
+make O=/opt/tdc/ppmd-v1 tdc_ppmd_v1_defconfig
+make O=/opt/tdc/ppmd-v1 source
+make O=/opt/tdc/ppmd-v1
+```
+
 
