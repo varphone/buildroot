@@ -63,7 +63,7 @@ sa
 ### Boot from tftp
 
 ```
-nand read 0x81000000 0x500000 ${initrdsize}
-tftp 0x82000000 ${bootfile}
+nand read 81000000 500000 ${initrdsize}
+tftp ${loadaddr} ${bootfile}
 ```
 
