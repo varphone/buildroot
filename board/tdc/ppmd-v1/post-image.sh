@@ -42,6 +42,10 @@ if [ -w "${BINARIES_DIR}/initrd.cpio.lzo" ]; then
 	AlignedPadding "${BINARIES_DIR}/initrd.cpio.lzo" ${PAGE_SIZE}
 fi
 
+if [ -w "${BINARIES_DIR}/initrd.cpio.xz" ]; then
+	AlignedPadding "${BINARIES_DIR}/initrd.cpio.xz" ${PAGE_SIZE}
+fi
+
 if [ -w "${BINARIES_DIR}/rootfs.cramfs" ]; then
 	AlignedPadding "${BINARIES_DIR}/rootfs.cramfs" ${PAGE_SIZE}
 fi
