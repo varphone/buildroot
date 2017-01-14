@@ -13,11 +13,9 @@ MPP_KO_LICENSE = GPLv2
 MPP_KO_LICENSE_FILES = COPYING
 
 define MPP_KO_BUILD_CMDS
-	echo "Nothing to build."
 endef
 
 define MPP_KO_INSTALL_STAGING_CMDS
-	echo "Nothing to install."
 endef
 
 define MPP_KO_INSTALL_TARGET_CMDS
@@ -42,5 +40,4 @@ define MPP_KO_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 0755 $(@D)/ko/*.sh $(TARGET_DIR)/ko/
 endef
 
-#$(eval $(kernel-module))
 $(eval $(generic-package))

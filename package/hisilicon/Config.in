@@ -5,6 +5,7 @@ menuconfig BR2_PACKAGE_HISILICON
 	  Those packages provide hisilicon platform supports.
 
 if BR2_PACKAGE_HISILICON
+
 choice
 	prompt "Hisilicon platform"
 
@@ -37,11 +38,8 @@ config BR2_PACKAGE_HISILICON_SDK_VERSION
 	default V1.0.D.0 if BR2_PACKAGE_HISILICON_SDK_VERSION_V1_0_D_0
 	default V2.0.A.0 if BR2_PACKAGE_HISILICON_SDK_VERSION_V2_0_A_0
 
-#if BR2_PACKAGE_HISILICON_PLATFORM_HI3516 ||
-#   BR2_PACKAGE_HISILICON_PLATFORM_HI3531
 source "package/hisilicon/mpp-ko/Config.in"
 source "package/hisilicon/mpp-lib/Config.in"
 source "package/hisilicon/reg-tools/Config.in"
-#endif
 
 endif
