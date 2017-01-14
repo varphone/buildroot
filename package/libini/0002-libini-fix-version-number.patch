@@ -1,0 +1,16 @@
+diff --git a/configure.in b/configure.in
+index 8467f95..cc87280 100644
+--- a/configure.in
++++ b/configure.in
+@@ -4,9 +4,9 @@ AC_CONFIG_AUX_DIR(unix)
+ AM_CONFIG_HEADER(include/config.h)
+ 
+ dnl Setup library CURRENT, REVISION and AGE
+-LIBCUR=1
++LIBCUR=2
+ LIBREV=10
+-LIBAGE=0
++LIBAGE=1
+ AM_INIT_AUTOMAKE(libini,1.$LIBCUR.$LIBREV)
+ dnl libtool-style version-info number
+ LIBVERSION=$LIBCUR:$LIBREV:$LIBAGE
