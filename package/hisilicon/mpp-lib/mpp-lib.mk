@@ -14,7 +14,6 @@ MPP_LIB_LICENSE = GPLv2
 MPP_LIB_LICENSE_FILES = COPYING
 
 define MPP_LIB_BUILD_CMDS
-	$(ECHO) "Nothing to build."
 endef
 
 define MPP_LIB_INSTALL_STAGING_CMDS
@@ -28,5 +27,4 @@ define MPP_LIB_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0644 $(@D)/lib/*.so* $(TARGET_DIR)/usr/lib
 endef
 
-#$(eval $(kernel-module))
 $(eval $(generic-package))
