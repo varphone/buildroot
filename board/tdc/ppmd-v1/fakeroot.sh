@@ -42,10 +42,10 @@ if [[ "${BUILD_INITRD}" = "y" ]]; then
 	gzip -c "${BINARIES_DIR}/initrd.cpio" > "${BINARIES_DIR}/initrd.cpio.gz"
 
 	echo "### Compress with lzo ..."
-	${HOST_DIR}/usr/bin/lzop -9 -o "${BINARIES_DIR}/initrd.cpio.lzo" "${BINARIES_DIR}/initrd.cpio"
+	lzop -9 -o "${BINARIES_DIR}/initrd.cpio.lzo" "${BINARIES_DIR}/initrd.cpio"
 
 	echo "### Compress with xz ..."
-	${HOST_DIR}/usr/bin/xz -z -k -f --check=crc32 "${BINARIES_DIR}/initrd.cpio"
+	xz -z -k -f --check=crc32 "${BINARIES_DIR}/initrd.cpio"
 
 	#echo "### Install to target/boot ..."
 	#cp -apv "${BINARIES_DIR}/initrd.cpio" "${TARGET_DIR}/boot/"
