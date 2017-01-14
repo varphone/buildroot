@@ -4,17 +4,23 @@
 #
 ################################################################################
 
-PPMD_3531_VERSION := $(call qstrip, $(BR2_PACKAGE_TDC_PPMD_3531_VERSION))
+ifeq ($(BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION),y)
+PPMD_3531_VERSION = $(call qstrip, $(BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION_VALUE))
+else
+PPMD_3531_VERSION = 1.0.0
+endif
 PPMD_3531_SOURCE = ppmd-3531-$(PPMD_3531_VERSION).tar.bz2
 #PPMD_3531_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
 #PPMD_3531_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
 #PPMD_3531_SITE = https://10.0.2.2/git/rdst/ppmd-3531/archive
-PPMD_3531_SITE = https://a000:a000,,100200@10.0.2.2/cgit/rdst/ppmd-3531.git/snapshot
+PPMD_3531_SITE = https://10.0.2.2/cgit/rdst/ppmd-3531.git/snapshot
 PPMD_3531_STRIP_COMPONENTS = 1
 PPMD_3531_INSTALL_STAGING = NO
 PPMD_3531_DEPENDENCIES = mpp-lib xpr
 PPMD_3531_LICENSE = GPLv2
 PPMD_3531_LICENSE_FILES = COPYING
+
+PPMD_3531_MAKE_ENV = CROSS_COMPILER_PREFIX=$(TARGET_CROSS)
 
 CP	= @cp
 MV	= @mv
@@ -51,11 +57,11 @@ define PPMD_3531_CONFIGURE_CMDS
 endef
 
 define PPMD_3531_BUILD_CMDS
-	$(MAKE) -j1 CROSS_COMPILER_PREFIX=$(TARGET_CROSS) -C $(@D)/libmal all
-	$(MAKE) -j1 CROSS_COMPILER_PREFIX=$(TARGET_CROSS) -C $(@D)/libserial all
-	$(MAKE) -j1 CROSS_COMPILER_PREFIX=$(TARGET_CROSS) -C $(@D)/libavt all
-	$(MAKE) -j1 CROSS_COMPILER_PREFIX=$(TARGET_CROSS) -C $(@D)/libir370 all
-	$(MAKE) -j1 CROSS_COMPILER_PREFIX=$(TARGET_CROSS) -C $(@D)/src all
+	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D)/libmal all
+	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D)/libserial all
+	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D)/libavt all
+	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D)/libir370 all
+	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D)/src all
 endef
 
 define PPMD_3531_INSTALL_STAGING_CMDS

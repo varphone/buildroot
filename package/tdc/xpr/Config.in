@@ -1,12 +1,16 @@
-config BR2_PACKAGE_TDC_XPR
+config BR2_PACKAGE_XPR
 	bool "xpr"
 	depends on BR2_PACKAGE_TDC
 	help
 	  X Portable Runtime for TDC.
 
-config BR2_PACKAGE_TDC_XPR_VERSION
-	string "version"
-	default "2.0"
-	depends on BR2_PACKAGE_TDC_XPR
+config BR2_PACKAGE_XPR_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_XPR
 	help
-	  Tag version on git repo.
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_XPR_CUSTOM_VERSION_VALUE
+	string "git tag version for xpr"
+	default "2.0"
+	depends on BR2_PACKAGE_XPR_CUSTOM_VERSION
