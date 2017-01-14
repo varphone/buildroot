@@ -1,16 +1,19 @@
-comment "ppmd-3531 needs platform Hi3531"
-	depends on BR2_PACKAGE_HISILICON_PLATFORM_HI3531
+comment "ppmd-3531 needs mpp-lib, xpr"
+	depends on !BR2_PACKAGE_MPP_LIB || !BR2_PACKAGE_XPR
 
-config BR2_PACKAGE_TDC_PPMD_3531
+config BR2_PACKAGE_PPMD_3531
 	bool "ppmd-3531"
 	depends on BR2_PACKAGE_TDC
-	select BR2_PACKAGE_TDC_XPR
 	help
 	  Core application for PPMD-V1.
 
-config BR2_PACKAGE_TDC_PPMD_3531_VERSION
-	string "version"
-	default "1.0.0"
-	depends on BR2_PACKAGE_TDC_PPMD_3531
+config BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_PPMD_3531
 	help
-	  Tag version on git repo.
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION_VALUE
+	string "git tag version for ppmd-3531"
+	default "1.0.0"
+	depends on BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION
