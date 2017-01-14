@@ -1,7 +1,7 @@
 comment "mpp-lib needs a Linux kernel to be built"
 	depends on !BR2_LINUX_KERNEL
 
-config BR2_PACKAGE_HISILICON_MPP_LIB
+config BR2_PACKAGE_MPP_LIB
 	bool "mpp-lib"
 	depends on BR2_LINUX_KERNEL
 	depends on BR2_PACKAGE_HISILICON
