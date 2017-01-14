@@ -6,5 +6,4 @@
 
 TDC_SITE = https://10.0.2.2/git/
 
-
 include $(sort $(wildcard package/tdc/*/*.mk))
