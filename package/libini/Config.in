@@ -1,0 +1,5 @@
+config BR2_PACKAGE_LIBINI
+	bool "libini"
+	help
+	  An INI file parser that can read, edit and create large INI files
+
