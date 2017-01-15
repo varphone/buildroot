@@ -106,6 +106,20 @@ check_misc_parts()
 	fi
 }
 
+# Check the factory-reset mark file and do reset if needed.
+factory_reset_if_marked()
+{
+	mkdir -p /misc
+	mount -t ubifs ${MISC_UBI_VOL} /misc 2&>1 > /dev/null
+	if [ $? -eq 0 ]; then
+		if [ -f /misc/factory-reset -a -f /misc/factory-reset.hash ]; then
+			echo "${TAG} Factory reset requested, wipe the cache part now ..."
+			ubiformat ${CACHE_MTD} -q -y
+		fi
+		umount /misc 2&>1 > /dev/null
+	fi
+}
+
 # Check cache parts
 check_cache_parts()
 {
@@ -224,7 +238,7 @@ enter_overlayfs()
 		MOUNT_OPTS="${MOUNT_OPTS} -t ${ROOT_FST}"
 	fi
 	mkdir -p /system-origin
-	mount ${MOUNT_OPTS} ${ROOT_DEV} /system-origin
+	mount ${MOUNT_OPTS} ${ROOT_DEV} /system-origin 2&>1 > /dev/null
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount origin rootfs failed."
 		export BOOT_ERROR=EMNORRD
@@ -239,7 +253,7 @@ enter_overlayfs()
 		MOUNT_OPTS="${MOUNT_OPTS} -t ${OVERLAYROOT_FST}"
 	fi
 	mkdir -p /system-overlay
-	mount ${MOUNT_OPTS} ${OVERLAYROOT_DEV} /system-overlay
+	mount ${MOUNT_OPTS} ${OVERLAYROOT_DEV} /system-overlay 2&>1 > /dev/null
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount overlay rootfs failed."
 		export BOOT_ERROR=EMNOVRD
@@ -247,18 +261,22 @@ enter_overlayfs()
 	fi
 	# Mout overlayfs
 	mkdir -p /system
-	mount -t overlayfs overlayfs -o exec,lowerdir=/system-origin,upperdir=/system-overlay /system
+	mount -t overlayfs overlayfs -o exec,lowerdir=/system-origin,upperdir=/system-overlay /system 2&>1 > /dev/null
 	if [ $? -ne 0 ]; then
 		echo "${TAG} Mount overlayfs failed."
 		export BOOT_ERROR=EMNOVFS
 		enter_initramfs_only $*
 	fi
 	umount /proc
+	umount /sys
+	umount -l /dev
 	exec /sbin/switch_root -c /dev/console /system /sbin/init $*
 	enter_initramfs_only $*
 }
 # Cheking writable parts
 check_misc_parts
+# Factory reset must be before cache part check
+factory_reset_if_marked
 check_cache_parts
 # If root setted, ans not /dev/ram0
 if [ -n "${ROOT_DEV}" -a "${ROOT_DEV}" != "/dev/ram0" ]; then
