@@ -115,6 +115,9 @@ factory_reset_if_marked()
 		if [ -f /misc/factory-reset -a -f /misc/factory-reset.hash ]; then
 			echo "${TAG} Factory reset requested, wipe the cache part now ..."
 			ubiformat ${CACHE_MTD} -q -y
+			rm -f /misc/factory-reset
+			rm -f /misc/factory-reset.hash
+			sync
 		fi
 		umount /misc 2&>1 > /dev/null
 	fi
