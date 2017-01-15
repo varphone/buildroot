@@ -43,7 +43,9 @@ sa
 ### Update initrd
 
 ```
-tftp ${loadaddr} ppmd-v1/images/initrd.cpio.gz
+#tftp ${loadaddr} ppmd-v1/images/initrd.cpio.gz
+#tftp ${loadaddr} ppmd-v1/images/initrd.cpio.lzo
+tftp ${loadaddr} ppmd-v1/images/initrd.cpio.xz
 nand erase 500000 a00000
 nand write ${loadaddr} 500000 ${filesize}
 setenv initrdsize ${filesize}
