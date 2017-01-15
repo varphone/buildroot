@@ -25,3 +25,5 @@
 /etc/gnupg/secring.gpg			f	600	0	0	-	-	-	-	-
 /etc/gnupg/trustdb.gpg			f	600	0	0	-	-	-	-	-
 /etc/profile				f	755	0	0	-	-	-	-	-
+/usr/sbin/factory-reset			f	755	0	0	-	-	-	-	-
+/var/empty/sshd				d	711	0	0	-	-	-	-	-
