@@ -11,7 +11,7 @@ LIVEUSB_X_LIST="${SCRIPT_DIR}/liveusb-x.txt"
 BOOT_T_LIST="${SCRIPT_DIR}/boot-t.txt"
 BOOT_X_LIST="${SCRIPT_DIR}/boot-x.txt"
 TAR="tar --ignore-failed-read"
-PAGE_SIZE=2048
+PAGE_SIZE=131072
 
 # Add aligned padding
 # $1 file path
