@@ -113,8 +113,11 @@ factory_reset_if_marked()
 	mount -t ubifs ${MISC_UBI_VOL} /misc 2&>1 > /dev/null
 	if [ $? -eq 0 ]; then
 		if [ -f /misc/factory-reset -a -f /misc/factory-reset.hash ]; then
-			echo "${TAG} Factory reset requested, wipe the cache part now ..."
-			ubiformat ${CACHE_MTD} -q -y
+			md5sum -c /misc/factory-reset.hash 2&>1 > /dev/null
+			if [ $? -eq 0 ]; then
+				echo "${TAG} Factory reset requested, wipe the cache part now ..."
+				ubiformat ${CACHE_MTD} -q -y
+			fi
 			rm -f /misc/factory-reset
 			rm -f /misc/factory-reset.hash
 			sync
