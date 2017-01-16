@@ -8,5 +8,26 @@ config BR2_PACKAGE_LIVE555
 
 	  http://www.live555.com/liveMedia/
 
+config BR2_PACKAGE_LIVE555_CUSTOM_TARBALL
+	bool "Custom tarball"
+	depends on BR2_PACKAGE_LIVE555
+	help
+	  This option allows you to specify your own code package.
+
+config BR2_PACKAGE_LIVE555_CUSTOM_TARBALL_LOCATION
+	string "URL to custom tarbal"
+	depends on BR2_PACKAGE_LIVE555_CUSTOM_TARBALL
+
+config BR2_PACKAGE_LIVE555_CUSTOM_TARBALL_STRIP_COMPONENTS
+	int "Strip components"
+	default 0
+	depends on BR2_PACKAGE_LIVE555_CUSTOM_TARBALL
+
+config BR2_PACKAGE_LIVE555_FORCE_STATIC_LIBS
+	bool "Force static libs"
+	depends on BR2_PACKAGE_LIVE555
+	help
+	  Force build static libs, ignore the global settings.
+
 comment "live555 needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
