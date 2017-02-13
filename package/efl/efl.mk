@@ -20,7 +20,7 @@ EFL_LICENSE_FILES = \
 EFL_INSTALL_STAGING = YES
 
 EFL_DEPENDENCIES = host-pkgconf host-efl host-luajit dbus freetype \
-	jpeg luajit lz4 udev util-linux zlib
+	jpeg luajit lz4 zlib
 
 # Configure options:
 # --disable-lua-old: build elua for the target.
@@ -59,7 +59,14 @@ else
 EFL_CONF_OPTS += --disable-cxx-bindings
 endif
 
-ifeq ($(BR2_PACKAGE_UTIL_LINUX_LIBMOUNT),y)
+ifeq ($(BR2_PACKAGE_EFL_EEZE),y)
+EFL_DEPENDENCIES += udev
+EFL_CONF_OPTS += --enable-libeeze
+else
+EFL_CONF_OPTS += --disable-libeeze
+endif
+
+ifeq ($(BR2_PACKAGE_EFL_UTIL_LINUX_LIBMOUNT),y)
 EFL_DEPENDENCIES += util-linux
 EFL_CONF_OPTS += --enable-libmount
 else

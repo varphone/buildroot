@@ -5,12 +5,11 @@
 ################################################################################
 
 UTIL_LINUX_VERSION_MAJOR = 2.29
-UTIL_LINUX_VERSION = $(UTIL_LINUX_VERSION_MAJOR)
+UTIL_LINUX_VERSION = $(UTIL_LINUX_VERSION_MAJOR).1
 UTIL_LINUX_SOURCE = util-linux-$(UTIL_LINUX_VERSION).tar.xz
 UTIL_LINUX_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/util-linux/v$(UTIL_LINUX_VERSION_MAJOR)
-
-# For 0001-build-sys-prefer-pkg-config-for-ncurses.patch and
-# 0002-build-sys-cleanup-UL_NCURSES_CHECK.patch
+# For 0001-build-sys-use-lm-for-scriptreplay-if-necessary.patch and
+# 0002-build-sys-improve-detection-of-the-isnan-function-in.patch
 UTIL_LINUX_AUTORECONF = YES
 
 # README.licensing claims that some files are GPLv2-only, but this is not true.
@@ -45,21 +44,21 @@ ifeq ($(BR2_PACKAGE_BUSYBOX),y)
 UTIL_LINUX_DEPENDENCIES += busybox
 endif
 
+ifeq ($(BR2_PACKAGE_NCURSES),y)
+UTIL_LINUX_DEPENDENCIES += ncurses
+ifeq ($(BR2_PACKAGE_NCURSES_WCHAR),y)
+UTIL_LINUX_CONF_OPTS += --with-ncursesw
+UTIL_LINUX_CONF_ENV += NCURSESW5_CONFIG=$(STAGING_DIR)/usr/bin/$(NCURSES_CONFIG_SCRIPTS)
+else
+UTIL_LINUX_CONF_OPTS += --without-ncursesw --with-ncurses --disable-widechar
+UTIL_LINUX_CONF_ENV += NCURSES5_CONFIG=$(STAGING_DIR)/usr/bin/$(NCURSES_CONFIG_SCRIPTS)
+endif
+else
 ifeq ($(BR2_USE_WCHAR),y)
 UTIL_LINUX_CONF_OPTS += --enable-widechar
 else
 UTIL_LINUX_CONF_OPTS += --disable-widechar
 endif
-
-ifeq ($(BR2_PACKAGE_NCURSES_WCHAR),y)
-UTIL_LINUX_DEPENDENCIES += ncurses
-UTIL_LINUX_CONF_OPTS += --with-ncursesw
-UTIL_LINUX_CONF_ENV += NCURSESW5_CONFIG=$(STAGING_DIR)/usr/bin/$(NCURSES_CONFIG_SCRIPTS)
-else ifeq ($(BR2_PACKAGE_NCURSES):$(BR2_USE_WCHAR),y:)
-UTIL_LINUX_DEPENDENCIES += ncurses
-UTIL_LINUX_CONF_OPTS += --without-ncursesw --with-ncurses
-UTIL_LINUX_CONF_ENV += NCURSES5_CONFIG=$(STAGING_DIR)/usr/bin/$(NCURSES_CONFIG_SCRIPTS)
-else
 UTIL_LINUX_CONF_OPTS += --without-ncursesw --without-ncurses
 endif
 
@@ -78,6 +77,19 @@ endif
 # and then pass it again at build time.
 UTIL_LINUX_CONF_ENV += LIBS="$(UTIL_LINUX_LIBS)"
 UTIL_LINUX_MAKE_OPTS += LIBS="$(UTIL_LINUX_LIBS)"
+
+ifeq ($(BR2_PACKAGE_LIBSELINUX),y)
+UTIL_LINUX_DEPENDENCIES += libselinux
+UTIL_LINUX_CONF_OPTS += --with-selinux
+define UTIL_LINUX_SELINUX_PAMFILES_TWEAK
+	$(foreach f,su su-l,
+		$(SED) 's/^# \(.*pam_selinux.so.*\)$$/\1/' \
+			$(TARGET_DIR)/etc/pam.d/$(f)
+	)
+endef
+else
+UTIL_LINUX_CONF_OPTS += --without-selinux
+endif
 
 # Used by cramfs utils
 UTIL_LINUX_DEPENDENCIES += $(if $(BR2_PACKAGE_ZLIB),zlib)
@@ -197,6 +209,7 @@ define UTIL_LINUX_INSTALL_PAMFILES
 		$(TARGET_DIR)/etc/pam.d/su
 	$(INSTALL) -m 0644 package/util-linux/su.pam \
 		$(TARGET_DIR)/etc/pam.d/su-l
+	$(UTIL_LINUX_SELINUX_PAMFILES_TWEAK)
 endef
 endif
 
@@ -223,9 +236,3 @@ endif
 
 $(eval $(autotools-package))
 $(eval $(host-autotools-package))
-
-# MKINSTALLDIRS comes from tweaked m4/nls.m4, but autoreconf uses staging
-# one, so it disappears
-UTIL_LINUX_INSTALL_STAGING_OPTS += MKINSTALLDIRS=$(@D)/config/mkinstalldirs
-UTIL_LINUX_INSTALL_TARGET_OPTS += MKINSTALLDIRS=$(@D)/config/mkinstalldirs
-HOST_UTIL_LINUX_INSTALL_OPTS += MKINSTALLDIRS=$(@D)/config/mkinstalldirs
