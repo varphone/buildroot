@@ -4,6 +4,7 @@ etc
 lib
 lib32
 media
+misc
 mnt
 opt
 proc
@@ -34,6 +35,9 @@ usr/lib/libgpgmepp.so.6.2.0
 usr/lib/libgpgme-pthread.so
 usr/lib/libgpgme-pthread.so.11
 usr/lib/libgpgme-pthread.so.11.16.0
+usr/lib/libintl.so
+usr/lib/libintl.so.8
+usr/lib/libintl.so.8.1.5
 usr/lib/libjq.so
 usr/lib/libjq.so.1
 usr/lib/libjq.so.1.0.4
