@@ -14,6 +14,9 @@ chmod a+x ${TARGET_DIR}/sbin/*
 chmod a+x ${TARGET_DIR}/usr/bin/*
 chmod a+x ${TARGET_DIR}/usr/sbin/*
 
+# Make os-release file
+${SCRIPT_DIR}/mk-os-release.sh
+
 if [[ "${BUILD_INITRD}" = "y" ]]; then
 	echo "### Cleanup initramfs if exists"
 	rm "${BINARIES_DIR}/initrd.cpio"
