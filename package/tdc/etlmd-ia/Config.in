@@ -1,0 +1,19 @@
+comment "etlmd-ia needs xpr"
+	depends on !BR2_PACKAGE_XPR
+
+config BR2_PACKAGE_ETLMD_IA
+	bool "etlmd-ia"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Core application for PPMD-V1.
+
+config BR2_PACKAGE_ETLMD_IA_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_ETLMD_IA
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_ETLMD_IA_CUSTOM_VERSION_VALUE
+	string "git tag version for etlmd-ia"
+	default "2.0.0"
+	depends on BR2_PACKAGE_ETLMD_IA_CUSTOM_VERSION
