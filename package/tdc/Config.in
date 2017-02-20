@@ -4,6 +4,7 @@ menuconfig BR2_PACKAGE_TDC
 	  Those packages provide tdc devices supports.
 
 if BR2_PACKAGE_TDC
+source "package/tdc/etlmd-ia/Config.in"
 source "package/tdc/ppmd-3531/Config.in"
 source "package/tdc/xpr/Config.in"
 endif
