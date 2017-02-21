@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LIBPES_LEGACY
+	bool "libpes-legacy"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Legacy XianDian MPEG2-PS library for TDC.
+
+config BR2_PACKAGE_LIBPES_LEGACY_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_LIBPES_LEGACY
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBPES_LEGACY_CUSTOM_VERSION_VALUE
+	string "git tag version for libpes-legacy"
+	default "1.0"
+	depends on BR2_PACKAGE_LIBPES_LEGACY_CUSTOM_VERSION
