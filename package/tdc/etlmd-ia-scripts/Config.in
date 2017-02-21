@@ -1,0 +1,16 @@
+config BR2_PACKAGE_ETLMD_IA_SCRIPTS
+	bool "etlmd-ia-scripts"
+	depends on BR2_PACKAGE_ETLMD_IA
+	help
+	  Scripts for etlmd-ia, like: etlmd-ia-pds, etlmd-ia-pv ...
+
+config BR2_PACKAGE_ETLMD_IA_SCRIPTS_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_ETLMD_IA_SCRIPTS
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_ETLMD_IA_SCRIPTS_CUSTOM_VERSION_VALUE
+	string "git tag version for etlmd-ia-scripts"
+	default "1.3"
+	depends on BR2_PACKAGE_ETLMD_IA_SCRIPTS_CUSTOM_VERSION
