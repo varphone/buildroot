@@ -1,0 +1,17 @@
+config BR2_PACKAGE_ETLMD_IA_DATA
+	bool "etlmd-ia-data"
+	depends on BR2_PACKAGE_TDC
+	depends on BR2_PACKAGE_ETLMD_IA
+	help
+	  Preferences and data for ETLMD.
+
+config BR2_PACKAGE_ETLMD_IA_DATA_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_ETLMD_IA_DATA
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_ETLMD_IA_DATA_CUSTOM_VERSION_VALUE
+	string "git tag version for etlmd-ia-data"
+	default "1.2"
+	depends on BR2_PACKAGE_ETLMD_IA_DATA_CUSTOM_VERSION
