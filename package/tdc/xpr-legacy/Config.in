@@ -1,0 +1,16 @@
+config BR2_PACKAGE_XPR_LEGACY
+	bool "xpr-legacy"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Legacy X Portable Runtime for TDC.
+
+config BR2_PACKAGE_XPR_LEGACY_CUSTOM_VERSION
+	bool "Custom version"
+	depends on BR2_PACKAGE_XPR_LEGACY
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_XPR_LEGACY_CUSTOM_VERSION_VALUE
+	string "git tag version for xpr-legacy"
+	default "1.0-legacy"
+	depends on BR2_PACKAGE_XPR_LEGACY_CUSTOM_VERSION
