@@ -1,3 +1,4 @@
+etc/etlmd-ia
 etc/fonts
 usr/bin/fb-*
 usr/bin/fc-*
