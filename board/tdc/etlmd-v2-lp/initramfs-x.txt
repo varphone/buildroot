@@ -1,6 +1,8 @@
 etc/etlmd-ia
 etc/fonts
 etc/init.d/S60self-test
+usr/bin/aserver
+usr/bin/av*
 usr/bin/fb-*
 usr/bin/fc-*
 usr/bin/ffmpeg
@@ -10,9 +12,11 @@ usr/bin/jasper
 usr/bin/jpegenc
 usr/bin/jsc
 usr/bin/mpeg2vaenc
+usr/bin/node
 usr/bin/openssl
 usr/bin/pcre*
 usr/bin/pkgdata
+usr/bin/python*
 usr/bin/qml*
 usr/bin/Qt*
 usr/bin/sqlite3
