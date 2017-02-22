@@ -14,6 +14,7 @@
 # process   == program to run
 
 # Startup the system
+::sysinit:/bin/echo  2 2 2 2 > /proc/sys/kernel/printk
 ::sysinit:/bin/mount -t proc proc /proc
 ::sysinit:/bin/mkdir -p /dev/pts
 ::sysinit:/bin/mkdir -p /dev/shm
