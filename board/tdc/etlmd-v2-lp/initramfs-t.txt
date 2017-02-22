@@ -44,7 +44,7 @@ usr/lib/libfuse.so.2
 usr/lib/libfuse.so.2.9.7
 usr/lib/libgpg-error.so
 usr/lib/libgpg-error.so.0
-usr/lib/libgpg-error.so.0.19.1
+usr/lib/libgpg-error.so.0.21.0
 usr/lib/libgpgme.so
 usr/lib/libgpgme.so.11
 usr/lib/libgpgme.so.11.16.0
