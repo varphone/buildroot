@@ -1,0 +1,29 @@
+#!/bin/sh
+
+a=$(battery)
+[ "$a" == "0 0 0 0 0 0 0 0 0 0 0 0" ] && {
+	logger -p user.info -t "self-test" battery[$a] error
+} || {
+	logger -p user.info -t "self-test" battery[$a] ok
+}
+
+ping -c 1 192.168.1.64 >> /dev/null
+[ $? == 0 ] && {
+	logger -p user.info -t "self-test" router[192.168.1.1] ok
+} || {
+	logger -p user.info -t "self-test" router[192.168.1.1] error
+}
+ping -c 1 192.168.1.60 >> /dev/null
+[ $? == 0 ] && {
+	logger -p user.info -t "self-test" camera[192.168.1.64] ok
+} || {
+	logger -p user.info -t "self-test" camera[192.168.1.64] error
+}
+
+a=$(df -h / | awk '{print $3}')
+b=$(df -h / | awk '{print $4}')
+c=$(df -h / | awk '{print $5}')
+logger -p user.info -t "self-test" disk[/local] $a $b $c
+
+exit 0
+
