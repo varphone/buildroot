@@ -1,5 +1,6 @@
 etc/etlmd-ia
 etc/fonts
+etc/init.d/S60self-test
 usr/bin/fb-*
 usr/bin/fc-*
 usr/bin/ffmpeg
