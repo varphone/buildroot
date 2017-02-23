@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Test battery
 a=$(battery)
 [ "$a" == "0 0 0 0 0 0 0 0 0 0 0 0" ] && {
 	logger -p user.info -t "self-test" battery[$a] error
@@ -7,12 +8,15 @@ a=$(battery)
 	logger -p user.info -t "self-test" battery[$a] ok
 }
 
+# Test router connection
 ping -c 1 192.168.1.64 >> /dev/null
 [ $? == 0 ] && {
 	logger -p user.info -t "self-test" router[192.168.1.1] ok
 } || {
 	logger -p user.info -t "self-test" router[192.168.1.1] error
 }
+
+# Test camera connection
 ping -c 1 192.168.1.60 >> /dev/null
 [ $? == 0 ] && {
 	logger -p user.info -t "self-test" camera[192.168.1.64] ok
@@ -20,10 +24,13 @@ ping -c 1 192.168.1.60 >> /dev/null
 	logger -p user.info -t "self-test" camera[192.168.1.64] error
 }
 
-a=$(df -h / | awk '{print $3}')
-b=$(df -h / | awk '{print $4}')
-c=$(df -h / | awk '{print $5}')
-logger -p user.info -t "self-test" disk[/local] $a $b $c
+# Log disk space information
+vs=$(df -h / | grep /$)
+v2=$(echo $vs | awk '{print $2}')
+v3=$(echo $vs | awk '{print $3}')
+v4=$(echo $vs | awk '{print $4}')
+v5=$(echo $vs | awk '{print $5}')
+logger -p user.info -t "self-test" disk[/] Size: $v2, Used: $v3, Available: $v4, Use%: $v5
 
 exit 0
 
