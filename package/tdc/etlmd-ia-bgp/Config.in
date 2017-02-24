@@ -1,0 +1,16 @@
+config BR2_PACKAGE_ETLMD_IA_BGP
+	bool "etlmd-ia-bgp"
+	depends on BR2_PACKAGE_ETLMD_IA
+	help
+	  Background pusher for etlmd-ia.
+
+config BR2_PACKAGE_ETLMD_IA_BGP_CUSTOM_VERSION
+	bool "etlmd-ia-bgp custom version"
+	depends on BR2_PACKAGE_ETLMD_IA_BGP
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_ETLMD_IA_BGP_CUSTOM_VERSION_VALUE
+	string "etlmd-ia-ws git tag version"
+	default "1.2"
+	depends on BR2_PACKAGE_ETLMD_IA_BGP_CUSTOM_VERSION
