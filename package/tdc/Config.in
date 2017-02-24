@@ -5,8 +5,10 @@ menuconfig BR2_PACKAGE_TDC
 
 if BR2_PACKAGE_TDC
 source "package/tdc/etlmd-ia/Config.in"
-source "package/tdc/etlmd-ia-scripts/Config.in"
+source "package/tdc/etlmd-ia-bgp/Config.in"
 source "package/tdc/etlmd-ia-data/Config.in"
+source "package/tdc/etlmd-ia-scripts/Config.in"
+source "package/tdc/etlmd-ia-ws/Config.in"
 source "package/tdc/libpes-legacy/Config.in"
 source "package/tdc/libstream-legacy/Config.in"
 source "package/tdc/ppmd-3531/Config.in"
