@@ -234,5 +234,7 @@ endef
 UTIL_LINUX_POST_INSTALL_TARGET_HOOKS += UTIL_LINUX_TWEAK_UUID_PC
 endif
 
+UTIL_LINUX_CONF_ENV += scanf_cv_alloc_modifier=ms
+
 $(eval $(autotools-package))
 $(eval $(host-autotools-package))
