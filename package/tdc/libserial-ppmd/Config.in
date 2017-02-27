@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LIBSERIAL_PPMD
+	bool "libserial-ppmd"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Serial Port library for PPMD-V1.
+
+config BR2_PACKAGE_LIBSERIAL_PPMD_CUSTOM_VERSION
+	bool "libserial-ppmd custom version"
+	depends on BR2_PACKAGE_LIBSERIAL_PPMD
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBSERIAL_PPMD_CUSTOM_VERSION_VALUE
+	string "libserial-ppmd git tag version"
+	default "1.0.1"
+	depends on BR2_PACKAGE_LIBSERIAL_PPMD_CUSTOM_VERSION
