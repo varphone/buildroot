@@ -19,11 +19,11 @@
 在构建不同的板型时，需要检出相应的分支代码。
 
 > 例如要构建 PPMD-V1 设备的系统
->
+
 > ```
-> git checkout ppmd-v1
-> make O=/opt/tdc/ppmd-v1 ......
-> ```
+git checkout ppmd-v1
+make O=/opt/tdc/ppmd-v1 ......
+```
 
 
 ### 用户认证
