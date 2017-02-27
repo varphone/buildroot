@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_XPR_CUSTOM_VERSION),y)
 XPR_VERSION = $(call qstrip, $(BR2_PACKAGE_XPR_CUSTOM_VERSION_VALUE))
 else
-XPR_VERSION = 2.0
+XPR_VERSION = 2.1-rc2
 endif
 XPR_SOURCE = xpr-$(XPR_VERSION).tar.bz2
 #XPR_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
