@@ -8,12 +8,12 @@ config BR2_PACKAGE_PPMD_3531
 	  Core application for PPMD-V1.
 
 config BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION
-	bool "Custom version"
+	bool "ppmd-3531 custom version"
 	depends on BR2_PACKAGE_PPMD_3531
 	help
 	  This option allows to use a specific official version from git.
 
 config BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION_VALUE
-	string "git tag version for ppmd-3531"
-	default "1.0.0"
+	string "ppmg-3531 git tag version"
+	default "1.1.1"
 	depends on BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION
