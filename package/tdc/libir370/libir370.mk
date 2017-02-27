@@ -1,0 +1,48 @@
+################################################################################
+#
+# libir370
+#
+################################################################################
+
+ifeq ($(BR2_PACKAGE_LIBIR370_CUSTOM_VERSION),y)
+LIBIR370_VERSION = $(call qstrip, $(BR2_PACKAGE_LIBIR370_CUSTOM_VERSION_VALUE))
+else
+LIBIR370_VERSION = 1.0.2
+endif
+LIBIR370_SOURCE = libir370-$(LIBIR370_VERSION).tar.bz2
+LIBIR370_SITE = https://10.0.2.2/cgit/rdst/libir370.git/snapshot
+LIBIR370_STRIP_COMPONENTS = 1
+LIBIR370_INSTALL_STAGING = YES
+LIBIR370_LICENSE = GPLv2
+LIBIR370_LICENSE_FILES = COPYING
+LIBIR370_DEPENDENCIES = libmal libserial-ppmd
+
+LIBIR370_CFLAGS = $(TARGET_CFLAGS) $(TARGET_LDFLAGS)
+LIBIR370_CXXFLAGS = $(TARGET_CXXFLAGS) $(TARGET_LDFLAGS)
+
+LIBIR370_MAKE_ENV = \
+ CROSS_COMPILE=$(TARGET_CROSS)\
+ CC="$(TARGET_CC)"\
+ CXX="$(TARGET_CXX)"\
+ CFLAGS="$(TARGET_CFLAGS)"\
+ CXXFLAGS="$(TARGET_CXXFLAGS)"\
+ LDFLAGS="$(TARGET_LDFLAGS)"\
+ PKG_CONFIG="$(PKG_CONFIG_HOST_BINARY)"
+
+define LIBIR370_CONFIGURE_CMDS
+	$(MAKE1) $(LIBIR370_MAKE_ENV) -C $(@D) clean
+endef
+
+define LIBIR370_BUILD_CMDS
+	$(MAKE1) $(LIBIR370_MAKE_ENV) -C $(@D) clean all
+endef
+
+define LIBIR370_INSTALL_STAGING_CMDS
+	$(MAKE1) $(LIBIR370_MAKE_ENV) -C $(@D) install DESTDIR=$(STAGING_DIR) PREFIX=/usr
+endef
+
+define LIBIR370_INSTALL_TARGET_CMDS
+	$(MAKE1) $(LIBIR370_MAKE_ENV) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
+endef
+
+$(eval $(generic-package))
