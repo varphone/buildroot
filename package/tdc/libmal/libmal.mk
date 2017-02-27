@@ -30,18 +30,19 @@ LIBMAL_MAKE_ENV = \
  PKG_CONFIG="$(PKG_CONFIG_HOST_BINARY)"
 
 define LIBMAL_CONFIGURE_CMDS
+	$(MAKE1) $(LIBMAL_MAKE_ENV) -C $(@D) clean
 endef
 
 define LIBMAL_BUILD_CMDS
-	$(MAKE1) $(LIBMAL_MAKE_ENV) -C $(@D) all
+	$(MAKE1) $(LIBMAL_MAKE_ENV) -C $(@D) clean all
 endef
 
 define LIBMAL_INSTALL_STAGING_CMDS
-	$(MAKE) -C $(@D) install DESTDIR=$(STAGING_DIR) PREFIX=/usr
+	$(MAKE1) $(LIBMAL_MAKE_ENV) -C $(@D) install DESTDIR=$(STAGING_DIR) PREFIX=/usr
 endef
 
 define LIBMAL_INSTALL_TARGET_CMDS
-	$(MAKE) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
+	$(MAKE1) $(LIBMAL_MAKE_ENV) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
 endef
 
 $(eval $(generic-package))
