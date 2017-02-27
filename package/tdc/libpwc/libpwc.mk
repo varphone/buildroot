@@ -37,11 +37,11 @@ define LIBPWC_BUILD_CMDS
 endef
 
 define LIBPWC_INSTALL_STAGING_CMDS
-	$(MAKE) -C $(@D) install DESTDIR=$(STAGING_DIR) PREFIX=/usr
+	$(MAKE1) $(LIBPWC_MAKE_ENV) -C $(@D) install DESTDIR=$(STAGING_DIR) PREFIX=/usr
 endef
 
 define LIBPWC_INSTALL_TARGET_CMDS
-	$(MAKE) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
+	$(MAKE1) $(LIBPWC_MAKE_ENV) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
 endef
 
 $(eval $(generic-package))
