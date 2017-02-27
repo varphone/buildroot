@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LIBAVT
+	bool "libavt"
+	depends on BR2_PACKAGE_TDC
+	help
+	  AVT library for PPMD-V1.
+
+config BR2_PACKAGE_LIBAVT_CUSTOM_VERSION
+	bool "libavt custom version"
+	depends on BR2_PACKAGE_LIBAVT
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBAVT_CUSTOM_VERSION_VALUE
+	string "libavt git tag version"
+	default "1.0.2"
+	depends on BR2_PACKAGE_LIBAVT_CUSTOM_VERSION
