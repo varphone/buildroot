@@ -10,7 +10,7 @@ MPP_KO_SOURCE = mpp-ko-$(MPP_KO_VERSION).tar.xz
 MPP_KO_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
 MPP_KO_STRIP_COMPONENTS = 1
 MPP_KO_LICENSE = GPLv2
-MPP_KO_LICENSE_FILES = COPYING
+MPP_KO_LICENSE_FILES =
 
 define MPP_KO_BUILD_CMDS
 endef
