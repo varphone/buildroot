@@ -16,7 +16,7 @@ ETLMD_IA_SOURCE = etlmd-ia-$(ETLMD_IA_VERSION).tar.bz2
 ETLMD_IA_SITE = https://10.0.2.2/cgit/rdst/etlmd-ia.git/snapshot
 ETLMD_IA_STRIP_COMPONENTS = 1
 ETLMD_IA_INSTALL_STAGING = NO
-ETLMD_IA_DEPENDENCIES = libpes-legacy libstream-legacy xpr-legacy
+ETLMD_IA_DEPENDENCIES = opencv libpes-legacy libstream-legacy xpr-legacy
 ETLMD_IA_LICENSE = GPLv2
 ETLMD_IA_LICENSE_FILES = COPYING
 
