@@ -98,3 +98,14 @@ sudo mount -t vfat -o offset=31744,rw,noexec /tmp/etlmd-v2-2g.raw /mnt
 3. 下载打包好的 U 盘安装包，位置在 `/opt/tdc/etlmd-v2-lp/images/liveusb.tgz`。
 4. 将下载好的 liveusb.tgz 解压到 U 盘的根目录。
 
+
+### 使用 U 盘安装系统
+
+1. 将已经制作好的 U 盘插入需要安装的设备中。
+2. 在 `BIOS` 中选择从 U 盘启动。
+3. 在 U 盘启动的引导菜单中选择 `... Recovery` 启动项。
+4. 在系统启动后，登录到 shell 中。
+5. 执行 `mksysparts /dev/sda` 进行分区、格式化（注意：当设备已经安装过了系统，并且想要保留现有的数据时，此步可以跳过）。
+5. 执行 `install-sys /dev/sda` 将系统安装到设备中。
+
+
