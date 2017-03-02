@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_ETLMD_IA_CUSTOM_VERSION),y)
 ETLMD_IA_VERSION = $(call qstrip, $(BR2_PACKAGE_ETLMD_IA_CUSTOM_VERSION_VALUE))
 else
-ETLMD_IA_VERSION = 2.0.0
+ETLMD_IA_VERSION = 2.0.2
 endif
 ETLMD_IA_SOURCE = etlmd-ia-$(ETLMD_IA_VERSION).tar.bz2
 #ETLMD_IA_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
@@ -34,7 +34,7 @@ define ETLMD_IA_CONFIGURE_CMDS
 endef
 
 define ETLMD_IA_BUILD_CMDS
-	$(MAKE1) $(ETLMD_IA_MAKE_ENV) -C $(@D)/src all
+	$(MAKE1) $(ETLMD_IA_MAKE_ENV) -C $(@D)/src clean all
 endef
 
 define ETLMD_IA_INSTALL_STAGING_CMDS
