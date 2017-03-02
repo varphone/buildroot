@@ -25,6 +25,13 @@ git checkout ppmd-v1
 make O=/opt/tdc/ppmd-v1 ......
 ```
 
+**注意：**如果你是开发、测试编译，并非用于发行，最好使用自己的编译目录，也就是将 `O=...` 的目录改为自己的目录。
+
+> 例如：`make O=~/workspace/boards/xxxx ...`
+
+这样你所有编译生成的结果都会存放在自己的用户目录下，不会与他人造成冲突。
+
+
 
 ### 用户认证
 
@@ -56,11 +63,31 @@ make O=/opt/company/board source WGET_USER=A000 WGET_PASSWORD=123456
 在其命令参数行中添加：`--user=${WGET_USER} --password=${WGET_PASSWORD}`
 
 
-**注意：**如果你是开发、测试编译，并非用于发行，最好使用自己的编译目录，也就是将 `O=...` 的目录改为自己的目录。
+### 使用本地开发目录进行编译
 
-> 例如：`make O=~/workspace/boards/xxxx ...`
+在某些情况下你需要对包源代码作出修改，然后重新编译，这是你可以使用本地覆盖目录功能来实现。
 
-这样你所有编译生成的结果都会存放在自己的用户目录下，不会与他人造成冲突。
+步骤如下：
+
+1. 在编译的输出目录建立一个 `local.mk` 文件。
+2. 在 `local.mk` 文件中添加一行 `{PACKAGE}_OVERRIDE_SRCDIR = {DIR}` 配置。
+
+- `PACKAGE` 为包的名称，例如：`linux`, `libxxx`, 等等。
+- `DIR` 为包的源代码所在的目录。
+
+
+**示例：**
+
+```
+# local.mk
+
+LINUX_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/linux-stable
+LIBAVT_OVERRIDE_SRCDIR = /home/varphone/workspace/projects/libavt
+#LIBPWC_OVERRIDE_SRCDIR = /home/varphone/workspace/projects/libpwc
+PPMD_3531_OVERRIDE_SRCDIR = /home/varphone/workspace/projects/ppmd-3531
+
+```
+
 
 
 ## Board: myzr/myimx6ek200-6q
