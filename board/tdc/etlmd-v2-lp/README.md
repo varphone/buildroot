@@ -89,3 +89,12 @@ sudo mount -t vfat -o offset=31744,rw,noexec /tmp/etlmd-v2-2g.raw /mnt
 ```
 
 - `offset=31744` 是分区起始位置，可以通过 `fdisk -l` 来取得，计算公式为：`N * 512`。
+
+
+### 制作安装 U 盘
+
+1. 将 `1G` 以上的 U 盘格式化为 `FAT32` 分区格式。
+2. 将 U 盘的卷标名设置为：`ETLMDV2`。
+3. 下载打包好的 U 盘安装包，位置在 `/opt/tdc/etlmd-v2-lp/images/liveusb.tgz`。
+4. 将下载好的 liveusb.tgz 解压到 U 盘的根目录。
+
