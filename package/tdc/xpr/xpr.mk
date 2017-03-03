@@ -10,12 +10,10 @@ else
 XPR_VERSION = 2.1-rc2
 endif
 XPR_SOURCE = xpr-$(XPR_VERSION).tar.bz2
-#XPR_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
-#XPR_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
-#XPR_SITE = https://10.0.2.2/git/rdst/ppmd-3531/archive
 XPR_SITE = https://10.0.2.2/cgit/rdst/xpr.git/snapshot
 XPR_STRIP_COMPONENTS = 1
 XPR_INSTALL_STAGING = YES
+XPR_DEPENDENCIES = live555
 XPR_LICENSE = GPLv2
 XPR_LICENSE_FILES =
 
@@ -29,7 +27,7 @@ define XPR_CONFIGURE_CMDS
 endef
 
 define XPR_BUILD_CMDS
-	$(MAKE1) $(XPR_MAKE_ENV) -C $(@D) all
+	$(MAKE1) $(XPR_MAKE_ENV) -C $(@D) clean all
 endef
 
 define XPR_INSTALL_STAGING_CMDS
