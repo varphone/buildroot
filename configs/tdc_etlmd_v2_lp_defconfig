@@ -15,6 +15,7 @@ BR2_TOOLCHAIN_GLIBC_GCONV_LIBS_COPY=y
 BR2_TARGET_GENERIC_HOSTNAME="etlmdv2lp"
 BR2_TARGET_GENERIC_ISSUE="Welcome to ETLMD v2 (LP)"
 BR2_ROOTFS_DEVICE_TABLE="board/tdc/etlmd-v2-lp/device_table.txt"
+BR2_TARGET_GENERIC_ROOT_PASSWD="iaos%55/20"
 # BR2_TARGET_GENERIC_GETTY is not set
 # BR2_TARGET_GENERIC_REMOUNT_ROOTFS_RW is not set
 BR2_SYSTEM_DHCP="eth0"
@@ -58,7 +59,7 @@ BR2_PACKAGE_GPTFDISK_GDISK=y
 BR2_PACKAGE_GPTFDISK_SGDISK=y
 BR2_PACKAGE_NODEJS=y
 BR2_PACKAGE_NODEJS_NPM=y
-BR2_PACKAGE_NODEJS_MODULES_ADDITIONAL="debug ejs forever fs-extra body-parser cookie-parser log4js multer multiparty node-ssdp serve-index serve-static tracer diskusage posix ftp"
+BR2_PACKAGE_NODEJS_MODULES_ADDITIONAL="debug ejs forever fs-extra body-parser cookie-parser log4js multer multiparty node-ssdp serve-index serve-static tracer diskusage posix ftp express"
 BR2_PACKAGE_PYTHON3=y
 BR2_PACKAGE_PYTHON3_CODECSCJK=y
 BR2_PACKAGE_PYTHON3_DECIMAL=y
