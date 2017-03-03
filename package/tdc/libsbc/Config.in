@@ -1,6 +1,7 @@
 config BR2_PACKAGE_LIBSBC
 	bool "libsbc"
 	depends on BR2_PACKAGE_TDC
+	select BR2_PACKAGE_LIBMODBUS
 	help
 	  Solar Power Controller library for ETLMD-V2.
 
