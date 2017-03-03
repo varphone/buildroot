@@ -1,6 +1,7 @@
 config BR2_PACKAGE_XPR
 	bool "xpr"
 	depends on BR2_PACKAGE_TDC
+	select BR2_PACKAGE_LIVE555
 	help
 	  X Portable Runtime for TDC.
 
