@@ -12,5 +12,5 @@ config BR2_PACKAGE_LIBSERIAL_PPMD_CUSTOM_VERSION
 
 config BR2_PACKAGE_LIBSERIAL_PPMD_CUSTOM_VERSION_VALUE
 	string "libserial-ppmd git tag version"
-	default "1.0.1"
+	default "1.0.2"
 	depends on BR2_PACKAGE_LIBSERIAL_PPMD_CUSTOM_VERSION
