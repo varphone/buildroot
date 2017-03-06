@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Start upgrade ...
+#
+
+DESC=upgrade
+
+do_upgrade() {
+	for f in /var/upgrade/*.sig; do
+		test -e "${f}" && {
+			echo "Found upgrade package: $(basename ${f})"
+			opkg-verify "${f}" && {
+				ff="${f%.*}"
+				opkg-decrypt "${f}" "${ff}" && {
+					opkg install "${ff}"
+					rm -f "${ff}"
+				}
+			}
+			rm -f "${f}"
+		}
+	done
+}
+
+case "$1" in
+	start)
+		echo "Starting ${DESC} ..."
+		do_upgrade
+		;;
+	stop)
+		;;
+	restart|reload)
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit $?

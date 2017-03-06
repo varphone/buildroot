@@ -1,0 +1,27 @@
+#!/bin/sh
+
+days=$(jq -c .cache.keep_days /etc/etlmd-ia/prefs/this.json)
+[ -z "${days}" -o "${days}" == "null" ] && days=14
+
+case "$1" in
+    start|restart|reload)
+        echo "Histroy keep days: ${days}"
+        echo -n "Cleaning history datas and files: "
+        find /var/etlmd-ia/cache/ -type f -mtime +${days} -exec rm {} \;
+        find /var/etlmd-ia/jobs/ -type f -mtime +${days} -exec rm {} \;
+        find /var/etlmd-ia/snapshot/ -type f -mtime +${days} -exec rm {} \;
+        find /var/etlmd-ia/log/ -type f -mtime +${days} -exec rm {} \;
+        find /var/etlmd-ia/temp/ -type f -mtime +${days} -exec rm {} \;
+        find /var/etlmd-ia/objects/ -type f -mtime +${days} -exec rm {} \;
+        echo "OK"
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage: $0 start|stop|restart|reload"
+	exit 1
+        ;;
+esac
+
+exit 0
+
