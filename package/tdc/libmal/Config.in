@@ -1,6 +1,8 @@
 config BR2_PACKAGE_LIBMAL
 	bool "libmal"
 	depends on BR2_PACKAGE_TDC
+	select BR2_PACKAGE_FREETYPE
+	select BR2_PACKAGE_XPR
 	help
 	  Hi3XXX MPP midware library for PPMD-V1.
 
