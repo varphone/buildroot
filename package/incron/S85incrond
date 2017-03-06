@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Start/stop the incrond
+#
+
+set -e
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+NAME=incron
+DESC="incrond"
+
+DAEMON=`which incrond`
+OPTIONS=""
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	start-stop-daemon -S -x "$DAEMON" -b -- $OPTIONS
+	echo "OK"
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	start-stop-daemon -K -x "$DAEMON"
+	echo "OK"
+	;;
+  restart|force-reload)
+	echo -n "Restarting $DESC: "
+	start-stop-daemon -K -x "$DAEMON"
+	sleep 1
+	start-stop-daemon -S -x "$DAEMON" -b -- $OPTIONS
+	echo "OK"
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
