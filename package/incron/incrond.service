@@ -1,0 +1,10 @@
+[Unit]
+Description=Inotify cron daemon
+After=system.target
+
+[Service]
+ExecStart=/usr/sbin/incrond
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
