@@ -42,6 +42,7 @@ endef
 
 define ETLMD_IA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/src/etlmd-ia $(TARGET_DIR)/usr/bin
+	$(INSTALL) -m 0755 -D package/tdc/etlmd-ia/S91etlmd-ia $(TARGET_DIR)/etc/init.d/
 endef
 
 $(eval $(generic-package))
