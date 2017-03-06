@@ -25,7 +25,7 @@ usr/lib/libcrypto.so
 usr/lib/libcrypto.so.1.0.0
 usr/lib/libgpg-error.so
 usr/lib/libgpg-error.so.0
-usr/lib/libgpg-error.so.0.19.1
+usr/lib/libgpg-error.so.0.21.0
 usr/lib/libgpgme.so
 usr/lib/libgpgme.so.11
 usr/lib/libgpgme.so.11.16.0
@@ -53,7 +53,7 @@ usr/lib/libstdc++.so.6.0.20-gdb.py
 usr/lib/libuuid.so
 usr/lib/libz.so
 usr/lib/libz.so.1
-usr/lib/libz.so.1.2.10
+usr/lib/libz.so.1.2.11
 usr/lib32
 usr/sbin
 usr/share/opkg
