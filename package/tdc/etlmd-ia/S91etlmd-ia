@@ -6,12 +6,11 @@ DAEMON_OPTS=
 PID_FILE=/var/run/etlmd-ia.pid
 WORK_DIR=/var/etlmd-ia
 
-route add default gw 192.168.1.254
 case "$1" in
 	start)
 		echo -n "Starting ${DESC}: "
 		start-stop-daemon -K -q -p ${PID_FILE} 2> /dev/null
-		start-stop-daemon -S -q -b -r -w ${WORK_DIR} -m -p ${PID_FILE} -x ${DAEMON} -- ${DAEMON_OPTS} 2> /dev/null
+		start-stop-daemon -S -q -b -r -d ${WORK_DIR} -m -p ${PID_FILE} -x ${DAEMON} -- ${DAEMON_OPTS} 2> /dev/null
 		[ $? == 0 ] && echo "OK" || echo "FAIL"
 		;;
 	stop)
@@ -22,7 +21,7 @@ case "$1" in
 	restart|reload)
 		echo -n "Restarting ${DESC}: "
 		start-stop-daemon -K -q -p ${PID_FILE} 2> /dev/null
-		start-stop-daemon -S -q -b -r -w ${WORK_DIR} -m -p ${PID_FILE} -x ${DAEMON} -- ${DAEMON_OPTS} 2> /dev/null
+		start-stop-daemon -S -q -b -r -d ${WORK_DIR} -m -p ${PID_FILE} -x ${DAEMON} -- ${DAEMON_OPTS} 2> /dev/null
 		[ $? == 0 ] && echo "OK" || echo "FAIL"
 		;;
 	*)
