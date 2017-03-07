@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_LIBPWC_CUSTOM_VERSION),y)
 LIBPWC_VERSION = $(call qstrip, $(BR2_PACKAGE_LIBPWC_CUSTOM_VERSION_VALUE))
 else
-LIBPWC_VERSION = 1.0.2
+LIBPWC_VERSION = 1.0.3
 endif
 LIBPWC_SOURCE = libpwc-$(LIBPWC_VERSION).tar.bz2
 LIBPWC_SITE = https://10.0.2.2/cgit/rdst/libpwc.git/snapshot
