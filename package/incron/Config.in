@@ -1,0 +1,7 @@
+config BR2_PACKAGE_INCRON
+	bool "incron"
+	help
+	  This program is an "inotify cron" system.
+
+	  http://inotify.aiken.cz
+
