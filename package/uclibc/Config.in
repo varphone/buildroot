@@ -26,22 +26,18 @@ choice
 	config BR2_UCLIBC_VERSION_0_9_33
 		bool "uClibc 0.9.33.x"
 		select BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS
-		select BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS_OLD
 		select BR2_UCLIBC_VERSION_SUPPORTS_NPTL if !BR2_x86_i386
 		depends on !(BR2_arc || BR2_mips64 || BR2_mips64el || BR2_xtensa)
 
 	config BR2_UCLIBC_VERSION_NG
 		bool "uClibc-ng"
 		select BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS if BR2_m68k
-		select BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS_OLD \
-		       if BR2_m68k || BR2_arm || BR2_armeb
 		select BR2_UCLIBC_VERSION_SUPPORTS_NPTL \
 		       if !BR2_m68k && !BR2_x86_i386
 
 	config BR2_UCLIBC_VERSION_SNAPSHOT
 		bool "daily snapshot"
 		select BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS if !BR2_xtensa
-		select BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS_OLD
 		select BR2_UCLIBC_VERSION_SUPPORTS_NPTL \
 		       if !BR2_x86_i386 && !BR2_xtensa
 		depends on !(BR2_arc || BR2_mips64 || BR2_mips64el)
@@ -104,7 +100,6 @@ config BR2_TOOLCHAIN_BUILDROOT_LOCALE
 choice
 	prompt "Thread library implementation"
 	default BR2_PTHREADS_NATIVE if BR2_UCLIBC_VERSION_SUPPORTS_NPTL
-	default BR2_PTHREADS_OLD if BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS_OLD
 	default BR2_PTHREADS if BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS
 	help
 	  Use this option to select the thread library implementation
@@ -118,11 +113,6 @@ choice
 		select BR2_TOOLCHAIN_HAS_THREADS
 		depends on BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS
 
-	config BR2_PTHREADS_OLD
-		bool "linuxthreads (stable/old)"
-		select BR2_TOOLCHAIN_HAS_THREADS
-		depends on BR2_UCLIBC_VERSION_SUPPORTS_LINUXTHREADS_OLD
-
 	config BR2_PTHREADS_NATIVE
 		bool "Native POSIX Threading (NPTL)"
 		select BR2_TOOLCHAIN_HAS_THREADS
@@ -132,7 +122,7 @@ endchoice
 
 config BR2_PTHREAD_DEBUG
 	bool "Thread library debugging"
-	depends on BR2_PTHREADS || BR2_PTHREADS_OLD || BR2_PTHREADS_NATIVE
+	depends on BR2_PTHREADS || BR2_PTHREADS_NATIVE
 	select BR2_TOOLCHAIN_HAS_THREADS_DEBUG
 	help
 	  Build the thread library with debugging enabled.
