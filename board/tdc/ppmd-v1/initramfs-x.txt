@@ -1,4 +1,6 @@
 etc/fonts
+etc/init.d/S60bsp
+etc/init.d/S61adv
 linuxrc
 usr/bin/alsamixer
 usr/bin/amixer
@@ -24,11 +26,13 @@ usr/bin/img*
 usr/bin/jasper
 usr/bin/jpegenc
 usr/bin/jsc
+usr/bin/monit
 usr/bin/mpeg2vaenc
 usr/bin/openssl
 usr/bin/pango-view
 usr/bin/pcre*
 usr/bin/pkgdata
+usr/bin/ppmd
 usr/bin/qml*
 usr/bin/qrencode
 usr/bin/qv4l2
