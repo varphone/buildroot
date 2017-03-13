@@ -117,14 +117,13 @@ insert_ko()
 	insmod hi3531_ive.ko
 	insmod hi3531_vda.ko
 	insmod vcmp.ko
-	insmod hifb.ko video="hifb:vram0_size:7200,vram1_size:7200,vram2_size:3240,vram3_size:3240,\
-	            vram4_size:7200,vram5_size:128,vram6_size:128" softcursor="off" u32VcmpBufNum=2\
-	            apszLayerMmzNames="mmzname0","mmzname1",,"graphics",,"mmzname0"
+	video="hifb:vram0_size:7200,vram1_size:7200,vram2_size:3240,vram3_size:3240,vram4_size:7200,vram5_size:128,vram6_size:128"
+	insmod hifb.ko video="${video}" softcursor="off" u32VcmpBufNum=2 apszLayerMmzNames="mmzname0","mmzname1",,"graphics",,"mmzname0"
 	insmod hi3531_vdec.ko
 	insmod hi3531_vfmw.ko
 	insmod hi3531_hdmi.ko
 	insmod hi3531_jpegd.ko
-	insmod extdrv/gpioi2c.ko
+#	insmod extdrv/gpioi2c.ko
 
 #	if [ $SDK_TYPE = "16960h" ]; then
 #		insmod extdrv/tw2960.ko
