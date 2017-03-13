@@ -77,8 +77,8 @@ setenv initrdaddr 0x81000000
 setenv loadaddr 0x82000000
 setenv bootargs_base console=ttyAMA0,115200 mem=256M
 setenv mtdparts hinand:1M(boot),4M(kernel),10M(initrd),30M(rootfs),8M(misc),-(cache)
-setenv rootargs root=/dev/mtd3 rootfstype=squashfs overlayroot=/dev/ubi1_0:ubifs:rw
-setenv bootargs ${bootargs_base} mtdparts=${mtdparts} ${rootargs} initrd=${initrdaddr},${initrdsize}
-setenv bootcmd nand read ${initrdaddr} 500000 0x400000; nand read ${loadaddr} 0x100000 0x400000; bootm ${loadaddr}
+setenv rootargs root=/dev/mtdblock3 rootfstype=squashfs overlayroot=/dev/ubi1_0:rw:ubifs
+setenv bootargs ${bootargs_base} mtdparts=${mtdparts} ${rootargs} initrd=${initrdaddr},0x${initrdsize}
+setenv bootcmd 'nand read ${initrdaddr} 500000 0x400000; nand read ${loadaddr} 0x100000 0x400000; bootm ${loadaddr}'
 ```
 
