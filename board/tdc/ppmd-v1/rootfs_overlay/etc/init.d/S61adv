@@ -3,6 +3,7 @@
 ADV7182_ADDR=0x21
 ADV7430_ADDR=0x6b
 
+I2CG="i2cget -f -y 0"
 I2CW="i2cset -f -y 0"
 
 config() {
