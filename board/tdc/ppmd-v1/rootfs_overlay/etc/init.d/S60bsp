@@ -12,8 +12,6 @@ init() {
 
 	himm 0x201f0400 0x0c
 	himm 0x201f0030 0x04
-
-	popd
 }
 
 case $1 in
