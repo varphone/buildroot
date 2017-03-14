@@ -7,6 +7,24 @@
 - 默认标识：`rdst-ppmd-v1`
 - 证书密码：`Wg5tBuDM`
 
+
+## 文件说明
+
+- `initramfs_overlay` `initramfs` 的覆盖目录，这里面的内容会在生成 `initrd` 镜像时覆盖在镜像的目录中。
+- `patches` 各个包的补丁目录。
+- `rootfs_overlay` `rootfs` 的覆盖目录，这里面的内容会在生成 `rootfs` 镜像时覆盖在镜像的目录中。
+- `device_table.txt` 设备文件权限列表，在生产镜像时会根据列表中的条目来设定对应文件或目录的权限属性。
+- `fakeroot.sh` 当所有包都编译完成后运行的附加脚本，你可以在次脚本中调整一些 `target` 目录中的文件或目录。
+- `initramfs-t.txt` `initramfs` 镜像中所能包含的文件列表。
+- `initramfs-x.txt` `initramfs` 镜像中所需排除的文件列表。
+- `linux-3.0.8.config` `linux` 内核配置文件。
+- `mk-os-release.sh` 生成板子发行信息的脚本，生产的信息会存放在板子的 `/etc/os-release` 目录中。
+- `post-image.sh` 生成各个镜像后执行的脚本，你可以通过此脚本对生成的镜像进行额外的处理，例如发行、打包等等。
+- `pre-image.sh` 生成各个镜像前执行的脚本，你可以通过次脚本进行最后的镜像内容调整。
+- `reg_info_930_310_620_dd0_dd1_slow.bin` `Hi3531` 板子的硬件配置文件，此文件会与通过代码编译出来的 `u-boot.bin` 合并生成 `Hi3531` 专用的 `u-boot.bin`。
+- `update.cmd` 通过 TFTP 自动更新 `kernel、initrd、rootfs` 的脚本源代码，此源代码会通过 `mkimage` 生产可以在 `u-boot` 中执行的脚本。
+- `update-uboot.cmd` 通过 `TFTP` 自动更新 `u-boot` 的脚本源代码，此源代码会通过 `mkimage` 生产可以在 `u-boot` 中执行的脚本。
+
 ## NAND FLASH 分区
 
 - `boot` *1M* - 存放 u-boot 镜像。
@@ -75,10 +93,32 @@ bootm
 ```
 setenv initrdaddr 0x81000000
 setenv loadaddr 0x82000000
-setenv bootargs_base console=ttyAMA0,115200 mem=256M
+setenv bootargs_base console=ttyAMA0,115200 mem=128M
 setenv mtdparts hinand:1M(boot),4M(kernel),10M(initrd),30M(rootfs),8M(misc),-(cache)
 setenv rootargs root=/dev/mtdblock3 rootfstype=squashfs overlayroot=/dev/ubi1_0:rw:ubifs
-setenv bootargs ${bootargs_base} mtdparts=${mtdparts} ${rootargs} initrd=${initrdaddr},0x${initrdsize}
-setenv bootcmd 'nand read ${initrdaddr} 500000 0x400000; nand read ${loadaddr} 0x100000 0x400000; bootm ${loadaddr}'
+setenv bootargs_cmd '${bootargs_base} mtdparts=${mtdparts} ${rootargs} initrd=${initrdaddr},0x${initrdsize}'
+setenv bootcmd 'run bootargs_cmd; nand read ${initrdaddr} 500000 0x400000; nand read ${loadaddr} 0x100000 0x400000; bootm ${loadaddr}'
 ```
+
+## 使用脚本来升级系统或者 U-BOOT
+
+**升级 kernel, initrd, rootfs**
+
+```
+tftp 0x80000000 ppmd-v1/images/update.scr
+source 0x80000000
+```
+
+**升级 u-boot**
+
+```
+tftp 0x80000000 ppmd-v1/images/update-uboot.scr
+source 0x80000000
+```
+
+> **注意：**这些脚本内部均使用 `tftp` 来下载文件，默认的网络配置是：
+> `ipaddr` `192.168.1.10`
+> `netmask` `255.255.0.0`
+> `serverip` `192.168.0.7`
+
 
