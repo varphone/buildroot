@@ -77,5 +77,23 @@ if [ -r "${BINARIES_DIR}/u-boot.bin" ]; then
 	tput sgr0
 fi
 
+# Make update script for u-boot
+if [ -r "${SCRIPT_DIR}/update.cmd" ]; then
+	tput setaf 3
+	echo "`tput bold`### Make Update script for u-boot ...`tput sgr0`"
+	tput setaf 6
+	"${HOST_DIR}/usr/bin/mkimage" -C none -A arm -T script -d "${SCRIPT_DIR}/update.cmd" "${BINARIES_DIR}/update.scr"
+	tput sgr0
+fi
+
+# Make update u-boot script for u-boot
+if [ -r "${SCRIPT_DIR}/update-uboot.cmd" ]; then
+	tput setaf 3
+	echo "`tput bold`### Make Update U-Boot script for u-boot ...`tput sgr0`"
+	tput setaf 6
+	"${HOST_DIR}/usr/bin/mkimage" -C none -A arm -T script -d "${SCRIPT_DIR}/update-uboot.cmd" "${BINARIES_DIR}/update-uboot.scr"
+	tput sgr0
+fi
+
 exit $?
 
