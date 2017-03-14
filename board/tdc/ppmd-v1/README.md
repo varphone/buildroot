@@ -28,6 +28,7 @@
 ## NAND FLASH 分区
 
 - `boot` *1M* - 存放 u-boot 镜像。
+- `reserved` *2M* - 保留分区，存放启动脚本或者开机图像。
 - `kernel` *4M* - 存放 LINUX 内核镜像。
 - `initrd` *10M* - 存放 LINUX INITRAMFS 镜像。
 - `rootfs` *30M* - 存放只读的根文件系统。
@@ -35,25 +36,26 @@
 - `cache` *(剩余空间)* - 存放可变的文件或设备在出厂后安装的程序或更新，通过 overlayfs 覆盖在只读的 rootfs 之上。
 
 ```
-0x000000000000-0x000000100000 : "boot"
-0x000000100000-0x000000500000 : "kernel"
-0x000000500000-0x000000f00000 : "initrd"
-0x000000f00000-0x000002d00000 : "rootfs"
-0x000002d00000-0x000003500000 : "misc"
-0x000003500000-0x000008000000 : "cache"
+0x00000000-0x00100000 : "boot"
+0x00100000-0x00300000 : "reserved"
+0x00300000-0x00700000 : "kernel"
+0x00700000-0x01100000 : "initrd"
+0x01100000-0x02f00000 : "rootfs"
+0x02f00000-0x03700000 : "misc"
+0x03700000-0x08000000 : "cache"
 ```
 
 ### kernel cmdline
 ```
-mtdparts=hinand:1M(boot),4M(kernel),10M(initrd),30M(rootfs),8M(misc),-(cache)
+mtdparts=hinand:1M(boot),2M(reserved),4M(kernel),10M(initrd),30M(rootfs),8M(misc),-(cache)
 ```
 
 ### Update kernel
 
 ```
 tftp ${loadaddr} ppmd-v1/images/uImage
-nand erase 100000 400000
-nand write ${loadaddr} 100000 ${filesize}
+nand erase 0x300000 0x400000
+nand write ${loadaddr} 0x300000 ${filesize}
 setenv kernelsize ${filesize}
 sa
 ```
@@ -64,8 +66,8 @@ sa
 #tftp ${loadaddr} ppmd-v1/images/initrd.cpio.gz
 #tftp ${loadaddr} ppmd-v1/images/initrd.cpio.lzo
 tftp ${loadaddr} ppmd-v1/images/initrd.cpio.xz
-nand erase 500000 a00000
-nand write ${loadaddr} 500000 ${filesize}
+nand erase 0x700000 0xa00000
+nand write ${loadaddr} 0x700000 ${filesize}
 setenv initrdsize ${filesize}
 sa
 ```
@@ -74,8 +76,8 @@ sa
 
 ```
 tftp ${loadaddr} ppmd-v1/images/rootfs.squashfs
-nand erase f00000 1e00000
-nand write ${loadaddr} f00000 ${filesize}
+nand erase 0x1100000 0x1e00000
+nand write ${loadaddr} 0x1100000 ${filesize}
 setenv rootfssize ${filesize}
 sa
 ```
@@ -83,7 +85,7 @@ sa
 ### Boot from tftp
 
 ```
-nand read 81000000 500000 ${initrdsize}
+nand read 0x81000000 0x700000 ${initrdsize}
 tftp ${loadaddr} ${bootfile}
 bootm
 ```
@@ -93,11 +95,12 @@ bootm
 ```
 setenv initrdaddr 0x81000000
 setenv loadaddr 0x82000000
-setenv bootargs_base console=ttyAMA0,115200 mem=128M
-setenv mtdparts hinand:1M(boot),4M(kernel),10M(initrd),30M(rootfs),8M(misc),-(cache)
-setenv rootargs root=/dev/mtdblock3 rootfstype=squashfs overlayroot=/dev/ubi1_0:rw:ubifs
-setenv bootargs_cmd '${bootargs_base} mtdparts=${mtdparts} ${rootargs} initrd=${initrdaddr},0x${initrdsize}'
-setenv bootcmd 'run bootargs_cmd; nand read ${initrdaddr} 500000 0x400000; nand read ${loadaddr} 0x100000 0x400000; bootm ${loadaddr}'
+setenv bootargs console=ttyAMA0,115200 mem=128M root=/dev/mtdblock4 ro rootfstype=squashfs panic=5
+setenv bootargs_base console=ttyAMA0,115200 mem=128M panic=5
+setenv mtdparts mtdparts=hinand:1M(boot),4M(kernel),10M(initrd),30M(rootfs),8M(misc),-(cache)
+setenv rootargs root=/dev/mtdblock4 rootfstype=squashfs overlayroot=/dev/ubi1_0:rw:ubifs
+setenv bootargs_cmd '${bootargs_base} ${mtdparts} ${rootargs} initrd=${initrdaddr},0x${initrdsize}'
+setenv bootcmd 'run bootargs_cmd; nand read ${initrdaddr} 0x700000 0x400000; nand read ${loadaddr} 0x300000 0x400000; bootm ${loadaddr}'
 ```
 
 ## 使用脚本来升级系统或者 U-BOOT

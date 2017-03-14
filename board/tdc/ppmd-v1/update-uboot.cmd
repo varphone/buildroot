@@ -1,5 +1,5 @@
-nand erase 0 100000
-mw.b 0x82000000 ff 100000
-tftp 0x82000000 u-boot-hi3531_930MHz.bin
-nand write 0x82000000 0 100000
+nand erase 0 0x100000
+mw.b 0x82000000 ff 0x100000
+tftp 0x82000000 ppmd-v1/images/u-boot-hi3531_930MHz.bin
+nand write 0x82000000 0 0x100000
 reset

@@ -39,12 +39,26 @@ OVERLAYROOT=
 OVERLAYROOT_DEV=
 OVERLAYROOT_OPT=
 OVERLAYROOT_FST=
-MISC_MTD=/dev/mtd4
-MISC_MTD_NUM=4
+# Probe misc mtd device from proc
+MISC=$(grep misc /proc/mtd | cut -d':' -f1)
+if [ -n "${MISC}" ]; then
+MISC_MTD=/dev/${MISC}
+MISC_MTD_NUM=${MISC:3:1}
+else
+MISC_MTD=/dev/mtd5
+MISC_MTD_NUM=5
+fi
 MISC_UBI=/dev/ubi0
 MISC_UBI_VOL=/dev/ubi0_0
-CACHE_MTD=/dev/mtd5
-CACHE_MTD_NUM=5
+# Probe cache mtd device from proc
+CACHE=$(grep -q cache /proc/mtd | cut -d':' -f1)
+if [ -n "${CACHE}" ]; then
+CACHE_MTD=/dev/${CACHE}
+CACHE_MTD_NUM=${CACHE:3:1}
+else
+CACHE_MTD=/dev/mtd6
+CACHE_MTD_NUM=6
+fi
 CACHE_UBI=/dev/ubi1
 CACHE_UBI_VOL=/dev/ubi1_0
 MOUNT_OPTS=
