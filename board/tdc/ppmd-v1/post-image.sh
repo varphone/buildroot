@@ -62,5 +62,20 @@ if [ -w "${BINARIES_DIR}/rootfs.yaffs2" ]; then
 	AlignedPadding "${BINARIES_DIR}/rootfs.yaffs2" ${PAGE_SIZE}
 fi
 
+# Make Hi3531 u-boot
+if [ -r "${BINARIES_DIR}/u-boot.bin" ]; then
+	tput setaf 3
+	echo "`tput bold`### Make Hi3531 u-boot.bin ...`tput sgr0`"
+	tput setaf 6
+	dd if="${BINARIES_DIR}/u-boot.bin" of="${BINARIES_DIR}/fb1" bs=1 count=64
+	dd if="${SCRIPT_DIR}/reg_info_930_310_620_ddr0_ddr1_slow.bin" of="${BINARIES_DIR}/fb2" bs=4096 conv=sync
+	dd if="${BINARIES_DIR}/u-boot.bin" of="${BINARIES_DIR}/fb3" bs=1 skip=4160
+	cat "${BINARIES_DIR}/fb1" "${BINARIES_DIR}/fb2" "${BINARIES_DIR}/fb3" > "${BINARIES_DIR}/u-boot-hi3531_930MHz.bin"
+	rm "${BINARIES_DIR}/fb1"
+	rm "${BINARIES_DIR}/fb2"
+	rm "${BINARIES_DIR}/fb3"
+	tput sgr0
+fi
+
 exit $?
 
