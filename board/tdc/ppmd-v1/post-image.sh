@@ -77,6 +77,15 @@ if [ -r "${BINARIES_DIR}/u-boot.bin" ]; then
 	tput sgr0
 fi
 
+# Make boot script for u-boot
+if [ -r "${SCRIPT_DIR}/boot.cmd" ]; then
+	tput setaf 3
+	echo "`tput bold`### Make boot script for u-boot ...`tput sgr0`"
+	tput setaf 6
+	"${HOST_DIR}/usr/bin/mkimage" -C none -A arm -T script -d "${SCRIPT_DIR}/boot.cmd" "${BINARIES_DIR}/boot.scr"
+	tput sgr0
+fi
+
 # Make update script for u-boot
 if [ -r "${SCRIPT_DIR}/update.cmd" ]; then
 	tput setaf 3
@@ -86,12 +95,51 @@ if [ -r "${SCRIPT_DIR}/update.cmd" ]; then
 	tput sgr0
 fi
 
+# Make update boot script for u-boot
+if [ -r "${SCRIPT_DIR}/update-boot.cmd" ]; then
+	tput setaf 3
+	echo "`tput bold`### Make Update boot script for u-boot ...`tput sgr0`"
+	tput setaf 6
+	"${HOST_DIR}/usr/bin/mkimage" -C none -A arm -T script -d "${SCRIPT_DIR}/update-boot.cmd" "${BINARIES_DIR}/update-boot.scr"
+	tput sgr0
+fi
+
+# Make update boot script for u-boot
+if [ -r "${SCRIPT_DIR}/update-rootfs.cmd" ]; then
+	tput setaf 3
+	echo "`tput bold`### Make Update rootfs script for u-boot ...`tput sgr0`"
+	tput setaf 6
+	"${HOST_DIR}/usr/bin/mkimage" -C none -A arm -T script -d "${SCRIPT_DIR}/update-rootfs.cmd" "${BINARIES_DIR}/update-rootfs.scr"
+	tput sgr0
+fi
+
 # Make update u-boot script for u-boot
 if [ -r "${SCRIPT_DIR}/update-uboot.cmd" ]; then
 	tput setaf 3
 	echo "`tput bold`### Make Update U-Boot script for u-boot ...`tput sgr0`"
 	tput setaf 6
 	"${HOST_DIR}/usr/bin/mkimage" -C none -A arm -T script -d "${SCRIPT_DIR}/update-uboot.cmd" "${BINARIES_DIR}/update-uboot.scr"
+	tput sgr0
+fi
+
+# Gen boot.vfat image
+GENIMAGE_CFG="${SCRIPT_DIR}/genimage.cfg"
+GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+
+if [ -r "${GENIMAGE_CFG}" ]; then
+	rm -rf "${GENIMAGE_TMP}"
+
+	tput setaf 3
+	echo "`tput bold`### Make boot vfat image ...`tput sgr0`"
+	tput setaf 6
+
+	genimage \
+		--rootpath "${TARGET_DIR}" \
+		--tmppath "${GENIMAGE_TMP}" \
+		--inputpath "${BINARIES_DIR}" \
+		--outputpath "${BINARIES_DIR}" \
+		--config "${GENIMAGE_CFG}"
+
 	tput sgr0
 fi
 
