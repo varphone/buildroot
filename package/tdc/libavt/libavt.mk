@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_LIBAVT_CUSTOM_VERSION),y)
 LIBAVT_VERSION = $(call qstrip, $(BR2_PACKAGE_LIBAVT_CUSTOM_VERSION_VALUE))
 else
-LIBAVT_VERSION = 1.0.2
+LIBAVT_VERSION = 1.0.3
 endif
 LIBAVT_SOURCE = libavt-$(LIBAVT_VERSION).tar.bz2
 LIBAVT_SITE = https://10.0.2.2/cgit/rdst/libavt.git/snapshot
