@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_LIBMAL_CUSTOM_VERSION),y)
 LIBMAL_VERSION = $(call qstrip, $(BR2_PACKAGE_LIBMAL_CUSTOM_VERSION_VALUE))
 else
-LIBMAL_VERSION = 1.0.3
+LIBMAL_VERSION = 1.0.4
 endif
 LIBMAL_SOURCE = libmal-$(LIBMAL_VERSION).tar.bz2
 LIBMAL_SITE = https://10.0.2.2/cgit/rdst/libmal.git/snapshot
