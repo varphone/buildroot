@@ -38,6 +38,12 @@ config BR2_PACKAGE_JPEG_TURBO
 
 	  http://www.libjpeg-turbo.org
 
+config BR2_PACKAGE_MPP_LIB
+	bool "mpp-lib"
+	select BR2_PACKAGE_HAS_JPEG
+	help
+	  Prebuild jpeg library from Hisilicon Hi3XXX, Hi6XXX sdks.
+
 endchoice
 
 config BR2_PACKAGE_HAS_JPEG
@@ -47,5 +53,6 @@ config BR2_PACKAGE_PROVIDES_JPEG
 	string
 	default "libjpeg"    if BR2_PACKAGE_LIBJPEG
 	default "jpeg-turbo" if BR2_PACKAGE_JPEG_TURBO
+	default "mpp-lib"   if BR2_PACKAGE_MPP_LIB
 
 endif
