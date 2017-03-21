@@ -1,0 +1,7 @@
+config BR2_PACKAGE_AAC_AUDIO_LIB
+	bool "aac-audio-lib"
+	depends on BR2_arm
+	depends on BR2_PACKAGE_TDC
+	help
+	  AAC Encoder/Decoder prebuild libraries for ARM, from Ambarella A5 BSP.
+
