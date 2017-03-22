@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LIBXD_MUXER
+	bool "libxd_muxer"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Legacy XianDian Media Muxing library for old system, like: Hi3531.
+
+config BR2_PACKAGE_LIBXD_MUXER_CUSTOM_VERSION
+	bool "libxd_muxer custom version"
+	depends on BR2_PACKAGE_LIBXD_MUXER
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBXD_MUXER_CUSTOM_VERSION_VALUE
+	string "libxd_muxer git tag version"
+	default "1.0.0"
+	depends on BR2_PACKAGE_LIBXD_MUXER_CUSTOM_VERSION
