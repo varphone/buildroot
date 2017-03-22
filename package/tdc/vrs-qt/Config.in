@@ -1,0 +1,19 @@
+comment "vrs-qt needs mpp-lib, qt, xpr"
+	depends on !BR2_PACKAGE_MPP_LIB || !BR2_PACKAGE_XPR || !BR2_PACKAGE_QT
+
+config BR2_PACKAGE_VRS_QT
+	bool "vrs-qt"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Video Recording System application for CVR-V1.
+
+config BR2_PACKAGE_VRS_QT_CUSTOM_VERSION
+	bool "vrs-qt custom version"
+	depends on BR2_PACKAGE_VRS_QT
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_VRS_QT_CUSTOM_VERSION_VALUE
+	string "vrs-qt git tag version"
+	default "1.0.0"
+	depends on BR2_PACKAGE_VRS_QT_CUSTOM_VERSION
