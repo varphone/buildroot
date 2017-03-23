@@ -30,7 +30,7 @@ config BR2_PACKAGE_JPEG_TURBO
 
 	  http://www.libjpeg-turbo.org
 
-config BR2_PACKAGE_MPP_LIB
+config BR2_PACKAGE_JPEG_MPP_LIB
 	bool "mpp-lib"
 	select BR2_PACKAGE_HAS_JPEG
 	help
