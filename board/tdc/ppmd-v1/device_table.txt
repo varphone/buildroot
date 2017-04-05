@@ -34,3 +34,4 @@
 /etc/profile				f	755	0	0	-	-	-	-	-
 /usr/sbin/factory-reset			f	755	0	0	-	-	-	-	-
 /var/empty/sshd				d	711	0	0	-	-	-	-	-
+/etc/monitrc				f	700	0	0	-	-	-	-	-
