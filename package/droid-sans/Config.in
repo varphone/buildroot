@@ -1,0 +1,23 @@
+config BR2_PACKAGE_DROID_SANS
+	bool "Droid Sans fonts"
+	help
+	  Droid Sans is a humanist sans serif typeface designed by
+	  Steve Matteson, Type Director of Ascender Corp. 
+
+	  http://www.droidfonts.com
+
+if BR2_PACKAGE_DROID_SANS
+
+config BR2_PACKAGE_DROID_SANS_REGULAR
+	bool "regular fonts"
+	default y
+
+config BR2_PACKAGE_DROID_SANS_BOLD
+	bool "bold fonts"
+	default y
+
+config BR2_PACKAGE_DROID_SANS_FALLBACK_FULL
+	bool "fallback full fonts"
+	default y
+
+endif
