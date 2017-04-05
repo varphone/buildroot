@@ -2,7 +2,7 @@
 
 FILE=${TARGET_DIR}/etc/os-release
 NAME="PPMD-V1"
-VERSION="$(git describe --abbrev=0 --tags)"
+VERSION="$(git describe --abbrev=7 --tags)"
 ID="ppmd-v1"
 VERSION_ID=${VERSION}
 PRETTY_NAME="${NAME} ${VERSION}"
