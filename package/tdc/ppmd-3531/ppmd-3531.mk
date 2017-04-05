@@ -48,6 +48,8 @@ endef
 
 define PPMD_3531_INSTALL_TARGET_CMDS
 	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
+	$(INSTALL) -d $(TARGET_DIR)/etc/ppmd/
+	$(INSTALL) -m 644 $(@D)/configs/*.json $(TARGET_DIR)/etc/ppmd/
 endef
 
 $(eval $(generic-package))
