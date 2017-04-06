@@ -1,0 +1,33 @@
+{
+  
+	"codecs": [
+		 {
+		 "channel":0,
+		  "codec":"h264",
+		  "fps":25,
+		  "bitrate":4000,
+		  "resolution":"1920x1080"
+		 },
+		 {
+		  "channel":1,
+		  "codec":"h264",
+		  "fps":25,
+		  "bitrate":4000,
+		  "resolution":"1920x1080"
+		 },
+		 {
+		  "channel":2,
+		  "codec":"h264",
+		  "fps":25,
+		  "bitrate":1000,
+		  "resolution":"720x576"
+		 },
+		 {
+		  "channel":3,
+		  "codec":"h264",
+		  "fps":25,
+		  "bitrate":1000,
+		  "resolution":"720x576"
+		 }
+		]
+}

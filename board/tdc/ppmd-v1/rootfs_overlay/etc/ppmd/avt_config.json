@@ -1,0 +1,56 @@
+
+{
+    "avt":[
+       { "block":1,"field":3,"format":1,"value":1},
+       { "block":2,"field":3,"format":1,"value":3},
+       { "block":2,"field":4,"format":1,"value":2},
+       { "block":2,"field":5,"format":1,"value":4},
+       { "block":2,"field":8,"format":1,"value":80},
+       { "block":2,"field":9,"format":1,"value":56},
+
+       { "block":3,"field":2,"format":1,"value":3},
+       { "block":3,"field":8,"format":1,"value":4},
+       { "block":3,"field":10,"format":1,"value":0},
+       { "block":3,"field":14,"format":1,"value":1},
+
+       { "block":4,"field":3,"format":2,"value":1.000},
+       { "block":4,"field":4,"format":2,"value":1.000},
+       { "block":4,"field":8,"format":2,"value":0.700},
+       { "block":4,"field":9,"format":1,"value":50},
+       { "block":4,"field":10,"format":2,"value":1.001},
+       { "block":4,"field":11,"format":2,"value":0.000},
+       { "block":4,"field":12,"format":1,"value":25},
+       { "block":4,"field":13,"format":2,"value":1.010},
+       { "block":4,"field":14,"format":2,"value":0.010},
+
+       { "block":14,"field":1,"format":1,"value":32},
+       { "block":14,"field":2,"format":1,"value":32},
+       { "block":14,"field":11,"format":2,"value":0.010},
+       { "block":14,"field":14,"format":2,"value":1.200},
+       { "block":14,"field":15,"format":2,"value":1.200},
+
+       { "block":15,"field":6,"format":2,"value":1.502},
+       { "block":15,"field":10,"format":2,"value":0.800},
+       { "block":15,"field":11,"format":1,"value":25},
+       { "block":15,"field":12,"format":2,"value":0.000},
+       { "block":15,"field":13,"format":1,"value":0},
+       { "block":15,"field":14,"format":1,"value":0.000},
+
+       { "block":16,"field":5,"format":1,"value":50},
+       { "block":16,"field":6,"format":1,"value":10},
+       { "block":16,"field":7,"format":2,"value":1.000},
+       { "block":16,"field":8,"format":1,"value":1},
+       { "block":24,"field":1,"format":1,"value":0},
+       { "block":27,"field":1,"format":1,"value":1},
+
+       { "block":53,"field":1,"format":2,"value":0.100},
+       { "block":53,"field":2,"format":2,"value":-0.010},
+       { "block":53,"field":3,"format":1,"value":3},
+       { "block":53,"field":4,"format":2,"value":10.023},
+       { "block":53,"field":5,"format":2,"value":0.003},
+       { "block":53,"field":6,"format":2,"value":120.145},
+       { "block":53,"field":7,"format":2,"value":4.002}
+
+     ]
+
+}

@@ -1,0 +1,75 @@
+{
+    "fov":[ 
+       { "block":24,"field":11,"format":1,"value":1},
+       { "block":24,"field":13,"format":1,"value":0},
+
+       { "block":25,"field":14,"format":2,"value":75.25},
+       { "block":25,"field":15,"format":2,"value":183.26},
+      
+       { "block":55,"field":4,"format":2,"value":360.0},
+       { "block":55,"field":8,"format":2,"value":144.0},
+       
+       { "block":55,"field":5,"format":2,"value":360.0},
+       { "block":55,"field":9,"format":2,"value":144.0},
+
+
+       { "block":27,"field":11,"format":1,"value":0},
+
+       { "block":28,"field":13,"format":2,"value":24829.00},
+       { "block":28,"field":12,"format":2,"value":22782.22},
+       { "block":28,"field":11,"format":2,"value":20746.21},
+       { "block":28,"field":10,"format":2,"value":18720.99},
+       { "block":28,"field":9,"format":2,"value":16696.39},
+       { "block":28,"field":8,"format":2,"value":14671.80},
+       { "block":28,"field":7,"format":2,"value":12646.57},
+       { "block":28,"field":6,"format":2,"value":10621.98},
+       { "block":28,"field":5,"format":2,"value":8597.38},
+       { "block":28,"field":4,"format":2,"value":6572.16},
+       { "block":28,"field":3,"format":2,"value":4547.57},
+       { "block":28,"field":2,"format":2,"value":2534.39},
+       { "block":28,"field":1,"format":2,"value":500.0},
+
+       { "block":29,"field":13,"format":2,"value":413.48},
+       { "block":29,"field":12,"format":2,"value":359.30},
+       { "block":29,"field":11,"format":2,"value":327.19},
+       { "block":29,"field":10,"format":2,"value":295.25},
+       { "block":29,"field":9,"format":2,"value":263.32},
+       { "block":29,"field":8,"format":2,"value":231.39},
+       { "block":29,"field":7,"format":2,"value":199.45},
+       { "block":29,"field":6,"format":2,"value":167.52},
+       { "block":29,"field":5,"format":2,"value":135.59},
+       { "block":29,"field":4,"format":2,"value":103.65},
+       { "block":29,"field":3,"format":2,"value":71.72},
+       { "block":29,"field":2,"format":2,"value":39.79},
+       { "block":29,"field":1,"format":2,"value":5.60},
+
+
+       { "block":59,"field":13,"format":2,"value":360.0},
+       { "block":59,"field":12,"format":2,"value":360.0},
+       { "block":59,"field":11,"format":2,"value":360.0},
+       { "block":59,"field":10,"format":2,"value":360.0},
+       { "block":59,"field":9,"format":2,"value":360.0},
+       { "block":59,"field":8,"format":2,"value":360.0},
+       { "block":59,"field":7,"format":2,"value":360.0},
+       { "block":59,"field":6,"format":2,"value":360.0},
+       { "block":59,"field":5,"format":2,"value":360.0},
+       { "block":59,"field":4,"format":2,"value":360.0},
+       { "block":59,"field":3,"format":2,"value":360.0},
+       { "block":59,"field":2,"format":2,"value":360.0},
+       { "block":59,"field":1,"format":2,"value":360.0},
+
+       { "block":60,"field":13,"format":2,"value":144.0},
+       { "block":60,"field":12,"format":2,"value":144.0},
+       { "block":60,"field":11,"format":2,"value":144.0},
+       { "block":60,"field":10,"format":2,"value":144.0},
+       { "block":60,"field":9,"format":2,"value":144.0},
+       { "block":60,"field":8,"format":2,"value":144.0},
+       { "block":60,"field":7,"format":2,"value":144.0},
+       { "block":60,"field":6,"format":2,"value":144.0},
+       { "block":60,"field":5,"format":2,"value":144.0},
+       { "block":60,"field":4,"format":2,"value":144.0},
+       { "block":60,"field":3,"format":2,"value":144.0},
+       { "block":60,"field":2,"format":2,"value":144.0},
+       { "block":60,"field":1,"format":2,"value":144.0}
+     ]
+}

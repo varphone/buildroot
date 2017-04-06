@@ -1,0 +1,21 @@
+{
+	"capturing": { 
+		"algo": 0,
+		"autoWindow": false,
+		"fixedWindow": [100, 100, 20, 20]
+	},
+
+	"tracking":{
+		"algo": 0,
+		"autoWindow": false,
+		"fixedWindow": [100, 100, 20, 20]
+	},
+	"mode": {
+		"mode": 1,
+		"radarVectoring": true
+	},
+	"locking":{
+		"locked": true,
+		"targetId": 0
+	}
+}
