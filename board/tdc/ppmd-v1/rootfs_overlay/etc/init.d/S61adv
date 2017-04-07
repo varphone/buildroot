@@ -11,7 +11,7 @@ config() {
 
 	# 7182芯片配置：
 	# Test ADV7182
-	${I2CG} ${ADV7182} 0x00 > /dev/null 2>&1
+	${I2CG} ${ADV7182_ADDR} 0x00 > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		${I2CL} /etc/ppmd/adv7182.conf
 	fi
@@ -19,7 +19,7 @@ config() {
 
 	# 7340芯片配置
 	# Test ADV7340
-	${I2CG} ${ADV7430} 0x00 > /dev/null 2>&1
+	${I2CG} ${ADV7430_ADDR} 0x00 > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		${I2CL} /etc/ppmd/adv7430.conf
 	fi
