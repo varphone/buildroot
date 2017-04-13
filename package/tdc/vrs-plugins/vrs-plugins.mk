@@ -1,0 +1,47 @@
+################################################################################
+#
+# vrs-plugins
+#
+################################################################################
+
+ifeq ($(BR2_PACKAGE_VRS_PLUGINS_CUSTOM_VERSION),y)
+VRS_PLUGINS_VERSION = $(call qstrip, $(BR2_PACKAGE_VRS_PLUGINS_CUSTOM_VERSION_VALUE))
+else
+VRS_PLUGINS_VERSION = 1.0.1
+endif
+VRS_PLUGINS_SOURCE = vrs-plugins-$(VRS_PLUGINS_VERSION).tar.xz
+VRS_PLUGINS_SITE = https://10.0.2.2/cgit/rdst/vrs-plugins.git/snapshot
+VRS_PLUGINS_STRIP_COMPONENTS = 1
+VRS_PLUGINS_INSTALL_STAGING = YES
+VRS_PLUGINS_LICENSE = GPLv2
+VRS_PLUGINS_LICENSE_FILES =
+VRS_PLUGINS_DEPENDENCIES = libmal libxd_stream expat xpr
+
+VRS_PLUGINS_CFLAGS = $(TARGET_CFLAGS) $(TARGET_LDFLAGS)
+VRS_PLUGINS_CXXFLAGS = $(TARGET_CXXFLAGS) $(TARGET_LDFLAGS)
+
+VRS_PLUGINS_MAKE_ENV = \
+ CROSS_COMPILE=$(TARGET_CROSS)\
+ CC="$(TARGET_CC)"\
+ CXX="$(TARGET_CXX)"\
+ CFLAGS="$(TARGET_CFLAGS)"\
+ CXXFLAGS="$(TARGET_CXXFLAGS)"\
+ LDFLAGS="$(TARGET_LDFLAGS)"\
+ PKG_CONFIG="$(PKG_CONFIG_HOST_BINARY)"
+
+define VRS_PLUGINS_CONFIGURE_CMDS
+endef
+
+define VRS_PLUGINS_BUILD_CMDS
+	$(MAKE1) $(VRS_PLUGINS_MAKE_ENV) -C $(@D) clean all
+endef
+
+define VRS_PLUGINS_INSTALL_STAGING_CMDS
+	$(MAKE1) $(VRS_PLUGINS_MAKE_ENV) -C $(@D) install DESTDIR=$(STAGING_DIR) PREFIX=/usr
+endef
+
+define VRS_PLUGINS_INSTALL_TARGET_CMDS
+	$(MAKE1) $(VRS_PLUGINS_MAKE_ENV) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
+endef
+
+$(eval $(generic-package))
