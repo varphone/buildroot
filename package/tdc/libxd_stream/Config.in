@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LIBXD_STREAM
+	bool "libxd_stream"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Legacy XianDian RTSP Streamming library for old system, like: Hi3531.
+
+config BR2_PACKAGE_LIBXD_STREAM_CUSTOM_VERSION
+	bool "libxd_stream custom version"
+	depends on BR2_PACKAGE_LIBXD_STREAM
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBXD_STREAM_CUSTOM_VERSION_VALUE
+	string "libxd_stream git tag version"
+	default "4.2.0"
+	depends on BR2_PACKAGE_LIBXD_STREAM_CUSTOM_VERSION
