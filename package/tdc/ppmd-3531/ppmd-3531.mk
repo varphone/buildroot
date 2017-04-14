@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION),y)
 PPMD_3531_VERSION = $(call qstrip, $(BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION_VALUE))
 else
-PPMD_3531_VERSION = 1.1.1
+PPMD_3531_VERSION = 1.1.3
 endif
 PPMD_3531_SOURCE = ppmd-3531-$(PPMD_3531_VERSION).tar.bz2
 PPMD_3531_SITE = https://10.0.2.2/cgit/rdst/ppmd-3531.git/snapshot
@@ -48,6 +48,8 @@ endef
 
 define PPMD_3531_INSTALL_TARGET_CMDS
 	$(MAKE1) $(PPMD_3531_MAKE_ENV) -C $(@D) install-bin DESTDIR=$(TARGET_DIR) PREFIX=/usr
+	$(INSTALL) -d $(TARGET_DIR)/etc/ppmd/
+	$(INSTALL) -m 644 $(@D)/configs/*.json $(TARGET_DIR)/etc/ppmd/
 endef
 
 $(eval $(generic-package))
