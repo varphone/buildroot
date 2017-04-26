@@ -5,6 +5,7 @@ ADV7430_ADDR=0x6b
 
 I2CG="i2cget -f -y 0"
 I2CL="i2cload -f -y -8 0"
+I2CS="i2cset -f -y 0"
 
 config() {
 	echo "Configure ADV7182 and ADV7430 ..."
@@ -13,6 +14,9 @@ config() {
 	# Test ADV7182
 	${I2CG} ${ADV7182_ADDR} 0x00 > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
+		# Reset the chip
+		${I2CS} ${ADV7182_ADDR} 0x0F 0x80
+		usleep 200000;
 		${I2CL} /etc/ppmd/adv7182.conf
 	fi
 
