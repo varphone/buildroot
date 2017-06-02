@@ -82,7 +82,7 @@ BuildScript "${SCRIPT_DIR}/boot-usb.cmd" "${BINARIES_DIR}/boot-usb.scr"
 BuildScript "${SCRIPT_DIR}/update.cmd" "${BINARIES_DIR}/update.scr"
 BuildScript "${SCRIPT_DIR}/update-boot.cmd" "${BINARIES_DIR}/update-boot.scr"
 BuildScript "${SCRIPT_DIR}/update-rootfs.cmd" "${BINARIES_DIR}/update-rootfs.scr"
-BuildScript "${SCRIPT_DIR}/upadte-uboot.cmd" "${BINARIES_DIR}/update-uboot.scr"
+BuildScript "${SCRIPT_DIR}/update-uboot.cmd" "${BINARIES_DIR}/update-uboot.scr"
 BuildScript "${SCRIPT_DIR}/update-usb.cmd" "${BINARIES_DIR}/update-usb.scr"
 
 # Gen boot.vfat image
