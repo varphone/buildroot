@@ -33,6 +33,12 @@ usr/lib/libexpat.so.1.6.2
 usr/lib/libext2fs.so
 usr/lib/libext2fs.so.2
 usr/lib/libext2fs.so.2.4
+usr/lib/libf2fs.so
+usr/lib/libf2fs.so.0
+usr/lib/libf2fs.so.0.0.1
+usr/lib/libf2fs_format.so
+usr/lib/libf2fs_format.so.0
+usr/lib/libf2fs_format.so.0.0.1
 usr/lib/libssl.so
 usr/lib/libssl.so.1.0.0
 usr/lib/libstdc++.so
