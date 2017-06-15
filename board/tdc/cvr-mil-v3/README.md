@@ -4,8 +4,8 @@
 
 ## GnuPG 信息
 
-- 默认标识：`rdst-ppmd-v1`
-- 证书密码：`Wg5tBuDM`
+- 默认标识：`cvr-mil-v3`
+- 证书密码：`kwxBpdZy`
 
 ## eMMC 分区
 
@@ -25,7 +25,7 @@
 ### Update u-boot
 
 ```
-tftp ${loadaddr} cvr-mil-v3/images/u-boot.imx
+tftp ${loadaddr} ${tftproot}u-boot.imx
 sf probe 1
 sf erase 0 0x200000
 sf write ${loadaddr} 0x400 0x80000
@@ -36,7 +36,7 @@ reset
 
 ```
 mmc dev 1
-tftp ${loadaddr} cvr-mil-v3/images/boot.vfat
+tftp ${loadaddr} ${tftproot}boot.vfat
 mmc write ${loadaddr} 0x5000 0x20000
 reset
 ```
@@ -44,7 +44,7 @@ reset
 ### Update rootfs
 
 ```
-tftp ${loadaddr} ppmd-v1/images/rootfs.squashfs
+tftp ${loadaddr} ${tftproot}rootfs.squashfs
 nand erase f00000 1e00000
 nand write ${loadaddr} f00000 ${filesize}
 setenv rootfssize ${filesize}
