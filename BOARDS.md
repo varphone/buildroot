@@ -14,7 +14,7 @@
 
 ### 版本分支
 
-由于各个不同板型，可能需要在 master 代码树的基础上进行裁减或修改，因此各个板型的代码都有自己的专属分支来存放这些差异内容。
+由于各个不同板型，可能需要在 2017.02.y 代码树的基础上进行裁减或修改，因此各个板型的代码都有自己的专属分支来存放这些差异内容。
 
 在构建不同的板型时，需要检出相应的分支代码。
 
@@ -149,4 +149,41 @@ make O=/opt/tdc/ppmd-v1 source WGET_USER=... WGET_PASSWORD=...
 make O=/opt/tdc/ppmd-v1
 ```
 
+## Board: tdc/cvr-v1
+
+车载视频记录仪(第一版)，基于 Hi3531 平台构建。
+
+[详细资料](board/tdc/cvr-v1/README.md)
+
+### Prepare
+
+执行 `Build` 之前，请确认当前代码库是否已经处于 `cvr-v1` 分支，如果没有，执行 `git checkout cvr-v1` 检出。
+
+
+### Build
+
+```
+make O=/opt/tdc/cvr-v1 tdc_cvr_v1_defconfig
+make O=/opt/tdc/cvr-v1 source WGET_USER=... WGET_PASSWORD=...
+make O=/opt/tdc/cvr-v1
+```
+
+## Board: tdc/cvr-mil-v2
+
+军用车载行车记录仪，第二版，采用投影方式呈现，基于 `IMX6Q+Qt5.6` 构建。
+
+[详细资料](board/tdc/cvr-mil-v2/README.md)
+
+### Prepare
+
+执行 `Build` 之前，请确认当前代码库是否已经处于 `cvr-mil-v2` 分支，如果没有，执行 `git checkout cvr-mil-v2` 检出。
+
+
+### Build
+
+```
+make O=/opt/tdc/cvr-mil-v2-4.1.15 tdc_cvr_mil_v2_4.1.15_defconfig
+make O=/opt/tdc/cvr-mil-v2-4.1.15 source WGET_USER=... WGET_PASSWORD=...
+make O=/opt/tdc/cvr-mil-v2-4.1.15
+```
 
