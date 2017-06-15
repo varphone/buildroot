@@ -161,7 +161,7 @@ enter_overlayfs()
 	# Mout overlayfs
 	mkdir -p /system
 	KERNEL_REL=$(uname -r)
-	if [ "${KERNEL_REL}" = "4.1.15" ]; then
+	if [ "${KERNEL_REL#4.1.15}" != "${KERNEL_REL}" ]; then
 		mkdir -p /system-overlay/upper
 		mkdir -p /system-overlay/work
 		mount -t overlay overlay -o exec,lowerdir=/system-origin,upperdir=/system-overlay/upper,workdir=/system-overlay/work /system
