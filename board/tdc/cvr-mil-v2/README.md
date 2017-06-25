@@ -59,3 +59,29 @@ tftp ${loadaddr} ${bootfile}
 bootm
 ```
 
+## 更新 BOOT 文件
+
+由于最终产品并没有网络接口，因此在开发、测试需要更新 `BOOT` 分区中的文件时，会有些不便。
+
+目前支持的更新方式有两种：
+
+1. 使用 `MFG` 工具书写 `BOOT` 分区。
+2. 使用 `g_mass_storage` 将 `BOOT` 分区虚拟为一个移动磁盘，然后在此盘中更新文件。
+
+方式 1 请参照 IMX MFG 工具的使用手册。
+
+方式 2 请参照以下步骤来实施：
+
+1. 在设备 shell 中运行以下命令：
+
+```sh
+modprobe g_mass_storage file=/dev/mmcblk3p1 stall=0 removable=1
+```
+
+2. 使用 `USB` 连接线将 `USB OTG` 口连接到电脑上。
+3. 当 `USB` 连接到电脑上时，你会看到一个可移动磁盘。
+4. 将需要更新的文件复制到移动磁盘中。
+5. 弹出移动磁盘。
+6. 在设备的 `shell` 中执行 `sync` 命令。
+7. 重启设备以便生效。
+
