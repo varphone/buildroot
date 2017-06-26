@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+# 
 # Start ppmd
 #
 
@@ -9,7 +9,9 @@ PIDFILE=/var/run/ppmd.pid
 
 case "$1" in
 	start)
-		echo "Starting ${NAME} ..."
+		echo "Starting ${NAME} ..."		
+		#reset vi interrupt
+		himm 0x2003002c 0xa8a8a0ff
 		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON}
 		;;
 	stop)
