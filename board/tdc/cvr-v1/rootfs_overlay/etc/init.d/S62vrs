@@ -1,0 +1,25 @@
+#!/bin/sh
+config() {
+	echo "Configure QT environment..."
+	export QWS_DISPLAY="LinuxFb:/dev/fb4"
+	export QT_PLUGIN_PATH="/usr/lib/qt/plugins"
+	export QT_QWS_FONTDIR="/usr/lib/fonts"
+	vrs -qws
+}
+
+case $1 in
+	start)
+		config
+		;;
+	stop)
+		;;
+	reload|restart)
+		 config
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart]"
+		exit 1
+		;;
+esac
+
+exit $?
