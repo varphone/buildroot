@@ -21,6 +21,7 @@ if [[ "${BUILD_INITRD}" = "y" ]]; then
 	echo "### Cleanup initramfs if exists"
 	rm "${BINARIES_DIR}/initrd.cpio"
 	rm "${BINARIES_DIR}/initrd.cpio.gz"
+	rm "${BINARIES_DIR}/initrd.cpio.lz4"
 	rm "${BINARIES_DIR}/initrd.cpio.lzo"
 	rm "${BINARIES_DIR}/initrd.cpio.xz"
 	rm -rf "${BINARIES_DIR}/initramfs"
@@ -43,6 +44,9 @@ if [[ "${BUILD_INITRD}" = "y" ]]; then
 
 	echo "### Compress with gzip ..."
 	gzip -c "${BINARIES_DIR}/initrd.cpio" > "${BINARIES_DIR}/initrd.cpio.gz"
+
+	echo "### Compress with lz4 ..."
+	lz4 -9 -l -f "${BINARIES_DIR}/initrd.cpio" "${BINARIES_DIR}/initrd.cpio.lz4"
 
 	echo "### Compress with lzo ..."
 	lzop -9 -o "${BINARIES_DIR}/initrd.cpio.lzo" "${BINARIES_DIR}/initrd.cpio"
