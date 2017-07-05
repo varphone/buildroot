@@ -1,9 +1,11 @@
 #!/bin/sh
 config() {
-	echo "Configure QT environment..."
+	echo "Configure QT environment..."	
 	export QWS_DISPLAY="LinuxFb:/dev/fb4"
+	export QWS_DEPTH=32
 	export QT_PLUGIN_PATH="/usr/lib/qt/plugins"
-	export QT_QWS_FONTDIR="/usr/lib/fonts"
+    export QT_QWS_FONTDIR="/usr/lib/fonts"
+	#export QWS_MOUSE_PROTO=IntelliMouse:/dev/input/mice
 	vrs -qws
 }
 
