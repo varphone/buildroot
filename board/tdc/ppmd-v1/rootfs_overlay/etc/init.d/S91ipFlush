@@ -6,6 +6,8 @@ flush()
       do
           netstat -ntl 2> /dev/null | grep -q ':554.*LISTEN'
       done
+#  sleep 2
+  ifconfig eth0 up 
   iptables --flush
 }
 case $1 in
