@@ -1,0 +1,19 @@
+comment "cvr-mil-qt needs gstreamer1, gst1-imx1, qt"
+	depends on !BR2_PACKAGE_GSTREAMER1 || !BR2_PACKAGE_GST1_IMX || !BR2_PACKAGE_QT5
+
+config BR2_PACKAGE_CVR_MIL_QT
+	bool "cvr-mil-qt"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Car Video Recording System application for military devices.
+
+config BR2_PACKAGE_CVR_MIL_QT_CUSTOM_VERSION
+	bool "cvr-mil-qt custom version"
+	depends on BR2_PACKAGE_CVR_MIL_QT
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_CVR_MIL_QT_CUSTOM_VERSION_VALUE
+	string "cvr-mil-qt git tag version"
+	default "2.0.0"
+	depends on BR2_PACKAGE_CVR_MIL_QT_CUSTOM_VERSION
