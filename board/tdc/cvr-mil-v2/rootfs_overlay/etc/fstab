@@ -8,3 +8,4 @@ tmpfs		/run		tmpfs	mode=0755,nosuid,nodev	0	0
 sysfs		/sys		sysfs	defaults	0	0
 /dev/mmcblk3p1	/boot		vfat	ro,defaults	0	1
 /dev/mmcblk3p3	/misc		ext2	rw,defaults	0	1
+/dev/mmcblk3p6	/var/lib/dcim	vfat	rw,defaults	0	1
