@@ -1,0 +1,5 @@
+#!/bin/sh
+
+modprobe -r g_mass_storage
+mount -t vfat /tmp/64m.vfat /mnt
+
