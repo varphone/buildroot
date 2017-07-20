@@ -1,0 +1,6 @@
+#!/bin/sh
+
+umount /tmp/64m.vfat
+modprobe -r g_mass_storage
+modprobe g_mass_storage file=/tmp/64m.vfat stall=0 removable=1
+
