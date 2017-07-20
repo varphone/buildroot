@@ -1,0 +1,5 @@
+#!/bin/sh
+
+dd if=/dev/zero of=/tmp/64m.vfat bs=1M count=64
+mkfs.vfat /tmp/64m.vfat
+
