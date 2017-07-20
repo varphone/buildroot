@@ -5,6 +5,7 @@ menuconfig BR2_PACKAGE_TDC
 
 if BR2_PACKAGE_TDC
 source "package/tdc/aac-audio-lib/Config.in"
+source "package/tdc/cvr-mil-qt/Config.in"
 source "package/tdc/etlmd-ia/Config.in"
 source "package/tdc/etlmd-ia-bgp/Config.in"
 source "package/tdc/etlmd-ia-data/Config.in"
