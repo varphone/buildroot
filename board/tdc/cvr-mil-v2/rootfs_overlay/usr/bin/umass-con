@@ -1,6 +1,10 @@
 #!/bin/sh
 
-umount /tmp/64m.vfat
+if [ ! -f /tmp/64m.vfat ]; then
+	umass-pre
+fi
+
+umount /mnt
 modprobe -r g_mass_storage
 modprobe g_mass_storage file=/tmp/64m.vfat stall=0 removable=1
 

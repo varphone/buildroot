@@ -1,5 +1,14 @@
 #!/bin/sh
 
+if [ ! -f /tmp/64m.vfat ]; then
+	umass-pre
+fi
+
 modprobe -r g_mass_storage
-mount -t vfat /tmp/64m.vfat /mnt
+
+grep -q "/mnt" /proc/mounts
+
+if [ $? -ne 0 ]; then
+	mount -t vfat /tmp/64m.vfat /mnt
+fi
 
