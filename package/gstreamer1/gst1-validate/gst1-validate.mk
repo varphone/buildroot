@@ -4,7 +4,11 @@
 #
 ################################################################################
 
+<<<<<<< HEAD
 GST1_VALIDATE_VERSION = 1.10.3
+=======
+GST1_VALIDATE_VERSION = 1.12.2
+>>>>>>> adb6d291c8... gst1-validate: bump version to 1.12.2
 GST1_VALIDATE_SOURCE = gst-validate-$(GST1_VALIDATE_VERSION).tar.xz
 GST1_VALIDATE_SITE = https://gstreamer.freedesktop.org/src/gst-validate
 GST1_VALIDATE_LICENSE = LGPLv2.1+
