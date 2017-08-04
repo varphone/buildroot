@@ -9,8 +9,7 @@ PIDFILE=/var/run/ppmd.pid
 
 case "$1" in
 	start)
-		echo "Starting ${NAME} ..."
-                ifconfig eth0 down
+		echo "Starting ${NAME} ..."                
 		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON}
 		;;
 	stop)

@@ -4,6 +4,7 @@ reject()
   iptables --flush
 #  iptables -A INPUT -p tcp --dport 554 -j REJECT
   iptables -A INPUT -j REJECT
+  ifconfig eth0 down
 }
 case $1 in
 	start)
