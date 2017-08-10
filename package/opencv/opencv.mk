@@ -4,11 +4,13 @@
 #
 ################################################################################
 
-OPENCV_VERSION = 2.4.13.2
-OPENCV_SITE = $(call github,itseez,opencv,$(OPENCV_VERSION))
+OPENCV_VERSION = 2.4.13.3
+OPENCV_SOURCE = opencv-$(OPENCV_VERSION).tar.gz
+OPENCV_SITE = https://10.0.2.2/cgit/rdst/opencv.git/snapshot
 OPENCV_INSTALL_STAGING = YES
 OPENCV_LICENSE = BSD-3c
 OPENCV_LICENSE_FILES = LICENSE
+OPENCV_SUPPORTS_IN_SOURCE_BUILD = NO
 
 # OpenCV component options
 OPENCV_CONF_OPTS += \
