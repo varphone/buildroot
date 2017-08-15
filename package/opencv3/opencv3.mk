@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-OPENCV3_VERSION = 3.2.0
+OPENCV3_VERSION = 3.3.0
 OPENCV3_SOURCE = opencv-$(OPENCV3_VERSION).tar.gz
 OPENCV3_SITE = https://10.0.2.2/cgit/rdst/opencv.git/snapshot
 OPENCV3_INSTALL_STAGING = YES
