@@ -5,10 +5,12 @@
 ################################################################################
 
 OPENCV3_VERSION = 3.2.0
-OPENCV3_SITE = $(call github,opencv,opencv,$(OPENCV3_VERSION))
+OPENCV3_SOURCE = opencv-$(OPENCV3_VERSION).tar.gz
+OPENCV3_SITE = https://10.0.2.2/cgit/rdst/opencv.git/snapshot
 OPENCV3_INSTALL_STAGING = YES
 OPENCV3_LICENSE = BSD-3c
 OPENCV3_LICENSE_FILES = LICENSE
+OPENCV3_SUPPORTS_IN_SOURCE_BUILD = NO
 
 # Uses __atomic_fetch_add_4
 ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
