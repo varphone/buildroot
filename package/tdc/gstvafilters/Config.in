@@ -1,0 +1,19 @@
+comment "gstvafilters needs gstreamer1, gst1-plugins-base"
+	depends on !BR2_PACKAGE_GSTREAMER1 || !BR2_PACKAGE_GST1_PLUGINS_BASE
+
+config BR2_PACKAGE_GSTVAFILTERS
+	bool "gstvafilters"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Video Analysis Filters for GStreamer 1.0.
+
+config BR2_PACKAGE_GSTVAFILTERS_CUSTOM_VERSION
+	bool "gstvafilters custom version"
+	depends on BR2_PACKAGE_GSTVAFILTERS
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_GSTVAFILTERS_CUSTOM_VERSION_VALUE
+	string "gstvafilters git tag version"
+	default "1.0.0"
+	depends on BR2_PACKAGE_GSTVAFILTERS_CUSTOM_VERSION
