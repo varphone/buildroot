@@ -2,7 +2,7 @@
 flush()
 {
   netstat -ntl 2> /dev/null | grep -q ':554.*LISTEN'
-  while [$? -ne 0]
+  while [ $? -ne 0 ];then
       do
           netstat -ntl 2> /dev/null | grep -q ':554.*LISTEN'
       done
