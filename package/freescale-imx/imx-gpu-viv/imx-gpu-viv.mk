@@ -125,6 +125,8 @@ define IMX_GPU_VIV_INSTALL_TARGET_CMDS
 			esac; \
 		done; \
 	done
+	$(RM) $(TARGET_DIR)/usr/lib/libGAL.fb.so
+	$(RM) $(TARGET_DIR)/usr/lib/libVIVANTE.fb.so
 endef
 
 $(eval $(generic-package))
