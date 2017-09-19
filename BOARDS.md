@@ -187,3 +187,25 @@ make O=/opt/tdc/cvr-mil-v2-4.1.15 source WGET_USER=... WGET_PASSWORD=...
 make O=/opt/tdc/cvr-mil-v2-4.1.15
 ```
 
+## Board: tdc/lcds-500-ii
+
+数字像源，第一版，基于 phyCORE i.MX6Q 构建。
+
+主要功能是图形渲染及 CAN 通信。
+
+
+[详细资料](board/tdc/lcds-500-ii/README.md)
+
+### Prepare
+
+执行 `Build` 之前，请确认当前代码库是否已经处于 `lcds-500-ii` 分支，如果没有，执行 `git checkout lcds-500-ii` 检出。
+
+
+### Build
+
+```
+make O=/opt/tdc/lcds-500-ii tdc_lcds_500_ii_defconfig
+make O=/opt/tdc/lcds-500-ii source WGET_USER=... WGET_PASSWORD=...
+make O=/opt/tdc/lcds-500-ii
+```
+
