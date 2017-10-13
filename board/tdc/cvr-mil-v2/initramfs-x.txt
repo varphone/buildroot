@@ -1,10 +1,12 @@
 etc/fonts
 linuxrc
 usr/bin/dvb*
+usr/bin/cec-*
+usr/bin/cvr-mil-qt
 usr/bin/fb*
 usr/bin/fb-*
 usr/bin/fc-*
-usr/bin/ffmpeg
+usr/bin/ff*
 usr/bin/gapplication
 usr/bin/gdbserver
 usr/bin/gdbus
@@ -12,6 +14,7 @@ usr/bin/gio
 usr/bin/gio-querymodules
 usr/bin/gresource
 usr/bin/gsettings
+usr/bin/gst-*
 usr/bin/hb-*
 usr/bin/hexdump
 usr/bin/h264encode
@@ -19,6 +22,7 @@ usr/bin/img*
 usr/bin/jasper
 usr/bin/jpegenc
 usr/bin/jsc
+usr/bin/ltrace
 usr/bin/mpeg2vaenc
 usr/bin/openssl
 usr/bin/pango-view
@@ -32,6 +36,7 @@ usr/bin/scp
 usr/bin/sftp
 usr/bin/sqlite3
 usr/bin/ssh*
+usr/bin/strace
 usr/bin/ts_*
 usr/bin/v4l2-*
 usr/bin/vainfo
