@@ -12,3 +12,7 @@ if [ $? -ne 0 ]; then
 	mount -t vfat /tmp/64m.vfat /mnt
 fi
 
+if [ -x ${HOME}/.umass-mnt-hook ]; then
+	sh ${HOME}/.umass-mnt-hook
+fi
+
