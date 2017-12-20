@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GST1_IMX_VERSION = 0.12.4-R2
+GST1_IMX_VERSION = 0.12.4-R3
 GST1_IMX_SITE = https://10.0.2.2/cgit/rdst/gstreamer-imx.git/snapshot
 GST1_IMX_SOURCE = gstreamer-imx-$(GST1_IMX_VERSION).tar.xz
 GST1_IMX_STRIP_COMPONENTS = 1
@@ -89,6 +89,13 @@ ifeq ($(BR2_PACKAGE_GST1_IMX_V4L2VIDEOSRC),y)
 GST1_IMX_DEPENDENCIES += gst1-plugins-bad
 else
 GST1_IMX_CONF_OPTS += --disable-v4l2src
+endif
+
+ifeq ($(BR2_PACKAGE_LIBPAVO),y)
+# There's no --enable-pavo option
+GST1_IMX_DEPENDENCIES += libpavo
+else
+GST1_IMX_CONF_OPTS += --disable-pavo
 endif
 
 $(eval $(waf-package))
