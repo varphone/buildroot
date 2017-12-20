@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LIBPAVO
+	bool "libpavo"
+	depends on BR2_PACKAGE_TDC
+	help
+	  OpenGL ES 2.0/3.0 helper library.
+
+config BR2_PACKAGE_LIBPAVO_CUSTOM_VERSION
+	bool "libpavo custom version"
+	depends on BR2_PACKAGE_LIBPAVO
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBPAVO_CUSTOM_VERSION_VALUE
+	string "libpavo git tag version"
+	default "1.0.0"
+	depends on BR2_PACKAGE_LIBPAVO_CUSTOM_VERSION
