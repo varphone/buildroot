@@ -1,3 +1,2 @@
 # locally computed hash
-sha256 999c093e38768e51d14abbe7836c09b666bcb89f03f34dd3697a6e5b5e4a4086  gst1-imx-0.12.3.tar.gz
-sha256 672165b4987d4d508d3d6d3bad0dfac1f669e79e88ea79bf9eeec329d1c196c7  gstreamer-imx-0.12.4-R3.tar.xz
+sha256 b82bc5b0809ab3e7d6e2d73471f5e1403fbbe2238842393b0bb91a1b42b06bb6  gstreamer-imx-0.13.0-R1.tar.xz
