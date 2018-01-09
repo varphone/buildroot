@@ -1,0 +1,12 @@
+#!/bin/sh
+
+
+SCRIPT_DIR=$(dirname $(realpath -s "$0"))
+export GNUPGHOME=${SCRIPT_DIR}/rootfs_overlay/etc/gnupg
+
+echo "========================================================================"
+echo "= Decrypt with GNUPGOME: ${GNUPGHOME}"
+echo "= $*"
+echo "========================================================================"
+gpg -d $*
+
