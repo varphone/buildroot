@@ -3,27 +3,24 @@ cvr-mil-v2
 
 技术开发公司研发部自行研发的嵌入式产品各种板型说明。
 
-
 目录说明
 --------
 
 - `/board/tdc/` 技术开发公司的板型目录。
-- `/board/myzr/` 明远智睿的板型目录。
 - `/configs/` 存放各个板型默认配置文件的目录。
-
 
 开发备注
 --------
 
 ### 版本分支
 
-由于各个不同板型，可能需要在 2017.11-tdc 代码树的基础上进行裁减或修改，因此各个板型的代码都有自己的专属分支来存放这些差异内容。
+由于各个不同板型，可能需要在 `2017.11-tdc` 代码树的基础上进行裁减或修改，因此各个板型的代码都有自己的专属分支来存放这些差异内容。
 
 在构建不同的板型时，需要检出相应的分支代码。
 
 > 例如要构建 CVR-MIL-V2 设备的系统
 
-> ```
+> ```sh
 git checkout 2017.11-cvr-mil-v2
 make O=/opt/tdc/2017.11-cvr-mil-v2 ......
 ```
@@ -42,7 +39,7 @@ make O=/opt/tdc/2017.11-cvr-mil-v2 ......
 
 为了防止用户名及密码泄露，我们会使用 make 变量的方式来传递用户名及密码给 buildroot，方法是：
 
-```
+```sh
 make ... WGET_USER=xxx WGET_PASSWORD=xxxx
 ```
 
@@ -51,7 +48,7 @@ make ... WGET_USER=xxx WGET_PASSWORD=xxxx
 
 **例如：**
 
-```
+```sh
 make O=/opt/company/board source WGET_USER=A000 WGET_PASSWORD=123456
 ```
 
@@ -60,7 +57,6 @@ make O=/opt/company/board source WGET_USER=A000 WGET_PASSWORD=123456
 在配置板型时，需要在 `Buildroot` 的 `menuconfig` 中设置 `Build Options -> Commands -> Wget command`。
 
 在其命令参数行中添加：`--user=${WGET_USER} --password=${WGET_PASSWORD}`
-
 
 ### 使用本地开发目录进行编译
 
@@ -74,17 +70,15 @@ make O=/opt/company/board source WGET_USER=A000 WGET_PASSWORD=123456
 - `PACKAGE` 为包的名称，例如：`linux`, `libxxx`, 等等。
 - `DIR` 为包的源代码所在的目录。
 
-
 **示例：**
 
-```
+```file
 # local.mk
 
 LINUX_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/linux-stable
 UBOOT_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/u-boot
 #CVR_MIL_QT_OVERRIDE_SRCDIR = /home/varphone/workspace/projects/cvr-mil-qt
 #GSTVAFILTERS_OVERRIDE_SRCDIR = /home/varphone/workspace/projects/gstvafilters
-
 ```
 
 Board: cvr-mil-v2
