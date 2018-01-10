@@ -91,4 +91,11 @@ else
 GST1_IMX_CONF_OPTS += --disable-v4l2src
 endif
 
+ifeq ($(BR2_PACKAGE_LIBPAVO),y)
+# There's no --enable-pavo option
+GST1_IMX_DEPENDENCIES += libpavo
+else
+GST1_IMX_CONF_OPTS += --disable-pavo
+endif
+
 $(eval $(waf-package))
