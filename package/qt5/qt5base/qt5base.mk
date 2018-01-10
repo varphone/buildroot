@@ -255,7 +255,9 @@ QT5BASE_ARCH_CONFIG_FILE = $(@D)/mkspecs/devices/linux-buildroot-g++/arch.conf
 ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC)$(BR2_PACKAGE_QT5_VERSION_LATEST),yy)
 # Qt 5.8 needs atomics, which on various architectures are in -latomic
 define QT5BASE_CONFIGURE_ARCH_CONFIG
-	printf 'LIBS += -latomic\n' >$(QT5BASE_ARCH_CONFIG_FILE)
+	if ! grep -q '\-latomic' $(QT5BASE_ARCH_CONFIG_FILE) ; then \
+		printf 'LIBS += -latomic\n' >>$(QT5BASE_ARCH_CONFIG_FILE) ; \
+	fi
 endef
 endif
 
