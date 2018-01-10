@@ -51,4 +51,11 @@ define GST1_IMX_INSTALL_TARGET_CMDS
 		install
 endef
 
-$(eval $(generic-package))
+ifeq ($(BR2_PACKAGE_LIBPAVO),y)
+# There's no --enable-pavo option
+GST1_IMX_DEPENDENCIES += libpavo
+else
+GST1_IMX_CONF_OPTS += --disable-pavo
+endif
+
+$(eval $(waf-package))
