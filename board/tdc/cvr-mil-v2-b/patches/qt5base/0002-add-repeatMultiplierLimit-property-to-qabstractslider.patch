@@ -1,0 +1,18 @@
+--- a/src/widgets/widgets/qabstractslider.cpp	2017-07-20 17:38:32.168863296 +0800
++++ b/src/widgets/widgets/qabstractslider.cpp	2017-07-20 18:03:54.000000000 +0800
+@@ -799,6 +799,15 @@
+         d->repeatMultiplier = 1;
+     }
+ 
++    const QVariant& repeatMultiplierLimit = property("repeatMultiplierLimit");
++    if (repeatMultiplierLimit.isValid()) {
++        int limit = repeatMultiplierLimit.toInt();
++        if (limit == -1)
++            d->repeatMultiplier = pageStep();
++        else
++            d->repeatMultiplier = limit;
++    }
++
+ #endif
+ 
+     switch (ev->key()) {
