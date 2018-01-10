@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ ! -f /tmp/64m.vfat ]; then
+	dd if=/dev/zero of=/tmp/64m.vfat bs=1M count=64
+	mkfs.vfat /tmp/64m.vfat
+fi
+
