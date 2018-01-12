@@ -3,6 +3,9 @@
 # Load global environments
 source /etc/profile
 
+# HOME for daemons
+export HOME='/root'
+
 # Stop all init scripts in /etc/init.d
 # executing them in reversed numerical order.
 #
