@@ -1,0 +1,1 @@
+/var/ftp/camera/snapshot/ IN_CLOSE_WRITE /usr/lib/ia-bgp/bin/camera-snapshot $@ $#

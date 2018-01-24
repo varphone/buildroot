@@ -1,0 +1,18 @@
+set daemon 5
+	with start delay 10
+
+set httpd port 2812
+	allow 0.0.0.0/0.0.0.0
+	allow admin:monit
+
+check process etlmd-ia with pidfile /var/run/etlmd-ia.pid
+	start program = "/etc/init.d/S91etlmd-ia start"
+	stop program = "/etc/init.d/S91etlmd-ia stop"
+
+check process etlmd-ia-bgp with pidfile /var/run/etlmd-ia-bgp.pid
+	start program = "/etc/init.d/S90etlmd-ia-bgp start"
+	stop program = "/etc/init.d/S90etlmd-ia-bgp stop"
+
+check process etlmd-ia-ws with pidfile /var/run/etlmd-ia-ws.pid
+	start program = "/etc/init.d/S90etlmd-ia-ws start"
+	stop program = "/etc/init.d/S90etlmd-ia-ws stop"

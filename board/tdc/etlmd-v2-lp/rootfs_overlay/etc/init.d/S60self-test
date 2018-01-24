@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		nohup /usr/bin/self-test 2>&1 > /dev/null &
+		;;
+	stop)
+		;;
+	reload|restart)
+		nohup /usr/bin/self-test 2>&1 > /dev/null &
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart]"
+		;;
+esac
+
+exit $?
+
