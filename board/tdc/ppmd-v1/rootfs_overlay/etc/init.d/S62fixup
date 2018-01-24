@@ -1,0 +1,34 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		# Disable SCM Watchdog
+		echo "Disable SCM Watchdog ..."
+		echo 85 > /sys/class/gpio/export
+		echo high > /sys/class/gpio/gpio10_5/direction
+		echo low > /sys/class/gpio/gpio10_5/direction
+		usleep 200000
+		echo high > /sys/class/gpio/gpio10_5/direction
+		usleep 200000
+		# Reload ADVxxx configurations
+		/etc/init.d/S61adv start
+
+		# Reset FPGA
+		echo "Reset FPGA ..."
+		i2cset -f -y 0 0x7a 0x01 0x01
+
+		# Delay for wait all chips stable
+		sleep 2
+		;;
+	stop)
+		;;
+	reload|restart)
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart]"
+		exit 1
+		;;
+esac
+
+exit $?
+
