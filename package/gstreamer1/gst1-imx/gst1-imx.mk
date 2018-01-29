@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-GST1_IMX_VERSION = 0.13.0-R3
+GST1_IMX_VERSION = 0.13.0-R4
 GST1_IMX_SITE = https://10.0.2.2/cgit/rdst/gstreamer-imx.git/snapshot
 GST1_IMX_SOURCE = gstreamer-imx-$(GST1_IMX_VERSION).tar.xz
 GST1_IMX_STRIP_COMPONENTS = 1
