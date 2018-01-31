@@ -1,0 +1,7 @@
+comment "The follow packages are prefer static build"
+
+config BR2_PACKAGE_PREFER_STATIC_BUILD_PACKAGES
+	string "Prefer static build packages"
+	help
+	  Specify package(s) to build with static.
+
