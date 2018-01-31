@@ -95,3 +95,10 @@ define legal-license-file # pkgname, pkgname-pkgver, pkgdir, filename, file-full
 	} && \
 	cp $(5) $(LICENSE_FILES_DIR_$(6))/$(2)/$(4)
 endef
+
+#
+# Extra helper functions
+#
+define prefer-static # pkg
+	$(findstring $(1),$(BR2_PACKAGE_PREFER_STATIC_BUILD_PACKAGES))
+endef
