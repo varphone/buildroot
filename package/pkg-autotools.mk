@@ -168,6 +168,12 @@ $(2)_INSTALL_OPTS                ?= install
 $(2)_INSTALL_STAGING_OPTS	?= DESTDIR=$$(STAGING_DIR) install
 $(2)_INSTALL_TARGET_OPTS		?= DESTDIR=$$(TARGET_DIR) install
 
+ifneq ($(call prefer-static,$(1)),)
+$(2)_SHARED_STATIC_LIBS_OPTS = --enable-static --disable-shared
+else
+$(2)_SHARED_STATIC_LIBS_OPTS = $(SHARED_STATIC_LIBS_OPTS)
+endif
+
 #
 # Configure step. Only define it if not already defined by the package
 # .mk file. And take care of the differences between host and target
@@ -202,7 +208,7 @@ define $(2)_CONFIGURE_CMDS
 		$$(if $$($$(PKG)_OVERRIDE_SRCDIR),,--disable-dependency-tracking) \
 		--enable-ipv6 \
 		$$(NLS_OPTS) \
-		$$(SHARED_STATIC_LIBS_OPTS) \
+		$$($$(PKG)_SHARED_STATIC_LIBS_OPTS) \
 		$$(QUIET) $$($$(PKG)_CONF_OPTS) \
 	)
 endef
