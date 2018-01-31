@@ -150,3 +150,10 @@ define legal-license-file # pkg, filename, file-fullpath, {HOST|TARGET}
 	mkdir -p $(LICENSE_FILES_DIR_$(4))/$(1)/$(dir $(2)) && \
 	cp $(3) $(LICENSE_FILES_DIR_$(4))/$(1)/$(2)
 endef
+
+#
+# Extra helper functions
+#
+define prefer-static # pkg
+	$(findstring $(1),$(BR2_PACKAGE_PREFER_STATIC_BUILD_PACKAGES))
+endef
