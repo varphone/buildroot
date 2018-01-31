@@ -2019,4 +2019,6 @@ menu "Text editors and viewers"
 	source "package/vim/Config.in"
 endmenu
 
+source "package/Config.in.extra"
+
 endmenu
