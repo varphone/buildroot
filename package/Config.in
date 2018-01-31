@@ -1558,4 +1558,6 @@ if BR2_PACKAGE_BUSYBOX_SHOW_OTHERS
 endif
 endmenu
 
+source "package/Config.in.extra"
+
 endmenu
