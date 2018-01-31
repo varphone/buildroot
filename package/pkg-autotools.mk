@@ -168,6 +168,11 @@ $(2)_DEPENDENCIES ?= $$(filter-out host-automake host-autoconf host-libtool \
     $$(patsubst host-host-%,host-%,$$(addprefix host-,$$($(3)_DEPENDENCIES))))
 endif
 
+ifneq ($(call prefer-static,$(1)),)
+$(2)_SHARED_STATIC_LIBS_OPTS = --enable-static --disable-shared
+else
+$(2)_SHARED_STATIC_LIBS_OPTS = $(SHARED_STATIC_LIBS_OPTS)
+
 #
 # Configure step. Only define it if not already defined by the package
 # .mk file. And take care of the differences between host and target
@@ -202,7 +207,7 @@ define $(2)_CONFIGURE_CMDS
 		--disable-dependency-tracking \
 		--enable-ipv6 \
 		$$(DISABLE_NLS) \
-		$$(SHARED_STATIC_LIBS_OPTS) \
+		$$($$(PKG)_SHARED_STATIC_LIBS_OPTS) \
 		$$(QUIET) $$($$(PKG)_CONF_OPTS) \
 	)
 endef
