@@ -12,5 +12,6 @@ if [ -n "${TARGET_DIR}" ]; then
 	rm -rf usr/share/examples
 	rm -rf usr/share/ffmpeg/examples
 	rm -rf usr/share/imx-mm
+	rm -rf usr/lib/fonts
 	popd
 fi
