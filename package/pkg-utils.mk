@@ -102,3 +102,10 @@ legal-deps = \
         $(filter-out $(if $(1:host-%=),host-%),\
             $(call non-virtual-deps,\
                 $($(call UPPERCASE,$(1))_FINAL_RECURSIVE_DEPENDENCIES))),$(p) [$($(call UPPERCASE,$(p))_LICENSE)])
+
+#
+# Extra helper functions
+#
+define prefer-static # pkg
+	$(findstring $(1),$(BR2_PACKAGE_PREFER_STATIC_BUILD_PACKAGES))
+endef
