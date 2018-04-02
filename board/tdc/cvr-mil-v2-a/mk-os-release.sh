@@ -2,7 +2,7 @@
 
 FILE=${TARGET_DIR}/etc/os-release
 NAME="CVR-MIL-V2-A"
-VERSION="$(git describe --abbrev=0 --tags)"
+VERSION="$(git describe --abbrev=6 --tags)"
 ID="cvr-mil-v2-a"
 VERSION_ID=${VERSION}
 PRETTY_NAME="${NAME} ${VERSION}"
