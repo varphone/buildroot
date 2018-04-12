@@ -12,18 +12,24 @@ config BR2_PACKAGE_BUSYBOX
 if BR2_PACKAGE_BUSYBOX
 
 config BR2_PACKAGE_BUSYBOX_CUSTOM_TARBALL
-	bool "Custom tarball"
+	bool "Use custom tarball"
 	depends on BR2_PACKAGE_BUSYBOX
 	help
 	  This option allows you to specify your own code package.
 
-config BR2_PACKAGE_BUSYBOX_CUSTOM_TARBALL_LOCATION
-	string "URL to custom tarball"
+config BR2_PACKAGE_BUSYBOX_CUSTOM_VERSION
+	string "Custom version"
+	default "1.28.1-R2"
 	depends on BR2_PACKAGE_BUSYBOX_CUSTOM_TARBALL
 
-config BR2_PACKAGE_BUSYBOX_CUSTOM_TARBALL_STRIP_COMPONENTS
+config BR2_PACKAGE_BUSYBOX_CUSTOM_SITE
+	string "Site for download custom tarball"
+	default "http://10.0.2.2/cgit/rdst/busybox.git/snapshot"
+	depends on BR2_PACKAGE_BUSYBOX_CUSTOM_TARBALL
+
+config BR2_PACKAGE_BUSYBOX_CUSTOM_STRIP_COMPONENTS
 	int "Strip components"
-	default 0
+	default 1
 	depends on BR2_PACKAGE_BUSYBOX_CUSTOM_TARBALL
 
 config BR2_PACKAGE_BUSYBOX_CONFIG
