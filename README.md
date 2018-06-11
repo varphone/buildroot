@@ -21,8 +21,8 @@ cvr-mil-v2
 > 例如要构建 CVR-MIL-V2 设备的系统
 
 > ```sh
-git checkout 2017.11-cvr-mil-v2
-make O=/opt/tdc/2017.11-cvr-mil-v2 ......
+git checkout 2017.11-cvr-mil-v2-viv-5.x
+make O=/opt/tdc/2017.11-cvr-mil-v2-5.x ......
 ```
 
 **注意：**如果你是开发、测试编译，并非用于发行，最好使用自己的编译目录，也就是将 `O=...` 的目录改为自己的目录。
@@ -90,14 +90,14 @@ Board: cvr-mil-v2
 
 ### Prepare
 
-执行 `Build` 之前，请确认当前代码库是否已经处于 `2017.11-cvr-mil-v2` 分支，如果没有，执行 `git checkout 2017.11-cvr-mil-v2` 检出。
+执行 `Build` 之前，请确认当前代码库是否已经处于 `2017.11-cvr-mil-v2-viv-5.x` 分支，如果没有，执行 `git checkout 2017.11-cvr-mil-v2-viv-5.x` 检出。
 
 ### Build
 
 ```sh
-make O=/opt/tdc/2017.11-cvr-mil-v2 tdc_cvr_mil_v2_defconfig
-make O=/opt/tdc/2017.11-cvr-mil-v2 source WGET_USER=... WGET_PASSWORD=...
-make O=/opt/tdc/2017.11-cvr-mil-v2
+make O=/opt/tdc/2017.11-cvr-mil-v2-viv-5.x tdc_cvr_mil_v2_defconfig
+make O=/opt/tdc/2017.11-cvr-mil-v2-viv-5.x source WGET_USER=... WGET_PASSWORD=...
+make O=/opt/tdc/2017.11-cvr-mil-v2-viv-5.x
 ```
 
 Board: cvr-mil-v2-a
@@ -109,14 +109,14 @@ Board: cvr-mil-v2-a
 
 ### Prepare
 
-执行 `Build` 之前，请确认当前代码库是否已经处于 `2017.11-cvr-mil-v2` 分支，如果没有，执行 `git checkout 2017.11-cvr-mil-v2` 检出。
+执行 `Build` 之前，请确认当前代码库是否已经处于 `2017.11-cvr-mil-v2-viv-5.x` 分支，如果没有，执行 `git checkout 2017.11-cvr-mil-v2-viv-5.x` 检出。
 
 ### Build
 
 ```sh
-make O=/opt/tdc/2017.11-cvr-mil-v2-a tdc_cvr_mil_v2_a_defconfig
-make O=/opt/tdc/2017.11-cvr-mil-v2-a source WGET_USER=... WGET_PASSWORD=...
-make O=/opt/tdc/2017.11-cvr-mil-v2-a
+make O=/opt/tdc/2017.11-cvr-mil-v2-a-viv-5.x tdc_cvr_mil_v2_a_defconfig
+make O=/opt/tdc/2017.11-cvr-mil-v2-a-viv-5.x source WGET_USER=... WGET_PASSWORD=...
+make O=/opt/tdc/2017.11-cvr-mil-v2-a-viv-5.x
 ```
 
 Board: cvr-mil-v2-b
@@ -128,13 +128,13 @@ Board: cvr-mil-v2-b
 
 ### Prepare
 
-执行 `Build` 之前，请确认当前代码库是否已经处于 `2017.11-cvr-mil-v2` 分支，如果没有，执行 `git checkout 2017.11-cvr-mil-v2` 检出。
+执行 `Build` 之前，请确认当前代码库是否已经处于 `2017.11-cvr-mil-v2-viv-5.x` 分支，如果没有，执行 `git checkout 2017.11-cvr-mil-v2-viv-5.x` 检出。
 
 ### Build
 
 ```sh
-make O=/opt/tdc/2017.11-cvr-mil-v2-b tdc_cvr_mil_v2_b_defconfig
-make O=/opt/tdc/2017.11-cvr-mil-v2-b source WGET_USER=... WGET_PASSWORD=...
-make O=/opt/tdc/2017.11-cvr-mil-v2-b
+make O=/opt/tdc/2017.11-cvr-mil-v2-b-viv-5.x tdc_cvr_mil_v2_b_defconfig
+make O=/opt/tdc/2017.11-cvr-mil-v2-b-viv-5.x source WGET_USER=... WGET_PASSWORD=...
+make O=/opt/tdc/2017.11-cvr-mil-v2-b-viv-5.x
 ```
 
