@@ -1,0 +1,16 @@
+--- a/mkspecs/devices/linux-buildroot-g++/arch.conf	2018-06-12 07:55:20.889495905 +0800
++++ b/mkspecs/devices/linux-buildroot-g++/arch.conf	2018-06-12 14:01:21.482633840 +0800
+@@ -0,0 +1,13 @@
++#
++# Board specs for i.MX6
++#
++
++QMAKE_LIBS_EGL        += -lEGL -lGAL
++QMAKE_LIBS_OPENGL_ES2 += -lGLESv2 -lEGL -lGAL
++
++QMAKE_CFLAGS   += -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++QMAKE_CXXFLAGS += -DLINUX -DEGL_API_FB -DGL_GLEXT_PROTOTYPES
++
++# Preferred eglfs backend
++EGLFS_DEVICE_INTEGRATION = eglfs_viv
++
