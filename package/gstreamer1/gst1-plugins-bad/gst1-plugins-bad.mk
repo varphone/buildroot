@@ -769,6 +769,10 @@ else
 GST1_PLUGINS_BAD_CONF_OPTS += --disable-x265
 endif
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_PLUGINS_BAD_CONF_OPTS += --enable-static-plugins
+endif
+
 # Add GPL license if GPL licensed plugins enabled.
 ifeq ($(GST1_PLUGINS_BAD_HAS_GPL_LICENSE),y)
 GST1_PLUGINS_BAD_LICENSE += GPL

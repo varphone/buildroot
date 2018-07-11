@@ -15,4 +15,8 @@ GST1_LIBAV_DEPENDENCIES = \
 GST1_LIBAV_LICENSE = GPL-2.0+
 GST1_LIBAV_LICENSE_FILES = COPYING
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_LIBAV_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
