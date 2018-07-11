@@ -34,6 +34,10 @@ endif
 
 GST_OMX_DEPENDENCIES = gstreamer1 gst1-plugins-base libopenmax
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST_OMX_CONF_OPTS += --enable-static-plugins
+endif
+
 # adjust library paths to where buildroot installs them
 define GST_OMX_FIXUP_CONFIG_PATHS
 	find $(@D)/config -name gstomx.conf | \

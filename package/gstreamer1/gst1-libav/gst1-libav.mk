@@ -77,4 +77,8 @@ endif
 GST1_LIBAV_CONF_OPTS = \
 	--with-libav-extra-configure="$(GST1_LIBAV_CONF_EXTRA_OPTS)"
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_LIBAV_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))

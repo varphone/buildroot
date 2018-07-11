@@ -19,4 +19,8 @@ GST1_VALIDATE_DEPENDENCIES = \
 	python \
 	$(if $(BR2_PACKAGE_CAIRO),cairo)
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_VALIDATE_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))

@@ -90,6 +90,10 @@ else
 GST1_PLUGINS_UGLY_CONF_OPTS += --disable-mpeg2dec
 endif
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_PLUGINS_UGLY_CONF_OPTS += --enable-static-plugins
+endif
+
 # Add GPL license if GPL plugins enabled.
 ifeq ($(GST1_PLUGINS_UGLY_HAS_GPL_LICENSE),y)
 GST1_PLUGINS_UGLY_LICENSE += GPLv2

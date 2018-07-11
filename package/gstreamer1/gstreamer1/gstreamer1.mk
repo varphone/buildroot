@@ -46,4 +46,8 @@ define GSTREAMER1_LEGACY_CGSTCONFIG_H
 endef
 GSTREAMER1_POST_INSTALL_STAGING_HOOKS += GSTREAMER1_LEGACY_CGSTCONFIG_H
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GSTREAMER1_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
