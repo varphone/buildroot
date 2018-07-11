@@ -68,6 +68,14 @@ ifeq ($(BR2_TOOLCHAIN_HAS_THREADS),)
 CAIRO_CONF_ENV += CPPFLAGS="$(TARGET_CPPFLAGS) -DCAIRO_NO_MUTEX=1"
 endif
 
+ifeq ($(BR2_STATIC_LIBS),y)
+ifeq ($(BR2_ENDIAN),"LITTLE")
+CAIRO_CONF_ENV += ax_cv_c_float_words_bigendian=no
+else
+CAIRO_CONF_ENV += ax_cv_c_float_words_bigendian=yes
+endif
+endif
+
 CAIRO_CONF_OPTS = \
 	--enable-trace=no \
 	--enable-interpreter=no
