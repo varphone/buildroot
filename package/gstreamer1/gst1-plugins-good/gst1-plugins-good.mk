@@ -442,4 +442,8 @@ else
 GST1_PLUGINS_GOOD_CONF_OPTS += --disable-bz2
 endif
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_PLUGINS_GOOD_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))

@@ -21,4 +21,8 @@ GSTREAMER1_MM_CONF_OPTS += \
 	--enable-unittests=no \
 	--disable-deprecated-api
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GSTREAMER1_MM_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
