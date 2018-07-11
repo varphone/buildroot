@@ -30,4 +30,8 @@ else
 GST1_VAAPI_CONF_OPTS += --disable-encoders
 endif
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_VAAPI_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
