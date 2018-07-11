@@ -32,4 +32,8 @@ GSTREAMER1_DEPENDENCIES = \
 	libglib2 \
 	$(if $(BR2_PACKAGE_LIBUNWIND),libunwind)
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GSTREAMER1_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
