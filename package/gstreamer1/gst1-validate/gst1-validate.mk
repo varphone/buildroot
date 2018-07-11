@@ -20,4 +20,8 @@ GST1_VALIDATE_DEPENDENCIES = \
 
 GST1_VALIDATE_CONF_OPTS += --disable-sphinx-doc
 
+ifeq ($(BR2_STATIC_LIBS),y)
+GST1_VALIDATE_CONF_OPTS += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
