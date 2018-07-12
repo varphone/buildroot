@@ -20,14 +20,14 @@ CVR_MIL_QT_LICENSE_FILES =
 CP	= @cp
 MV	= @mv
 RMDIR	= @rmdir
-QMAKE	= $(HOST_DIR)/usr/bin/qmake
+QMAKE	= $(HOST_DIR)/bin/qmake
 
 define CVR_MIL_QT_CONFIGURE_CMDS
-	(cd $(@D); $(QMAKE) cvr-mil-qt.pro)
+	(cd $(@D); $(TARGET_MAKE_ENV) $(QMAKE) cvr-mil-qt.pro)
 endef
 
 define CVR_MIL_QT_BUILD_CMDS
-	$(MAKE) -C $(@D)
+	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D)
 endef
 
 define CVR_MIL_QT_INSTALL_STAGING_CMDS
