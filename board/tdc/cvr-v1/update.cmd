@@ -16,8 +16,8 @@ tftp ${loadaddr} cvr-v1/images/rootfs.squashfs
 nand erase 0x1100000 0x1e00000
 nand write ${loadaddr} 0x1100000 ${filesize}
 setenv rootfssize ${filesize}
-setenv loadinitrd 'nand read ${initrdaddr} 0x700000 0x400000'
-setenv loadkernel 'nand read ${loadaddr} 0x300000 0x400000'
+setenv loadinitrd 'nand read ${initrdaddr} 0x700000 ${initrdsize}'
+setenv loadkernel 'nand read ${loadaddr} 0x300000 ${kernelsize}'
 setenv setmac 'setenv mac eth0.mac=${ethaddr} eth1.mac=${eth1addr}'
 setenv setbootargs 'setenv bootargs ${bootargs_base} ${mtdparts} ${rootargs} initrd=${initrdaddr},0x${initrdsize} ${mac}'
 setenv bootcmd 'run setmac; run setbootargs; run loadinitrd; run loadkernel; bootm ${loadaddr}'
