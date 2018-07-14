@@ -6,7 +6,7 @@ config BR2_PACKAGE_REG_TOOLS
 	depends on BR2_LINUX_KERNEL
 	depends on BR2_PACKAGE_HISILICON
 	help
-	  Userspace register tools for Hi3516/Hi3531.
+	  Userspace register tools for Hi3516/Hi3531/Hi3520D.
 
 config BR2_PACKAGE_REG_TOOLS_GPIO_I2C
 	bool "Use GPIO I2C"
