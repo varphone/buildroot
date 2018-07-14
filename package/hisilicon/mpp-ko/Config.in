@@ -6,5 +6,5 @@ config BR2_PACKAGE_MPP_KO
 	depends on BR2_LINUX_KERNEL
 	depends on BR2_PACKAGE_HISILICON
 	help
-	  Kernel loadable module for Hi3516/Hi3531 MPP.
+	  Kernel loadable module for Hi3516/Hi3531/Hi3520D MPP.
 
