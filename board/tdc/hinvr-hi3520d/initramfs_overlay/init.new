@@ -1,0 +1,35 @@
+#!/bin/sh
+#
+
+# Print message tag
+TAG="[   Initramfs]"
+
+# Setup stdio
+exec 0< /dev/console
+exec 1> /dev/console
+exec 2> /dev/console
+
+# Print message helper
+pr() {
+	echo "${TAG} $*"
+}
+
+# Call stage1 scripts
+source /etc/initramfs.d/stage1
+
+# Call stage1 scripts
+source /etc/initramfs.d/stage2
+
+# Call stage1 scripts
+source /etc/initramfs.d/stage2
+
+# Cleanup vfs
+pr "Cleanup VFS"
+umount -l /sys
+umount -l /proc
+umount -l /dev
+# Enter initramfs rootfs
+pr "Enter initramfs rootfs"
+exec /sbin/init $*
+# Should never call here
+exit $?
