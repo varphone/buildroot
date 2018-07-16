@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Start hivcap
+#
+
+DAEMON=/usr/bin/hivcap
+NAME=hivcap
+PIDFILE=/var/run/hivcap.pid
+
+case "$1" in
+	start)
+		echo "Starting ${NAME} ..."                
+		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON}
+		;;
+	stop)
+		echo "Stopping ${NAME} ..."
+		start-stop-daemon -K -n ${NAME} -p ${PIDFILE}
+		;;
+	restart|reload)
+		echo "Restarting ${NAME} ..."
+		start-stop-daemon -K -n ${NAME} -p ${PIDFILE}
+		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON}
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit $?
