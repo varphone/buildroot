@@ -32,12 +32,23 @@ define MPP_KO_INSTALL_TARGET_CMDS
 	
 	mkdir -p $(TARGET_DIR)/ko
 	mkdir -p $(TARGET_DIR)/ko/extdrv
-	mkdir -p $(TARGET_DIR)/ko/pcie
 	$(INSTALL) -m 0644 $(@D)/ko/*.ko $(TARGET_DIR)/ko/
 	$(INSTALL) -m 0644 $(@D)/ko/extdrv/*.ko $(TARGET_DIR)/ko/extdrv/
-	$(INSTALL) -m 0644 $(@D)/ko/pcie/*.ko $(TARGET_DIR)/ko/pcie/
-	$(INSTALL) -m 0755 $(@D)/ko/load3531 $(TARGET_DIR)/ko/
 	$(INSTALL) -m 0755 $(@D)/ko/*.sh $(TARGET_DIR)/ko/
+
+	if test -f $(@D)/ko/load3531; then \
+		$(INSTALL) -m 0755 $(@D)/ko/load3531 $(TARGET_DIR)/ko/; \
+	fi
+
+	if test -f $(@D)/ko/load3520D; then \
+		$(INSTALL) -m 0755 $(@D)/ko/load3520D $(TARGET_DIR)/ko/; \
+		$(INSTALL) -m 0755 $(@D)/ko/load3520D_socket $(TARGET_DIR)/ko/; \
+	fi
+
+	if test -d $(@D)/ko/pcie; then \
+		mkdir -p $(TARGET_DIR)/ko/pcie; \
+		$(INSTALL) -m 0644 $(@D)/ko/pcie/*.ko $(TARGET_DIR)/ko/pcie/; \
+	fi
 endef
 
 $(eval $(generic-package))
