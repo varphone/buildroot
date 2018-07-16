@@ -1,0 +1,35 @@
+#!/bin/sh
+
+init() {
+	echo "Initialize Hi3531 BSP ..."
+
+	./load3531 -i 1hd
+    
+	#config for USB power
+	himm 0x20050080 0x31A8
+	himm 0x200f0148 0
+	himm 0x200f014c 0
+
+	himm 0x201f0400 0x0c
+	himm 0x201f0030 0x04
+	
+	#ftdi_sio driver for serials about one to four
+	modprobe ftdi_sio
+	echo -n 1 > /sys/bus/usb/devices/1-2.2/bConfigurationValue
+}
+
+case $1 in
+	start)
+		cd /ko && init
+		;;
+	stop)
+		;;
+	reload|restart)
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart]"
+		exit 1
+		;;
+esac
+
+exit $?
