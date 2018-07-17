@@ -1,11 +1,11 @@
 #!/bin/sh
 #
-# Start hivcap
+# Start hinvr
 #
 
-DAEMON=/usr/bin/hivcap
-NAME=hivcap
-PIDFILE=/var/run/hivcap.pid
+DAEMON=/usr/bin/hinvr
+NAME=hinvr
+PIDFILE=/var/run/hinvr.pid
 
 case "$1" in
 	start)
