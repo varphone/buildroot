@@ -1,21 +1,9 @@
 #!/bin/sh
 
 init() {
-	echo "Initialize Hi3531 BSP ..."
+	echo "Initialize Hi3520D BSP ..."
 
-	./load3531 -i 1hd
-    
-	#config for USB power
-	himm 0x20050080 0x31A8
-	himm 0x200f0148 0
-	himm 0x200f014c 0
-
-	himm 0x201f0400 0x0c
-	himm 0x201f0030 0x04
-	
-	#ftdi_sio driver for serials about one to four
-	modprobe ftdi_sio
-	echo -n 1 > /sys/bus/usb/devices/1-2.2/bConfigurationValue
+	./load3520D -i 4720p
 }
 
 case $1 in
