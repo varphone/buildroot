@@ -144,6 +144,11 @@ endif
 TARGET_CFLAGS_EXTRA = $(call qstrip,$(BR2_TARGET_CFLAGS_EXTRA))
 TARGET_LDFLAGS = $(call qstrip,$(BR2_TARGET_LDFLAGS))
 
+ifeq ($(BR2_OPTIMIZE_S),y)
+TARGET_OPTIMIZATION += -ffunction-sections -fdata-sections
+TARGET_LDFLAGS += -Wl,--gc-sections
+endif
+
 # By design, _FORTIFY_SOURCE requires gcc optimization to be enabled.
 # Therefore, we need to pass _FORTIFY_SOURCE and the optimization level
 # through the same mechanism, i.e currently through CFLAGS. Passing
