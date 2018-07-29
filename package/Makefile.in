@@ -147,6 +147,11 @@ TARGET_CFLAGS_RELRO_FULL = -Wl,-z,now $(TARGET_CFLAGS_RELRO)
 TARGET_CFLAGS_EXTRA = $(call qstrip,$(BR2_TARGET_CFLAGS_EXTRA))
 TARGET_LDFLAGS = $(call qstrip,$(BR2_TARGET_LDFLAGS))
 
+ifeq ($(BR2_OPTIMIZE_S),y)
+TARGET_OPTIMIZATION += -ffunction-sections -fdata-sections
+TARGET_LDFLAGS += -Wl,--gc-sections
+endif
+
 ifeq ($(BR2_SSP_REGULAR),y)
 TARGET_CPPFLAGS += -fstack-protector
 else ifeq ($(BR2_SSP_STRONG),y)
