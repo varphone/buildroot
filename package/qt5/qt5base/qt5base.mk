@@ -26,8 +26,17 @@ QT5BASE_CONFIGURE_OPTS += \
 	-no-iconv \
 	-system-zlib \
 	-system-pcre \
-	-no-pch \
-	-shared
+	-no-pch
+
+ifeq ($(BR2_STATIC_LIBS),y)
+QT5BASE_CONFIGURE_OPTS += -static
+else
+QT5BASE_CONFIGURE_OPTS += -shared
+endif
+
+ifeq ($(BR2_OPTIMIZE_S),y)
+QT5BASE_CONFIGURE_OPTS += -optimize-size
+endif
 
 ifeq ($(BR2_ENABLE_DEBUG),y)
 QT5BASE_CONFIGURE_OPTS += -debug
