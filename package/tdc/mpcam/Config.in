@@ -1,0 +1,27 @@
+comment "mpcam needs opencv3"
+	depends on !BR2_PACKAGE_OPENCV3
+
+config BR2_PACKAGE_MPCAM
+	bool "mpcam"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Multiple Path Camera Application built on Zynq-ZC702 platform.
+
+config BR2_PACKAGE_MPCAM_BUILD_EXAMPLES
+	bool "build with examples"
+	depends on BR2_PACKAGE_MPCAM
+
+config BR2_PACKAGE_MPCAM_BUILD_TESTS
+	bool "build with tests"
+	depends on BR2_PACKAGE_MPCAM
+
+config BR2_PACKAGE_MPCAM_CUSTOM_VERSION
+	bool "mpcam custom version"
+	depends on BR2_PACKAGE_MPCAM
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_MPCAM_CUSTOM_VERSION_VALUE
+	string "mpcam git tag version"
+	default "1.0.0"
+	depends on BR2_PACKAGE_MPCAM_CUSTOM_VERSION
