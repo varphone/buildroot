@@ -1,15 +1,6 @@
 #!/bin/bash
 
 SCRIPT_DIR=$(dirname $(readlink -f "$0"))
-INITRAMFS_DIR="${BINARIES_DIR}/initramfs"
-INITRAMFS_T_LIST="${SCRIPT_DIR}/initramfs-t.txt"
-INITRAMFS_X_LIST="${SCRIPT_DIR}/initramfs-x.txt"
-INITRAMFS_OVERLAY="${SCRIPT_DIR}/initramfs_overlay"
-LIVEUSB_DIR="${BINARIES_DIR}/liveusb"
-LIVEUSB_T_LIST="${SCRIPT_DIR}/liveusb-t.txt"
-LIVEUSB_X_LIST="${SCRIPT_DIR}/liveusb-x.txt"
-BOOT_T_LIST="${SCRIPT_DIR}/boot-t.txt"
-BOOT_X_LIST="${SCRIPT_DIR}/boot-x.txt"
 TAR="tar --ignore-failed-read"
 PAGE_SIZE=131072
 
