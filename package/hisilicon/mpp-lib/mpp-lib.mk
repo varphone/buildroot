@@ -14,6 +14,22 @@ MPP_LIB_LICENSE = GPLv2
 MPP_LIB_LICENSE_FILES =
 
 define MPP_LIB_BUILD_CMDS
+	mkdir -p "$(@D)/tmp"
+	cd "$(@D)/tmp" && \
+		$(TARGET_AR) x "$(@D)/lib/libjpeg6b.a" ; \
+		$(TARGET_AR) cr "$(@D)/lib/libhijpeg.a" \
+			hi_jpeg_hdec_api.o \
+		        hi_jpeg_hdec_test.o \
+			jpeg_hdec_adp.o \
+			jpeg_hdec_api.o \
+			jpeg_hdec_csc.o \
+			jpeg_hdec_mem.o \
+			jpeg_hdec_rwreg.o \
+			jpeg_hdec_sentstream.o \
+			jpeg_hdec_setpara.o \
+			jpeg_hdec_suspend.o \
+			jpeg_hdec_table.o
+	rm -rf "$(@D)/tmp"
 endef
 
 define MPP_LIB_INSTALL_STAGING_CMDS
