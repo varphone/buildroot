@@ -29,6 +29,7 @@ BR2_ROOTFS_OVERLAY="board/tdc/hinvr-hi3520d/rootfs_overlay"
 BR2_ROOTFS_POST_BUILD_SCRIPT="board/tdc/hinvr-hi3520d/pre-image.sh"
 BR2_ROOTFS_POST_FAKEROOT_SCRIPT="board/tdc/hinvr-hi3520d/fakeroot.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="board/tdc/hinvr-hi3520d/post-image.sh"
+BR2_ROOTFS_POST_SCRIPT_ARGS="-full"
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="https://10.0.2.2/cgit/rdst/linux-stable.git/snapshot/linux-stable-3.0.8-Hi3520D-V1.0.5.0-R2.tar.gz"
