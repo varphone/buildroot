@@ -1,9 +1,5 @@
 BR2_arm=y
 BR2_cortex_a9=y
-BR2_ARM_ENABLE_NEON=y
-BR2_ARM_ENABLE_VFP=y
-BR2_ARM_EABI=y
-BR2_ARM_SOFT_FLOAT=y
 BR2_WGET="wget --passive-ftp -nd -t 3 --no-check-certificate --user=${WGET_USER} --password=${WGET_PASSWORD}"
 BR2_STATIC_LIBS=y
 BR2_GLOBAL_PATCH_DIR="board/tdc/hinvr-hi3520d/patches"
