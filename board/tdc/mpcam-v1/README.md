@@ -13,7 +13,7 @@ mpcam-v1
 
 - **`patches`** - 各个包的补丁目录。
 - **`rootfs_overlay`** - `rootfs` 的覆盖目录，这里面的内容会在生成 `rootfs` 镜像时覆盖在镜像的目录中。
-- **`rootfs_overlay/lib/firmware/fpga.bit`** - FPGA 固件文件。
+- **`rootfs_overlay/lib/firmware/fpga.bin`** - FPGA 固件文件。
 - **`device_table.txt`** - 设备文件权限列表，在生产镜像时会根据列表中的条目来设定对应文件或目录的权限属性。
 - **`fakeroot.sh`** - 当所有包都编译完成后运行的附加脚本，你可以在次脚本中调整一些 `target` 目录中的文件或目录。
 - **`genimage.cfg`** - 用于生成 SD 卡镜像文件的配置文件。
@@ -143,7 +143,7 @@ Linux 系统里提供了 Xilinx Zynq FPGA Manager 来更新 FPGA 程序。
 操作方式如下：
 
 1. 首先用 `echo 0 > /sys/class/fpga_manager/fpga0/flags` 命令清除 `fpga_manager` 的标志位。
-2. 然后用 `echo fpga.bit > /sys/class/fpga_manager/fpga0/firmware` 命令向 `fpga_manager` 指定要写入的镜像文件，
+2. 然后用 `echo fpga.bin > /sys/class/fpga_manager/fpga0/firmware` 命令向 `fpga_manager` 指定要写入的镜像文件，
    这些镜像文件须存放在 `/lib/firmware` 目录下。
 3. 等待系统消息打印，当程序更新完成时，上一步的命令才会退出返回。
 
@@ -186,5 +186,14 @@ $CXX test.cpp -o test
 
 ### 如何更新设备固件中的 FPGA 固件文件
 
-1. 将新的 FPGA 固件文替换 `board/tdc/mpcam-v1/rootfs_overlay/lib/firmware/` 目录下的 `fpga.bit`。
+1. 将新的 FPGA 固件文替换 `board/tdc/mpcam-v1/rootfs_overlay/lib/firmware/` 目录下的 `fpga.bin`。
 2. 执行 `make O=/opt/tdc/2018.05.1-mpcam-v1/ all` 重新生成固件。
+
+如果你得到的是 `bit` 格式的文件，你需要使用 `fpga-bit-to-bin.py` 将其转换成 `bin` 文件格式，
+命令使用方法如下：
+
+```sh
+fpga-bit-to-bin.py -flip fpga.bit fpga.bin
+```
+
+> 注意：`-flip` 参数不能遗缺，这是适配于 `Zynq FPGA` 的参数。
