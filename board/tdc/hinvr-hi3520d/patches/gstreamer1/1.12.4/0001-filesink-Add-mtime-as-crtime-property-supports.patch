@@ -1,0 +1,145 @@
+From fd473ba77700b0a7a25976fe8ea1301356feecf0 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Wed, 29 Aug 2018 01:18:42 +0800
+Subject: [PATCH] filesink: Add mtime-as-crtime property supports
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ plugins/elements/gstfilesink.c | 39 ++++++++++++++++++++++++++++++++++
+ plugins/elements/gstfilesink.h |  3 +++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/plugins/elements/gstfilesink.c b/plugins/elements/gstfilesink.c
+index 4ce527e30..318407948 100644
+--- a/plugins/elements/gstfilesink.c
++++ b/plugins/elements/gstfilesink.c
+@@ -65,6 +65,10 @@
+ #endif
+ #endif
+ 
++#ifdef HAVE_FCNTL_H
++#include <fcntl.h>
++#endif
++
+ #include <sys/stat.h>
+ #ifdef HAVE_UNISTD_H
+ #include <unistd.h>
+@@ -112,6 +116,7 @@ GST_DEBUG_CATEGORY_STATIC (gst_file_sink_debug);
+ #define DEFAULT_BUFFER_MODE 	GST_FILE_SINK_BUFFER_MODE_DEFAULT
+ #define DEFAULT_BUFFER_SIZE 	64 * 1024
+ #define DEFAULT_APPEND		FALSE
++#define DEFAULT_MTIME_AS_CRTIME 	TRUE
+ 
+ enum
+ {
+@@ -120,6 +125,7 @@ enum
+   PROP_BUFFER_MODE,
+   PROP_BUFFER_SIZE,
+   PROP_APPEND,
++  PROP_MTIME_AS_CRTIME,
+   PROP_LAST
+ };
+ 
+@@ -234,6 +240,11 @@ gst_file_sink_class_init (GstFileSinkClass * klass)
+           "Append to an already existing file", DEFAULT_APPEND,
+           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+ 
++  g_object_class_install_property (gobject_class, PROP_MTIME_AS_CRTIME,
++      g_param_spec_boolean ("mtime-as-crtime", "MTime as CrTime",
++          "Touch the mtime with time on open while file closed",
++          DEFAULT_MTIME_AS_CRTIME, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
++
+   gst_element_class_set_static_metadata (gstelement_class,
+       "File Sink",
+       "Sink/File", "Write stream to a file",
+@@ -264,6 +275,8 @@ gst_file_sink_init (GstFileSink * filesink)
+   filesink->buffer_size = DEFAULT_BUFFER_SIZE;
+   filesink->buffer = NULL;
+   filesink->append = FALSE;
++  filesink->mtime_as_crtime = DEFAULT_MTIME_AS_CRTIME;
++  filesink->time_at_open = time (NULL);
+ 
+   gst_base_sink_set_sync (GST_BASE_SINK (filesink), FALSE);
+ }
+@@ -338,6 +351,9 @@ gst_file_sink_set_property (GObject * object, guint prop_id,
+     case PROP_APPEND:
+       sink->append = g_value_get_boolean (value);
+       break;
++    case PROP_MTIME_AS_CRTIME:
++      sink->mtime_as_crtime = g_value_get_boolean (value);
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -363,6 +379,9 @@ gst_file_sink_get_property (GObject * object, guint prop_id, GValue * value,
+     case PROP_APPEND:
+       g_value_set_boolean (value, sink->append);
+       break;
++    case PROP_MTIME_AS_CRTIME:
++      g_value_set_boolean (value, sink->mtime_as_crtime);
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -419,6 +438,9 @@ gst_file_sink_open_file (GstFileSink * sink)
+   /* try to seek in the file to figure out if it is seekable */
+   sink->seekable = gst_file_sink_do_seek (sink, 0);
+ 
++  if (sink->mtime_as_crtime)
++    sink->time_at_open = time (NULL);
++
+   GST_DEBUG_OBJECT (sink, "opened file %s, seekable %d",
+       sink->filename, sink->seekable);
+ 
+@@ -440,10 +462,27 @@ open_failed:
+   }
+ }
+ 
++static void
++gst_futime (FILE * fp, time_t time)
++{
++#if defined(G_OS_LINUX) || defined(G_OS_UNIX)
++  struct timespec ts[2];
++  ts[0].tv_sec = time;
++  ts[0].tv_nsec = 0;
++  ts[1].tv_sec = time;
++  ts[1].tv_nsec = 0;
++  if (futimens (fileno (fp), ts) < 0)
++    GST_WARNING ("futimens() failed: %s\n", g_strerror (errno));
++#endif
++}
++
+ static void
+ gst_file_sink_close_file (GstFileSink * sink)
+ {
+   if (sink->file) {
++    if (sink->mtime_as_crtime)
++      gst_futime (sink->file, sink->time_at_open);
++
+     if (fclose (sink->file) != 0)
+       GST_ELEMENT_ERROR (sink, RESOURCE, CLOSE,
+           (_("Error closing file \"%s\"."), sink->filename), GST_ERROR_SYSTEM);
+diff --git a/plugins/elements/gstfilesink.h b/plugins/elements/gstfilesink.h
+index 6e3897c4e..1c66e5ab8 100644
+--- a/plugins/elements/gstfilesink.h
++++ b/plugins/elements/gstfilesink.h
+@@ -25,6 +25,7 @@
+ #define __GST_FILE_SINK_H__
+ 
+ #include <stdio.h>
++#include <time.h>
+ 
+ #include <gst/gst.h>
+ #include <gst/base/gstbasesink.h>
+@@ -83,6 +84,8 @@ struct _GstFileSink {
+   gchar  *buffer;
+ 
+   gboolean append;
++  gboolean mtime_as_crtime;
++  time_t time_at_open;
+ };
+ 
+ struct _GstFileSinkClass {
+-- 
+2.17.1
+
