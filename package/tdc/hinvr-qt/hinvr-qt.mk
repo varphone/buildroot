@@ -35,7 +35,7 @@ endef
 
 define HINVR_QT_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/share/fonts
-	$(INSTALL) -m 0644 $(@D)/fonts/Ubunoto-Mono-SC.tff $(TARGET_DIR)/usr/share/fonts/
+	$(INSTALL) -m 0644 $(@D)/fonts/Ubunoto-Mono-SC.ttf $(TARGET_DIR)/usr/share/fonts/
 	$(INSTALL) -m 0755 $(@D)/src/hinvr-qt $(TARGET_DIR)/usr/bin/
 endef
 
