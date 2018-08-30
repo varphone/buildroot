@@ -15,5 +15,5 @@ config BR2_PACKAGE_HINVR_QT_CUSTOM_VERSION
 
 config BR2_PACKAGE_HINVR_QT_CUSTOM_VERSION_VALUE
 	string "hinvr-qt git tag version"
-	default "1.0.0"
+	default "1.0.9"
 	depends on BR2_PACKAGE_HINVR_QT_CUSTOM_VERSION
