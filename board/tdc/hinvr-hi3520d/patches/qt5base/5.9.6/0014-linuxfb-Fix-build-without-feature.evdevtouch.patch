@@ -1,0 +1,40 @@
+From aec322555a86340fa278f281222517b751722174 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 15:50:05 +0800
+Subject: [PATCH 14/16] linuxfb: Fix build without feature.evdevtouch
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/plugins/platforms/linuxfb/qlinuxfbintegration.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/plugins/platforms/linuxfb/qlinuxfbintegration.cpp b/src/plugins/platforms/linuxfb/qlinuxfbintegration.cpp
+index f835dbf6d4..432acc05ed 100644
+--- a/src/plugins/platforms/linuxfb/qlinuxfbintegration.cpp
++++ b/src/plugins/platforms/linuxfb/qlinuxfbintegration.cpp
+@@ -62,8 +62,10 @@
+ #if QT_CONFIG(evdev)
+ #include <QtInputSupport/private/qevdevmousemanager_p.h>
+ #include <QtInputSupport/private/qevdevkeyboardmanager_p.h>
++#if QT_CONFIG(evdevtouch)
+ #include <QtInputSupport/private/qevdevtouchmanager_p.h>
+ #endif
++#endif
+ 
+ #if QT_CONFIG(tslib)
+ #include <QtInputSupport/private/qtslib_p.h>
+@@ -168,7 +170,11 @@ void QLinuxFbIntegration::createInputHandlers()
+ #if QT_CONFIG(tslib)
+     if (!useTslib)
+ #endif
++#if QT_CONFIG(evdevtouch)
+         new QEvdevTouchManager(QLatin1String("EvdevTouch"), QString() /* spec */, this);
++#else
++        ;
++#endif
+ #endif
+ }
+ 
+-- 
+2.17.1
+
