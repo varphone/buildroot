@@ -1,0 +1,114 @@
+From 84a55c2c6f65743027bf8cee18c6492bdfd75a7b Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 20:11:00 +0800
+Subject: [PATCH 16/16] Add configure.tiny for build small target
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ configure.tiny | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
+ create mode 100644 configure.tiny
+
+diff --git a/configure.tiny b/configure.tiny
+new file mode 100644
+index 0000000000..b439066a75
+--- /dev/null
++++ b/configure.tiny
+@@ -0,0 +1,94 @@
++ -optimize-size \
++ -no-feature-accessibility \
++ -no-feature-animation \
++ -no-feature-appstore-compliant \
++ -no-feature-bearermanagement \
++ -no-feature-big_codecs \
++ -no-feature-calendarwidget \
++ -no-feature-clipboard \
++ -no-feature-colordialog \
++ -no-feature-columnview \
++ -no-feature-concurrent \
++ -no-feature-contextmenu \
++ -no-feature-datawidgetmapper \
++ -no-feature-desktopservices \
++ -no-feature-draganddrop \
++ -no-feature-dockwidget \
++ -no-feature-errormessage \
++ -no-feature-evdevtouch \
++ -no-feature-filedialog \
++ -no-feature-fontcombobox \
++ -no-feature-fontdialog \
++ -no-feature-fscompleter \
++ -no-feature-ftp \
++ -no-feature-gestures \
++ -no-feature-graphicsview \
++ -no-feature-highdpiscaling \
++ -no-feature-http \
++ -no-feature-imageformat_ppm \
++ -no-feature-imageformat_xbm \
++ -no-feature-imageformat_xpm \
++ -no-feature-inputdialog \
++ -no-feature-keysequenceedit \
++ -no-feature-lcdnumber \
++ -no-feature-localserver \
++ -no-feature-mainwindow \
++ -no-feature-mdiarea \
++ -no-feature-menubar \
++ -no-feature-movie \
++ -no-feature-networkdiskcache \
++ -no-feature-networkinterface \
++ -no-feature-networkproxy \
++ -no-feature-cups \
++ -no-feature-paint_debug \
++ -no-feature-pdf \
++ -no-feature-picture \
++ -no-feature-printdialog \
++ -no-feature-printer \
++ -no-feature-printpreviewdialog \
++ -no-feature-printpreviewwidget \
++ -no-feature-process \
++ -no-feature-processenvironment \
++ -no-feature-progressdialog \
++ -no-feature-resizehandler \
++ -no-feature-rubberband \
++ -no-feature-sessionmanager \
++ -no-feature-shortcut \
++ -no-feature-sizegrip \
++ -no-feature-socks5 \
++ -no-feature-sortfilterproxymodel \
++ -no-feature-splashscreen \
++ -no-feature-statemachine \
++ -no-feature-statusbar \
++ -no-feature-statustip \
++ -no-feature-stringlistmodel \
++ -no-feature-syntaxhighlighter \
++ -no-feature-systemtrayicon \
++ -no-feature-tabletevent \
++ -no-feature-tableview \
++ -no-feature-tablewidget \
++ -no-feature-textbrowser \
++ -no-feature-textcodec \
++ -no-feature-textdocumentwriter \
++ -no-feature-textedit \
++ -no-feature-texthtmlparser \
++ -no-feature-textodfwriter \
++ -no-feature-timezone \
++ -no-feature-toolbar \
++ -no-feature-toolbox \
++ -no-feature-toolbutton \
++ -no-feature-topleveldomain \
++ -no-feature-treeview \
++ -no-feature-treewidget \
++ -no-feature-udpsocket \
++ -no-feature-undocommand \
++ -no-feature-undogroup \
++ -no-feature-undostack \
++ -no-feature-undoview \
++ -no-feature-vnc \
++ -no-feature-whatsthis \
++ -no-feature-wheelevent \
++ -no-feature-wizard \
++ -no-feature-xmlstream \
++ -no-feature-xmlstreamreader \
++ -no-feature-xmlstreamwriter \
+-- 
+2.17.1
+

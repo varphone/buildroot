@@ -1,0 +1,42 @@
+From fd6e46280ab243f5d0edf909b7b1e3778709d3a9 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 22:52:01 +0800
+Subject: [PATCH 03/16] Fix build without feature.shortcut
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/widgets/kernel/kernel.pri | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/widgets/kernel/kernel.pri b/src/widgets/kernel/kernel.pri
+index c11ef080ba..146c989948 100644
+--- a/src/widgets/kernel/kernel.pri
++++ b/src/widgets/kernel/kernel.pri
+@@ -20,7 +20,6 @@ HEADERS += \
+ 	kernel/qlayout_p.h \
+ 	kernel/qlayoutengine_p.h \
+ 	kernel/qlayoutitem.h \
+-        kernel/qshortcut.h \
+ 	kernel/qsizepolicy.h \
+         kernel/qstackedlayout.h \
+ 	kernel/qtooltip.h \
+@@ -42,7 +41,6 @@ SOURCES += \
+         kernel/qlayout.cpp \
+ 	kernel/qlayoutengine.cpp \
+ 	kernel/qlayoutitem.cpp \
+-        kernel/qshortcut.cpp \
+         kernel/qsizepolicy.cpp \
+         kernel/qstackedlayout.cpp \
+ 	kernel/qtooltip.cpp \
+@@ -87,3 +85,8 @@ qtConfig(gestures) {
+ 	kernel/qgesturerecognizer.cpp \
+ 	kernel/qgesturemanager.cpp
+ }
++
++qtConfig(shortcut) {
++    HEADERS += kernel/qshortcut.h
++    SOURCES += kernel/qshortcut.cpp
++}
+-- 
+2.17.1
+

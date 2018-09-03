@@ -1,0 +1,42 @@
+From 6362f2ae27f6f6ea70f96e7b274181723c3f2d34 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 22:53:32 +0800
+Subject: [PATCH 04/16] Fix build without feature.tooltip
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/widgets/kernel/kernel.pri | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/widgets/kernel/kernel.pri b/src/widgets/kernel/kernel.pri
+index 146c989948..4a24eb128a 100644
+--- a/src/widgets/kernel/kernel.pri
++++ b/src/widgets/kernel/kernel.pri
+@@ -22,7 +22,6 @@ HEADERS += \
+ 	kernel/qlayoutitem.h \
+ 	kernel/qsizepolicy.h \
+         kernel/qstackedlayout.h \
+-	kernel/qtooltip.h \
+         kernel/qwidget.h \
+         kernel/qwidget_p.h \
+ 	kernel/qwidgetaction.h \
+@@ -43,7 +42,6 @@ SOURCES += \
+ 	kernel/qlayoutitem.cpp \
+         kernel/qsizepolicy.cpp \
+         kernel/qstackedlayout.cpp \
+-	kernel/qtooltip.cpp \
+ 	kernel/qwidget.cpp \
+ 	kernel/qwidgetaction.cpp \
+         kernel/qdesktopwidget.cpp \
+@@ -90,3 +88,8 @@ qtConfig(shortcut) {
+     HEADERS += kernel/qshortcut.h
+     SOURCES += kernel/qshortcut.cpp
+ }
++
++qtConfig(tooltip) {
++    HEADERS += kernel/qtooltip.h
++    SOURCES += kernel/qtooltip.cpp
++}
+-- 
+2.17.1
+

@@ -1,0 +1,64 @@
+From a75b2bb125ab4b15bdca8047aa2eb4625d18360f Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 00:43:09 +0800
+Subject: [PATCH 08/16] Add new textdocumentwriter feature support to
+ QTextDocumentWriter configurable
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/configure.json | 6 ++++++
+ src/gui/text/text.pri  | 7 +++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/configure.json b/src/gui/configure.json
+index ddb79d6ea7..ca596f736f 100644
+--- a/src/gui/configure.json
++++ b/src/gui/configure.json
+@@ -1272,6 +1272,12 @@
+             "condition": "tests.xlib",
+             "output": [ "privateFeature" ]
+         },
++        "textdocumentwriter": {
++            "label": "DocumentWriter",
++            "purpose": "Provides an Document writer.",
++            "section": "Kernel",
++            "output": [ "publicFeature", "feature" ]
++        },
+         "texthtmlparser": {
+             "label": "HtmlParser",
+             "purpose": "Provides a parser for HTML.",
+diff --git a/src/gui/text/text.pri b/src/gui/text/text.pri
+index 3dbdbe8dd0..7ba1458d1a 100644
+--- a/src/gui/text/text.pri
++++ b/src/gui/text/text.pri
+@@ -29,7 +29,6 @@ HEADERS += \
+     text/qtextimagehandler_p.h \
+     text/qtexttable.h \
+     text/qtextlist.h \
+-    text/qtextdocumentwriter.h \
+     text/qtexttable_p.h \
+     text/qstatictext_p.h \
+     text/qstatictext.h \
+@@ -62,7 +61,6 @@ SOURCES += \
+     text/qtextimagehandler.cpp \
+     text/qtexttable.cpp \
+     text/qtextlist.cpp \
+-    text/qtextdocumentwriter.cpp \
+     text/qstatictext.cpp \
+     text/qrawfont.cpp \
+     text/qglyphrun.cpp \
+@@ -83,6 +81,11 @@ qtConfig(harfbuzz) {
+     HEADERS += text/qharfbuzzng_p.h
+ }
+ 
++qtConfig(textdocumentwriter) {
++    HEADERS += text/qtextdocumentwriter.h
++    SOURCES += text/qtextdocumentwriter.cpp
++}
++
+ qtConfig(texthtmlparser) {
+     HEADERS += text/qtexthtmlparser_p.h
+     SOURCES += text/qtexthtmlparser.cpp
+-- 
+2.17.1
+

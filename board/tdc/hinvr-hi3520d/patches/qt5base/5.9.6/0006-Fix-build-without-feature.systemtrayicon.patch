@@ -1,0 +1,59 @@
+From 59a13ab17fd0a6605ccb5aede81eab80ae53e06b Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 23:00:13 +0800
+Subject: [PATCH 06/16] Fix build without feature.systemtrayicon
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/widgets/util/util.pri | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/src/widgets/util/util.pri b/src/widgets/util/util.pri
+index 0b654bbadd..b6e09c41f5 100644
+--- a/src/widgets/util/util.pri
++++ b/src/widgets/util/util.pri
+@@ -1,12 +1,9 @@
+ # Qt util module
+ 
+ HEADERS += \
+-        util/qsystemtrayicon.h \
+-        util/qcolormap.h \
+-        util/qsystemtrayicon_p.h
++        util/qcolormap.h
+ 
+ SOURCES += \
+-        util/qsystemtrayicon.cpp \
+         util/qcolormap.cpp
+ 
+ qtConfig(completer) {
+@@ -49,12 +46,21 @@ qtConfig(undoview) {
+     SOURCES += util/qundoview.cpp
+ }
+ 
+-win32:!winrt {
+-    SOURCES += util/qsystemtrayicon_win.cpp
+-} else: qtConfig(xcb) {
+-    SOURCES += util/qsystemtrayicon_x11.cpp
+-} else {
+-    SOURCES += util/qsystemtrayicon_qpa.cpp
++qtConfig(systemtrayicon) {
++    HEADERS += \
++        util/qsystemtrayicon.h \
++        util/qsystemtrayicon_p.h
++
++    SOURCES += \
++        util/qsystemtrayicon.cpp
++
++    win32:!winrt {
++        SOURCES += util/qsystemtrayicon_win.cpp
++    } else: qtConfig(xcb) {
++        SOURCES += util/qsystemtrayicon_x11.cpp
++    } else {
++        SOURCES += util/qsystemtrayicon_qpa.cpp
++    }
+ }
+ 
+ mac {
+-- 
+2.17.1
+

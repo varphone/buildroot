@@ -1,0 +1,45 @@
+From a4906f4b533dfd4d42d1d0c50eece1e2ea61e321 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 23:04:52 +0800
+Subject: [PATCH 07/16] Fix build without feature.texthtmlparser
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/text/text.pri | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/text/text.pri b/src/gui/text/text.pri
+index 351f6d7bcf..3dbdbe8dd0 100644
+--- a/src/gui/text/text.pri
++++ b/src/gui/text/text.pri
+@@ -19,7 +19,6 @@ HEADERS += \
+     text/qfragmentmap_p.h \
+     text/qtextdocument.h \
+     text/qtextdocument_p.h \
+-    text/qtexthtmlparser_p.h \
+     text/qabstracttextdocumentlayout.h \
+     text/qabstracttextdocumentlayout_p.h \
+     text/qtextdocumentlayout_p.h \
+@@ -56,7 +55,6 @@ SOURCES += \
+     text/qfragmentmap.cpp \
+     text/qtextdocument.cpp \
+     text/qtextdocument_p.cpp \
+-    text/qtexthtmlparser.cpp \
+     text/qabstracttextdocumentlayout.cpp \
+     text/qtextdocumentlayout.cpp \
+     text/qtextcursor.cpp \
+@@ -85,6 +83,11 @@ qtConfig(harfbuzz) {
+     HEADERS += text/qharfbuzzng_p.h
+ }
+ 
++qtConfig(texthtmlparser) {
++    HEADERS += text/qtexthtmlparser_p.h
++    SOURCES += text/qtexthtmlparser.cpp
++}
++
+ qtConfig(textodfwriter) {
+     HEADERS += \
+         text/qtextodfwriter_p.h \
+-- 
+2.17.1
+

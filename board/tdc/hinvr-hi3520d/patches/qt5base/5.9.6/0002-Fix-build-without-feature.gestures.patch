@@ -1,0 +1,59 @@
+From 98b68cc591b9a1b8ef840daa148dd0a29310dc0a Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 22:50:40 +0800
+Subject: [PATCH 02/16] Fix build without feature.gestures
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/widgets/kernel/kernel.pri | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/src/widgets/kernel/kernel.pri b/src/widgets/kernel/kernel.pri
+index 1bdcecbc81..c11ef080ba 100644
+--- a/src/widgets/kernel/kernel.pri
++++ b/src/widgets/kernel/kernel.pri
+@@ -28,11 +28,6 @@ HEADERS += \
+         kernel/qwidget_p.h \
+ 	kernel/qwidgetaction.h \
+ 	kernel/qwidgetaction_p.h \
+-	kernel/qgesture.h \
+-	kernel/qgesture_p.h \
+-	kernel/qstandardgestures_p.h \
+-	kernel/qgesturerecognizer.h \
+-	kernel/qgesturemanager_p.h \
+         kernel/qdesktopwidget_p.h \
+         kernel/qwidgetwindow_p.h \
+         kernel/qwindowcontainer_p.h
+@@ -53,10 +48,6 @@ SOURCES += \
+ 	kernel/qtooltip.cpp \
+ 	kernel/qwidget.cpp \
+ 	kernel/qwidgetaction.cpp \
+-	kernel/qgesture.cpp \
+-	kernel/qstandardgestures.cpp \
+-	kernel/qgesturerecognizer.cpp \
+-	kernel/qgesturemanager.cpp \
+         kernel/qdesktopwidget.cpp \
+         kernel/qwidgetsvariant.cpp \
+         kernel/qwidgetwindow.cpp \
+@@ -81,3 +72,18 @@ qtConfig(whatsthis) {
+     HEADERS += kernel/qwhatsthis.h
+     SOURCES += kernel/qwhatsthis.cpp
+ }
++
++qtConfig(gestures) {
++    HEADERS += \
++	kernel/qgesture.h \
++	kernel/qgesture_p.h \
++	kernel/qstandardgestures_p.h \
++	kernel/qgesturerecognizer.h \
++	kernel/qgesturemanager_p.h
++
++    SOURCES += \
++	kernel/qgesture.cpp \
++	kernel/qstandardgestures.cpp \
++	kernel/qgesturerecognizer.cpp \
++	kernel/qgesturemanager.cpp
++}
+-- 
+2.17.1
+
