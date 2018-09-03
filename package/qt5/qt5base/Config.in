@@ -28,6 +28,11 @@ config BR2_PACKAGE_QT5BASE_LICENSE_APPROVED
 
 	  See also http://doc.qt.io/qt-5/licensing.html
 
+config BR2_PACKAGE_QT5BASE_CUSTOM_CONF_OPTS_FILE
+	string "Custom configuration options file"
+	help
+	  Read custom qt5 configuration options from file.
+
 config BR2_PACKAGE_QT5BASE_CONFIG_FILE
 	string "Config file"
 	help
