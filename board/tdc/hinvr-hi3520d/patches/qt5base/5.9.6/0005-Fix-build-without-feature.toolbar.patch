@@ -1,0 +1,67 @@
+From d5e6b579e25d07b4f2ddb923623dc2d58ef484c8 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 22:57:23 +0800
+Subject: [PATCH 05/16] Fix build without feature.toolbar
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/widgets/widgets/widgets.pri | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
+
+diff --git a/src/widgets/widgets/widgets.pri b/src/widgets/widgets/widgets.pri
+index a197c41b95..b646525ccb 100644
+--- a/src/widgets/widgets/widgets.pri
++++ b/src/widgets/widgets/widgets.pri
+@@ -3,25 +3,16 @@
+ HEADERS += \
+         widgets/qframe.h \
+         widgets/qframe_p.h \
+-        widgets/qtoolbar.h \
+-        widgets/qtoolbar_p.h \
+-        widgets/qtoolbarlayout_p.h \
+-        widgets/qtoolbarseparator_p.h \
+         widgets/qabstractscrollarea.h \
+         widgets/qabstractscrollarea_p.h \
+         widgets/qfocusframe.h \
+-        widgets/qwidgetanimator_p.h \
+-        widgets/qtoolbararealayout_p.h
++        widgets/qwidgetanimator_p.h
+ 
+ SOURCES += \
+         widgets/qframe.cpp \
+-        widgets/qtoolbar.cpp \
+-        widgets/qtoolbarlayout.cpp \
+-        widgets/qtoolbarseparator.cpp \
+         widgets/qabstractscrollarea.cpp \
+         widgets/qfocusframe.cpp \
+-        widgets/qwidgetanimator.cpp \
+-        widgets/qtoolbararealayout.cpp
++        widgets/qwidgetanimator.cpp
+ 
+ qtConfig(abstractbutton) {
+     HEADERS += \
+@@ -341,6 +332,21 @@ qtConfig(toolbutton) {
+         widgets/qtoolbarextension.cpp
+ }
+ 
++qtConfig(toolbar) {
++    HEADERS += \
++        widgets/qtoolbar.h \
++        widgets/qtoolbar_p.h \
++        widgets/qtoolbarlayout_p.h \
++        widgets/qtoolbarseparator_p.h \
++        widgets/qtoolbararealayout_p.h
++
++    SOURCES += \
++        widgets/qtoolbar.cpp \
++        widgets/qtoolbarlayout.cpp \
++        widgets/qtoolbarseparator.cpp \
++        widgets/qtoolbararealayout.cpp
++}
++
+ qtConfig(widgettextcontrol) {
+     HEADERS += \
+         widgets/qwidgettextcontrol_p.h \
+-- 
+2.17.1
+
