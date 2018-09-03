@@ -23,14 +23,26 @@ QT5BASE_CONFIGURE_OPTS += \
 	-no-cups \
 	-no-iconv \
 	-system-zlib \
-	-system-pcre \
-	-no-pch \
-	-shared
+	-no-pch
+
+ifeq ($(BR2_STATIC_LIBS),y)
+QT5BASE_CONFIGURE_OPTS += -static
+QT5BASE_PLUGINS_PREFIX  = $(STAGING_DIR)
+else
+QT5BASE_CONFIGURE_OPTS += -shared
+endif
+
+ifeq ($(BR2_OPTIMIZE_S),y)
+QT5BASE_CONFIGURE_OPTS += -optimize-size
+endif
 
 ifeq ($(BR2_PACKAGE_QT5_VERSION_5_6),y)
 QT5BASE_DEPENDENCIES += pcre
 else
+ifeq ($(BR2_PACKAGE_PCRE),)
+QT5BASE_CONFIGURE_OPTS += -system-pcre
 QT5BASE_DEPENDENCIES += pcre2
+endif
 endif
 
 QT5BASE_CONFIGURE_OPTS += $(call qstrip,$(BR2_PACKAGE_QT5BASE_CUSTOM_CONF_OPTS))
@@ -164,13 +176,19 @@ else
 QT5BASE_CONFIGURE_OPTS += -no-eglfs
 endif
 
+ifeq ($(BR2_PACKAGE_JPEG_MPP_LIB),y)
+QT5BASE_CONFIGURE_LIBJPEG = -qt-libjpeg
+else
+QT5BASE_CONFIGURE_LIBJPEG = -system-libjpeg
+endif
+
 QT5BASE_CONFIGURE_OPTS += $(if $(BR2_PACKAGE_OPENSSL),-openssl,-no-openssl)
 QT5BASE_DEPENDENCIES   += $(if $(BR2_PACKAGE_OPENSSL),openssl)
 
 QT5BASE_CONFIGURE_OPTS += $(if $(BR2_PACKAGE_QT5BASE_FONTCONFIG),-fontconfig,-no-fontconfig)
 QT5BASE_DEPENDENCIES   += $(if $(BR2_PACKAGE_QT5BASE_FONTCONFIG),fontconfig)
 QT5BASE_CONFIGURE_OPTS += $(if $(BR2_PACKAGE_QT5BASE_GIF),,-no-gif)
-QT5BASE_CONFIGURE_OPTS += $(if $(BR2_PACKAGE_QT5BASE_JPEG),-system-libjpeg,-no-libjpeg)
+QT5BASE_CONFIGURE_OPTS += $(if $(BR2_PACKAGE_QT5BASE_JPEG),$(QT5BASE_CONFIGURE_LIBJPEG),-no-libjpeg)
 QT5BASE_DEPENDENCIES   += $(if $(BR2_PACKAGE_QT5BASE_JPEG),jpeg)
 QT5BASE_CONFIGURE_OPTS += $(if $(BR2_PACKAGE_QT5BASE_PNG),-system-libpng,-no-libpng)
 QT5BASE_DEPENDENCIES   += $(if $(BR2_PACKAGE_QT5BASE_PNG),libpng)
@@ -296,6 +314,7 @@ define QT5BASE_CONFIGURE_CMDS
 		-device-option CROSS_COMPILE="$(TARGET_CROSS)" \
 		-device-option BR_COMPILER_CFLAGS="$(TARGET_CFLAGS)" \
 		-device-option BR_COMPILER_CXXFLAGS="$(TARGET_CXXFLAGS)" \
+		-device-option BR_COMPILER_LDFLAGS="$(TARGET_LDFLAGS)" \
 		$(QT5BASE_CONFIGURE_OPTS) \
 	)
 endef
@@ -308,6 +327,7 @@ endef
 # compiled into the Qt library. We need it to make "qmake" relocatable.
 define QT5BASE_INSTALL_QT_CONF
 	sed -e "s|@@HOST_DIR@@|$(HOST_DIR)|" -e "s|@@STAGING_DIR@@|$(STAGING_DIR)|" \
+		-e "s|@@PLUGINS_PREFIX@@|$(QT5BASE_PLUGINS_PREFIX)|" \
 		$(QT5BASE_PKGDIR)/qt.conf.in > $(HOST_DIR)/bin/qt.conf
 endef
 
