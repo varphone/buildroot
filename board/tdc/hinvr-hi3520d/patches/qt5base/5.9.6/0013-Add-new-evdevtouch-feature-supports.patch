@@ -1,0 +1,55 @@
+From 75267d7156da1dbf896636f243eca49624f7c042 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 15:49:17 +0800
+Subject: [PATCH 13/16] Add new evdevtouch feature supports
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/configure.json              | 8 ++++++++
+ src/platformsupport/input/input.pro | 4 +++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/src/gui/configure.json b/src/gui/configure.json
+index 29d59b1b36..11f4d4b864 100644
+--- a/src/gui/configure.json
++++ b/src/gui/configure.json
+@@ -16,6 +16,7 @@
+             "egl": "boolean",
+             "eglfs": "boolean",
+             "evdev": "boolean",
++            "evdevtouch": "boolean",
+             "fontconfig": "boolean",
+             "freetype": { "type": "enum", "values": [ "no", "qt", "system" ] },
+             "gbm": "boolean",
+@@ -919,6 +920,13 @@
+             "condition": "tests.evdev",
+             "output": [ "privateFeature" ]
+         },
++        "evdevtouch": {
++            "label": "evdevtouch",
++            "purpose": "Supports evdev touch events.",
++            "section": "Kernel",
++            "condition": "features.evdev",
++            "output": [ "publicFeature", "feature" ]
++        },
+         "freetype": {
+             "label": "FreeType",
+             "purpose": "Supports the FreeType 2 font engine (and its supported font formats).",
+diff --git a/src/platformsupport/input/input.pro b/src/platformsupport/input/input.pro
+index 3d39210b9e..9f1bc80e9f 100644
+--- a/src/platformsupport/input/input.pro
++++ b/src/platformsupport/input/input.pro
+@@ -10,7 +10,9 @@ PRECOMPILED_HEADER = ../../corelib/global/qt_pch.h
+ qtConfig(evdev) {
+     include($$PWD/evdevmouse/evdevmouse.pri)
+     include($$PWD/evdevkeyboard/evdevkeyboard.pri)
+-    include($$PWD/evdevtouch/evdevtouch.pri)
++    qtConfig(evdevtouch) {
++        include($$PWD/evdevtouch/evdevtouch.pri)
++    }
+     qtConfig(tabletevent) {
+         include($$PWD/evdevtablet/evdevtablet.pri)
+     }
+-- 
+2.17.1
+

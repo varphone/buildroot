@@ -1,0 +1,62 @@
+From 07fa07825bf72c488334ea02f27bead5d609d144 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 14:32:50 +0800
+Subject: [PATCH 11/16] Add new minimal,offscreen features supports
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/configure.json              | 14 ++++++++++++++
+ src/plugins/platforms/platforms.pro |  4 ++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/configure.json b/src/gui/configure.json
+index 0916aaf051..29d59b1b36 100644
+--- a/src/gui/configure.json
++++ b/src/gui/configure.json
+@@ -30,6 +30,8 @@
+             "libpng": { "type": "enum", "values": [ "no", "qt", "system" ] },
+             "linuxfb": "boolean",
+             "mirclient": "boolean",
++            "minimal": "boolean",
++            "offscreen": "boolean",
+             "mtdev": "boolean",
+             "opengl": { "type": "optionalString", "values": [ "no", "yes", "desktop", "es2", "dynamic" ] },
+             "opengl-es-2": { "type": "void", "name": "opengl", "value": "es2" },
+@@ -1010,6 +1012,18 @@
+             "condition": "libs.mirclient",
+             "output": [ "privateFeature" ]
+         },
++        "minimal": {
++            "label": "Minimal",
++            "section": "Platform plugins",
++            "autoDetect": false,
++            "output": [ "privateFeature" ]
++        },
++        "offscreen": {
++            "label": "Offscreen",
++            "section": "Platform plugins",
++            "autoDetect": false,
++            "output": [ "privateFeature" ]
++        },
+         "mtdev": {
+             "label": "mtdev",
+             "condition": "libs.mtdev",
+diff --git a/src/plugins/platforms/platforms.pro b/src/plugins/platforms/platforms.pro
+index e61887618f..5bef3eadcb 100644
+--- a/src/plugins/platforms/platforms.pro
++++ b/src/plugins/platforms/platforms.pro
+@@ -3,9 +3,9 @@ QT_FOR_CONFIG += gui-private
+ 
+ android:!android-embedded: SUBDIRS += android
+ 
+-!android: SUBDIRS += minimal
++!android:qtConfig(minimal): SUBDIRS += minimal
+ 
+-!android:qtConfig(freetype): SUBDIRS += offscreen
++!android:qtConfig(freetype):qtConfig(offscreen): SUBDIRS += offscreen
+ 
+ qtConfig(xcb) {
+     SUBDIRS += xcb
+-- 
+2.17.1
+

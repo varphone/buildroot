@@ -1,0 +1,27 @@
+From 8c2a6a5859936e121a2225917d3dac64aec02631 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 14:14:13 +0800
+Subject: [PATCH 09/16] Fix build without feature.syntaxhighlighter
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/configure.json | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/src/gui/configure.json b/src/gui/configure.json
+index ca596f736f..0916aaf051 100644
+--- a/src/gui/configure.json
++++ b/src/gui/configure.json
+@@ -1482,8 +1482,7 @@
+         "syntaxhighlighter": {
+             "label": "QSyntaxHighlighter",
+             "purpose": "Supports custom syntax highlighting.",
+-            "section": "Widgets",
+-            "condition": "features.textedit",
++            "section": "Kernel",
+             "output": [ "publicFeature", "feature" ]
+         }
+     },
+-- 
+2.17.1
+
