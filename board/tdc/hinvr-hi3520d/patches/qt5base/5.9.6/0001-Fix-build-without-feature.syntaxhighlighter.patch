@@ -1,0 +1,83 @@
+From 7bc15f63d474aa167050819f073a0c10135d63f3 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sat, 28 Jul 2018 22:46:10 +0800
+Subject: [PATCH 01/16] Fix build without feature.syntaxhighlighter
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/configure.json     | 7 +++++++
+ src/gui/text/text.pri      | 9 +++++++--
+ src/widgets/configure.json | 7 -------
+ 3 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/src/gui/configure.json b/src/gui/configure.json
+index 1e4e56422f..ddb79d6ea7 100644
+--- a/src/gui/configure.json
++++ b/src/gui/configure.json
+@@ -1472,6 +1472,13 @@
+             "purpose": "Supports displaying \"What's this\" help.",
+             "section": "Widget Support",
+             "output": [ "publicFeature", "feature" ]
++        },
++        "syntaxhighlighter": {
++            "label": "QSyntaxHighlighter",
++            "purpose": "Supports custom syntax highlighting.",
++            "section": "Widgets",
++            "condition": "features.textedit",
++            "output": [ "publicFeature", "feature" ]
+         }
+     },
+ 
+diff --git a/src/gui/text/text.pri b/src/gui/text/text.pri
+index abe20abe02..351f6d7bcf 100644
+--- a/src/gui/text/text.pri
++++ b/src/gui/text/text.pri
+@@ -30,7 +30,6 @@ HEADERS += \
+     text/qtextimagehandler_p.h \
+     text/qtexttable.h \
+     text/qtextlist.h \
+-    text/qsyntaxhighlighter.h \
+     text/qtextdocumentwriter.h \
+     text/qtexttable_p.h \
+     text/qstatictext_p.h \
+@@ -66,7 +65,6 @@ SOURCES += \
+     text/qtexttable.cpp \
+     text/qtextlist.cpp \
+     text/qtextdocumentwriter.cpp \
+-    text/qsyntaxhighlighter.cpp \
+     text/qstatictext.cpp \
+     text/qrawfont.cpp \
+     text/qglyphrun.cpp \
+@@ -103,3 +101,10 @@ qtConfig(cssparser) {
+     SOURCES += \
+         text/qcssparser.cpp
+ }
++
++qtConfig(syntaxhighlighter) {
++    HEADERS += \
++        text/qsyntaxhighlighter.h
++    SOURCES += \
++        text/qsyntaxhighlighter.cpp
++}
+\ No newline at end of file
+diff --git a/src/widgets/configure.json b/src/widgets/configure.json
+index 7ec5fe9ef8..2ec04455f2 100644
+--- a/src/widgets/configure.json
++++ b/src/widgets/configure.json
+@@ -407,13 +407,6 @@
+             "condition": "features.scrollarea && features.properties && features.widgettextcontrol",
+             "output": [ "publicFeature", "feature" ]
+         },
+-        "syntaxhighlighter": {
+-            "label": "QSyntaxHighlighter",
+-            "purpose": "Supports custom syntax highlighting.",
+-            "section": "Widgets",
+-            "condition": "features.textedit",
+-            "output": [ "publicFeature", "feature" ]
+-        },
+         "rubberband": {
+             "label": "QRubberBand",
+             "purpose": "Supports using rubberbands to indicate selections and boundaries.",
+-- 
+2.17.1
+

@@ -1,0 +1,46 @@
+From 0a8d6ce1dc55c78594609414a2ba737ffae3ef0f Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 19:40:42 +0800
+Subject: [PATCH 15/16] Fix build without feature.systemtrayicon (kernel)
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/kernel/kernel.pri | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/src/gui/kernel/kernel.pri b/src/gui/kernel/kernel.pri
+index de68391e92..a5ec9dbe9c 100644
+--- a/src/gui/kernel/kernel.pri
++++ b/src/gui/kernel/kernel.pri
+@@ -66,7 +66,6 @@ HEADERS += \
+         kernel/qplatformsharedgraphicscache.h \
+         kernel/qplatformdialoghelper.h \
+         kernel/qplatformservices.h \
+-        kernel/qplatformsystemtrayicon.h \
+         kernel/qplatformsessionmanager.h \
+         kernel/qpixelformat.h \
+         kernel/qpaintdevicewindow.h \
+@@ -123,7 +122,6 @@ SOURCES += \
+         kernel/qplatformsharedgraphicscache.cpp \
+         kernel/qplatformdialoghelper.cpp \
+         kernel/qplatformservices.cpp \
+-        kernel/qplatformsystemtrayicon.cpp \
+         kernel/qplatformsessionmanager.cpp \
+         kernel/qplatformmenu.cpp \
+         kernel/qpixelformat.cpp \
+@@ -156,4 +154,12 @@ qtConfig(clipboard) {
+         kernel/qplatformclipboard.cpp \
+         kernel/qclipboard.cpp
+ }
++
++qtConfig(systemtrayicon) {
++    HEADERS += \
++        kernel/qplatformsystemtrayicon.h
++    SOURCES += \
++        kernel/qplatformsystemtrayicon.cpp
++}
++
+ win32:HEADERS+=kernel/qwindowdefs_win.h
+-- 
+2.17.1
+
