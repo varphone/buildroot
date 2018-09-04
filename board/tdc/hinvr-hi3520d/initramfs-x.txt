@@ -7,6 +7,7 @@ usr/bin/amixer
 usr/bin/aplay
 usr/bin/arecord
 usr/bin/aserver
+usr/bin/btools
 usr/bin/dvb*
 usr/bin/fb*
 usr/bin/fb-*
@@ -22,6 +23,7 @@ usr/bin/gsettings
 usr/bin/hb-*
 usr/bin/hexdump
 usr/bin/h264encode
+usr/bin/hinvr-qt
 usr/bin/img*
 usr/bin/jasper
 usr/bin/jpegenc
