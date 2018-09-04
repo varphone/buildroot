@@ -29,12 +29,12 @@ if [[ "${BUILD_INITRD}" = "y" ]]; then
 
 	echo "### Copy initramfs files ..."
 	pushd "${TARGET_DIR}"
-	${TAR} -cf - -T "${INITRAMFS_T_LIST}" -X "${INITRAMFS_X_LIST}" | tar -xf - -C"${INITRAMFS_DIR}/"
+	${TAR} -cf - -X "${INITRAMFS_X_LIST}" -T "${INITRAMFS_T_LIST}" | tar -xf - -C"${INITRAMFS_DIR}/"
 	popd
 
 	echo "### Overlay with ${INITRAMFS_OVERLAY} ..."
 	pushd "${INITRAMFS_OVERLAY}"
-	${TAR} -cf - * | tar -xf - -C"${INITRAMFS_DIR}"
+	${TAR} -cf - * | tar -xf - -C"${INITRAMFS_DIR}/"
 	popd
 
 	echo "### Make cpio ..."
