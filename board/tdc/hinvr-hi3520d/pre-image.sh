@@ -63,6 +63,8 @@ if [ -n "${TARGET_DIR}" ]; then
 	rm -f usr/bin/pcregrep
 	rm -f usr/bin/pcretest
 	rm -f usr/bin/xmlwf
+	rm -f usr/bin/xmlcatalog
+	rm -f usr/bin/xmllint
 	rm -rf usr/lib/gio
 	rm -rf usr/lib/gstreamer-1.0
 	rm -rf usr/lib/qt
@@ -76,6 +78,7 @@ if [ -n "${TARGET_DIR}" ]; then
 	rm -f usr/lib/libtde.so
 	rm -f usr/lib/libVoiceEngine.so
 	rm -f usr/lib/libvqev2.so
+	rm -rf usr/libexec/lzo
 	rm -rf usr/share/alsa
 	rm -rf usr/share/ffmpeg
 	rm -rf usr/share/gettext
