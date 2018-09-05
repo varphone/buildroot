@@ -30,7 +30,11 @@ QT_LDFLAGS = $(TARGET_LDFLAGS)
 # Qt WebKit build fails when gcc-6 is used for build, because
 # 'std::auto_ptr' is deprecated starting from gcc 6.x. So, we have to
 # use an older c++ standard to prevent build failure
+ifeq ($(BR2_PACKAGE_QT_WEBKIT),y)
 QT_CXXFLAGS += -std=gnu++98
+else
+QT_CXXFLAGS += -std=c++14
+endif
 
 # gcc bug internal compiler error: in validate_condition_mode, at
 # config/rs6000/rs6000.c:180744. Bug is fixed since gcc 7.
