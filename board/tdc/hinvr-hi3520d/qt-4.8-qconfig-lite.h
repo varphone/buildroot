@@ -1,3 +1,8 @@
+/* Crypto */
+#ifndef QT_NO_OPENSSL
+#  define QT_NO_OPENSSL
+#endif
+
 /* Dialogs */
 #ifndef QT_NO_COLORDIALOG
 #  define QT_NO_COLORDIALOG
@@ -112,11 +117,20 @@
 #endif
 
 /* Networking */
+#ifndef QT_NO_BEARERMANAGEMENT
+#  define QT_NO_BEARERMANAGEMENT
+#endif
 #ifndef QT_NO_COP
 #  define QT_NO_COP
 #endif
 #ifndef QT_NO_FTP
 #  define QT_NO_FTP
+#endif
+#ifndef QT_NO_HTTP
+#  define QT_NO_HTTP
+#endif
+#ifndef QT_NO_NETWORKPROXY
+#  define QT_NO_NETWORKPROXY
 #endif
 
 /* Painting */
