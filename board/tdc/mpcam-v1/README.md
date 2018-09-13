@@ -193,7 +193,7 @@ $CXX test.cpp -o test
 命令使用方法如下：
 
 ```sh
-fpga-bit-to-bin.py -flip fpga.bit fpga.bin
+fpga-bit-to-bin.py --flip fpga.bit fpga.bin
 ```
 
-> 注意：`-flip` 参数不能遗缺，这是适配于 `Zynq FPGA` 的参数。
+> 注意：`--flip` 参数不能遗缺，这是适配于 `Zynq FPGA` 的参数。
