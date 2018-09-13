@@ -107,6 +107,10 @@ UBOOT_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/u-boot
 
 ### 更新 SD 卡固件
 
+设备上有两个 `MMC` 设备，一个是板载的 `eMMC`，一个是外置的 `SD` 卡。
+
+在当前版本的内核中，`eMMC` 对应的是 `/dev/mmcblk0` 设备，`SD` 卡对应的是 `/dev/mmcblk1` 设备。
+
 更新 SD 卡固件可以有多种方式，包括：设备外部更新、设备内部更新。
 
 设备外部更新：
@@ -122,9 +126,17 @@ UBOOT_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/u-boot
 2. 执行 `setenv bootconf '#ramdisk'` 将启动模式配置为 `Ramdisk` 模式。
 3. 执行 `run sdboot` 或 `run qspiboot` 从 SD 或 QSPI Flash 启动系统。
 4. 进入 Linux 系统后，使用 `TFTP` 或 `NFS` 将 SD 镜像文件传输到设备中。
-5. 在 SD 卡镜像文件所在的目录中执行 `dd if=sdcard of=/dev/mmcblk0 bs=512` 将镜像烧录到 SD 中。
+5. 在 SD 卡镜像文件所在的目录中执行 `dd if=sdcard of=/dev/mmcblk1 bs=512` 将镜像烧录到 SD 中。
 
 在设备内部更新 SD 固件时，推荐使用 `NFS` 方式来传输文件，关于 NFS 的使用见下面的常见问题中相关描述。
+
+如果你不想烧录整个 `eMMC` 或 `SD` 卡，你可以将需要更新的分区挂载到系统中，然后更新其中的文件，例如：
+
+```sh
+mount /dev/mmcblk1p1 /mnt # 将 SD 卡 的 BOOT 分区挂载到 /mnt 目录
+cp /nfs/mpcam-v1/images/image.itb /mnt # 使用 NFS 目录中的 image.itb 更新到 SD 卡中
+sync # 同步系统缓存数据到存储设备中，确保数据完整
+```
 
 ### 更新 QSPI Flash 固件
 
