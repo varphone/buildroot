@@ -26,12 +26,10 @@ ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
 CAIRO_CONF_ENV += LIBS="-latomic"
 endif
 
-ifeq ($(BR2_STATIC_LIBS),y)
 ifeq ($(BR2_ENDIAN),"LITTLE")
 CAIRO_CONF_ENV += ax_cv_c_float_words_bigendian=no
 else
 CAIRO_CONF_ENV += ax_cv_c_float_words_bigendian=yes
-endif
 endif
 
 CAIRO_CONF_OPTS = \
