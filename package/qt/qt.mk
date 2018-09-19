@@ -67,7 +67,7 @@ QT_CONFIGURE_OPTS += -nomake examples
 endif
 
 # ensure glib is built first if enabled for Qt's glib support
-ifeq ($(BR2_PACKAGE_LIBGLIB2),y)
+ifeq ($(BR2_PACKAGE_LIBGLIB2)$(BR2_PACKAGE_QT_GLIB),yy)
 QT_CONFIGURE_OPTS += -glib
 QT_DEPENDENCIES += libglib2
 else
