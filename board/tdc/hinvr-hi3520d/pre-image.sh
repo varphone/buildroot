@@ -3,6 +3,18 @@
 SCRIPT_DIR=$(dirname $(readlink -f "$0"))
 TAR="tar --ignore-failed-read"
 
+FULL_BUILD=n
+MINI_BUILD=y
+
+while true; do
+	case "$1" in
+		-f | --full ) FULL_BUILD=y MINI_BUILD=n; shift ;;
+		-m | --mini ) FULL_BUILD=n MINI_BUILD=y; shift ;;
+		-- ) shift; break ;;
+		* ) break ;;
+	esac
+done
+
 # Gen misc ubifs image
 MISC_FS="${SCRIPT_DIR}/misc_fs"
 MISC_UBIFS="${BINARIES_DIR}/misc.ubifs"
@@ -21,7 +33,7 @@ if [ -d "${MISC_FS}" ]; then
 fi
 
 # Reduce the rootfs
-if [ -n "${TARGET_DIR}" ]; then
+if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	tput setaf 3
 	tput bold
 	echo "!!! Reducing the target filesystem: \"${TARGET_DIR}\" ..."
