@@ -60,15 +60,6 @@
 #endif
 
 /* Internationalization */
-#ifndef QT_NO_BIG_CODECS
-#  define QT_NO_BIG_CODECS
-#endif
-#ifndef QT_NO_TEXTCODEC
-#  define QT_NO_TEXTCODEC
-#endif
-#ifndef QT_NO_TEXTCODECPLUGIN
-#  define QT_NO_TEXTCODECPLUGIN
-#endif
 
 /* ItemViews */
 #ifndef QT_NO_DIRMODEL
