@@ -1,0 +1,29 @@
+--- Makefile.orig	2018-09-24 21:00:28.997688862 +0800
++++ Makefile	2018-09-24 21:02:36.495800098 +0800
+@@ -60,7 +60,7 @@
+         -I$(DRIVERDIR)/include \
+ 
+ 
+-CFG_LIB = -lpthread -lrt
++CFG_LIB = -lrt -lpthread
+ 
+ CFG_LIB_X86=
+ CFG_LIB_ARM=
+@@ -145,7 +145,7 @@
+ LINK_FLAGS = $(CFG_DEFS) $(CFG_DEBUG) 
+ 
+ COMPILE=$(CC) $(CFG_FLAGS) $(COMPIER_FLAGS) -o "$(OUTDIR)/$(*F).o" "$<"
+-LINK=$(CC) -o "$@" $(OBJ) $(CFG_LIB)
++LINK=$(CC) -o "$@" $(OBJ)
+ 
+ LINK_A=$(CC)   -o "$@" $(OBJ) $(CFG_LIB) $(CFG_FLAGS)
+ 
+@@ -169,7 +169,7 @@
+ all: $(OUTDIR)  $(ALL_OBJ)  $(OUTFILE) 
+ 
+ btools:$(OUTDIR) $(OBJ) $(BTOOLS_OBJ) 
+-	$(LINK)   $(BTOOLS_OBJ)
++	$(LINK)   $(BTOOLS_OBJ) $(CFG_LIB)
+ 	$(STRIP) btools
+ 	ln -s btools himd
+ 	ln -s btools himd.l

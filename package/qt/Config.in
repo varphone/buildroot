@@ -444,14 +444,6 @@ config BR2_PACKAGE_QT_GLIB
 	  Compile Glib support.
 	  If unsure, say y.
 
-config BR2_PACKAGE_QT_GLIB
-	bool "Glib support"
-	default y
-	depends on BR2_PACKAGE_LIBGLIB2
-	help
-	  Compile Glib support.
-	  If unsure, say y.
-
 config BR2_PACKAGE_QT_STL
 	bool "STL support"
 	help

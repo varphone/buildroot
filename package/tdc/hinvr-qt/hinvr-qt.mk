@@ -25,6 +25,10 @@ QMAKE	= $(HOST_DIR)/usr/bin/qmake
 HINVR_QT_DEPENDENCIES += $(if $(BR2_PACKAGE_QT),qt)
 HINVR_QT_DEPENDENCIES += $(if $(BR2_PACKAGE_QT5BASE),qt5base)
 
+ifeq ($(BR2_PACKAGE_GSTREAMER1),y)
+HINVR_QT_DEPENDENCIES += gst1-plugins-base gst1-plugins-good gst1-plugins-bad
+endif
+
 define HINVR_QT_CONFIGURE_CMDS
 	(cd $(@D); $(TARGET_CONFIGURE_OPTS) $(QMAKE) hinvr-qt.pro)
 endef

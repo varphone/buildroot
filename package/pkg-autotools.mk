@@ -172,6 +172,7 @@ ifneq ($(call prefer-static,$(1)),)
 $(2)_SHARED_STATIC_LIBS_OPTS = --enable-static --disable-shared
 else
 $(2)_SHARED_STATIC_LIBS_OPTS = $(SHARED_STATIC_LIBS_OPTS)
+endif
 
 #
 # Configure step. Only define it if not already defined by the package
