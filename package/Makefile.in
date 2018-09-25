@@ -166,6 +166,11 @@ TARGET_CFLAGS += -fstack-protector-all
 TARGET_CXXFLAGS += -fstack-protector-all
 endif
 
+ifeq ($(BR2_OPTIMIZE_S),y)
+TARGET_OPTIMIZATION += -ffunction-sections -fdata-sections
+TARGET_LDFLAGS += -Wl,--gc-sections
+endif
+
 ifeq ($(BR2_TOOLCHAIN_BUILDROOT),y)
 TARGET_CROSS=$(HOST_DIR)/usr/bin/$(GNU_TARGET_NAME)-
 else
