@@ -1,0 +1,41 @@
+#!/bin/sh
+
+init() {
+	echo "Initialize Hi3520D BSP ..."
+
+	# LED Status
+	himm 0x200F0188 0x01
+	himm 0x201F0400 0x17
+	himm 0x201F03fc 0x77
+
+	# SATA Control
+	himm 0x10080174 0x0E276709
+	himm 0x100801F4 0x0E276709
+	himm 0x10080174 0x0E276709
+	himm 0x10080058 0x00002521
+
+	# GPIO I2C
+	himm 0x200F0044 0x00
+	himm 0x200F0048 0x00
+
+	# GPIO5_2
+	himm 0x200F0054 0x00
+
+	./load3520D -i 4720p
+}
+
+case $1 in
+	start)
+		cd /ko && init
+		;;
+	stop)
+		;;
+	reload|restart)
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart]"
+		exit 1
+		;;
+esac
+
+exit $?

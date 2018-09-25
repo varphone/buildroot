@@ -1,0 +1,51 @@
+From 4c7231fdfa752011a94f8029c33bddbc9b86b80b Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Sun, 29 Jul 2018 15:17:36 +0800
+Subject: [PATCH 12/16] Fix build without feature.pdf
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ src/gui/painting/painting.pri | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/src/gui/painting/painting.pri b/src/gui/painting/painting.pri
+index 63e345545c..b69dbd808b 100644
+--- a/src/gui/painting/painting.pri
++++ b/src/gui/painting/painting.pri
+@@ -36,8 +36,6 @@ HEADERS += \
+         painting/qpainterpath_p.h \
+         painting/qvectorpath_p.h \
+         painting/qpathclipper_p.h \
+-        painting/qpdf_p.h \
+-        painting/qpdfwriter.h \
+         painting/qpen.h \
+         painting/qpolygon.h \
+         painting/qpolygonclipper_p.h \
+@@ -85,8 +83,6 @@ SOURCES += \
+         painting/qpainter.cpp \
+         painting/qpainterpath.cpp \
+         painting/qpathclipper.cpp \
+-        painting/qpdf.cpp \
+-        painting/qpdfwriter.cpp \
+         painting/qpen.cpp \
+         painting/qpolygon.cpp \
+         painting/qrasterizer.cpp \
+@@ -109,6 +105,15 @@ qtConfig(cssparser) {
+         painting/qcssutil.cpp
+ }
+ 
++qtConfig(pdf) {
++    HEADERS += \
++        painting/qpdf_p.h \
++        painting/qpdfwriter.h
++    SOURCES += \
++        painting/qpdf.cpp \
++        painting/qpdfwriter.cpp
++}
++
+ # Causes internal compiler errors with at least GCC 5.3.1:
+ gcc:equals(QT_GCC_MAJOR_VERSION, 5) {
+     SOURCES -= painting/qdrawhelper.cpp
+-- 
+2.17.1
+

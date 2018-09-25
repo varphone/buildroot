@@ -1,0 +1,57 @@
+diff --git a/libc/sysdeps/linux/arm/Makefile.arch b/libc/sysdeps/linux/arm/Makefile.arch
+index 14279e0..ddd104d 100644
+--- a/libc/sysdeps/linux/arm/Makefile.arch
++++ b/libc/sysdeps/linux/arm/Makefile.arch
+@@ -41,6 +41,6 @@
+ libc-static-y += $(ARCH_OUT)/aeabi_lcsts.o $(ARCH_OUT)/aeabi_math.o \
+ 	$(ARCH_OUT)/aeabi_sighandlers.o
+ libc-nonshared-y += $(ARCH_OUT)/aeabi_lcsts.os $(ARCH_OUT)/aeabi_math.os \
+-	$(ARCH_OUT)/aeabi_sighandlers.os
+-libc-shared-y += $(ARCH_OUT)/aeabi_unwind_cpp_pr1.os
++	$(ARCH_OUT)/aeabi_sighandlers.os \
++	$(ARCH_OUT)/aeabi_unwind_cpp_pr1.os
+ endif
+diff --git a/libpthread/nptl/sysdeps/arm/Makefile.arch b/libpthread/nptl/sysdeps/arm/Makefile.arch
+index 284dba4..fbe4975 100644
+--- a/libpthread/nptl/sysdeps/arm/Makefile.arch
++++ b/libpthread/nptl/sysdeps/arm/Makefile.arch
+@@ -7,7 +7,6 @@
+ #
+ 
+ librt_arch_SSRC = aeabi_read_tp.S thumb_atomics.S
+-librt_arch_CSRC = aeabi_unwind_cpp_pr1.c
+ 
+ CFLAGS-pt-raise.c = -DNOT_IN_libc -DIS_IN_libpthread
+ 
+diff --git a/libpthread/nptl/sysdeps/arm/aeabi_unwind_cpp_pr1.c b/libpthread/nptl/sysdeps/arm/aeabi_unwind_cpp_pr1.c
+deleted file mode 100644
+index 8468362..0000000
+--- a/libpthread/nptl/sysdeps/arm/aeabi_unwind_cpp_pr1.c
++++ /dev/null
+@@ -1 +0,0 @@
+-#include <../../../../libc/sysdeps/linux/arm/aeabi_unwind_cpp_pr1.c>
+diff --git a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/nptl-aeabi_unwind_cpp_pr1.c b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/nptl-aeabi_unwind_cpp_pr1.c
+deleted file mode 100644
+index 7b83522..0000000
+--- a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/nptl-aeabi_unwind_cpp_pr1.c
++++ /dev/null
+@@ -1 +0,0 @@
+-#include <aeabi_unwind_cpp_pr1.c>
+diff --git a/libubacktrace/Makefile.in b/libubacktrace/Makefile.in
+index b18e3e6..3e2073b 100644
+--- a/libubacktrace/Makefile.in
++++ b/libubacktrace/Makefile.in
+@@ -12,10 +12,6 @@ CFLAGS-libubacktrace := -DNOT_IN_libc -DIS_IN_libubacktrace $(SSP_ALL_CFLAGS)
+ 
+ LDFLAGS-libubacktrace.so := $(LDFLAGS) $(top_builddir)lib/libdl-$(VERSION).so
+ 
+-ifeq ($(UCLIBC_HAS_BACKTRACE)$(CONFIG_ARM_EABI),yy)
+-LIBGCC += $(shell $(CC) -print-file-name=libgcc_eh.a)
+-endif
+-
+ LIBS-libubacktrace.so := $(LIBS)
+ 
+ libubacktrace_FULL_NAME := libubacktrace-$(VERSION).so
+-- 
+1.7.4.4
+

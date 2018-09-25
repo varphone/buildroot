@@ -1,0 +1,10 @@
+set daemon 5
+	with start delay 10
+
+set httpd port 2812
+	allow 0.0.0.0/0.0.0.0
+	allow admin:monit
+
+check process hivcap with pidfile /var/run/hinvr.pid
+	start program = "/etc/init.d/S90hinvr start"
+	stop program = "/etc/init.d/S90hinvr stop"

@@ -1,0 +1,52 @@
+--- a/libc/sysdeps/linux/arm/sigaction.c	2018-09-25 18:42:04.143501275 +0800
++++ b/libc/sysdeps/linux/arm/sigaction.c	2018-09-25 18:44:47.355947816 +0800
+@@ -29,7 +29,9 @@
+ extern void __default_sa_restorer(void);
+ extern void __default_rt_sa_restorer(void);
+ 
++#ifdef NOT_IN_libc
+ extern __typeof(sigaction) __libc_sigaction;
++#endif
+ 
+ /* When RT signals are in use we need to use a different return stub.  */
+ #ifdef __NR_rt_sigreturn
+@@ -46,7 +48,12 @@
+ 
+ /* If ACT is not NULL, change the action for SIG to *ACT.
+    If OACT is not NULL, put the old action for SIG in *OACT.  */
+-int __libc_sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
++#ifdef NOT_IN_libc
++int
++#else
++static int
++#endif
++__libc_sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
+ {
+ 	struct sigaction kact;
+ 	if (act && !(act->sa_flags & SA_RESTORER)) {
+@@ -64,7 +71,12 @@
+ 
+ /* If ACT is not NULL, change the action for SIG to *ACT.
+    If OACT is not NULL, put the old action for SIG in *OACT.  */
+-int __libc_sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
++#ifdef NOT_IN_libc
++int
++#else
++static int
++#endif
++__libc_sigaction(int sig, const struct sigaction *act, struct sigaction *oact)
+ {
+ 	int result;
+ 	struct old_kernel_sigaction kact, koact;
+--- a/libpthread/nptl/sysdeps/pthread/sigaction.c	2018-09-25 18:45:30.796090327 +0800
++++ b/libpthread/nptl/sysdeps/pthread/sigaction.c	2018-09-25 18:46:03.244202313 +0800
+@@ -26,8 +26,7 @@
+ #define LIBC_SIGACTION	1
+ #include <sigaction.c>
+ 
+-extern __typeof(sigaction) __sigaction;
+-int
++static int
+ __sigaction (int sig, const struct sigaction *act, struct sigaction *oact)
+ {
+   if (__builtin_expect (sig == SIGCANCEL || sig == SIGSETXID, 0))
