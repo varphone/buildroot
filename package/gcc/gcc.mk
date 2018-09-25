@@ -105,7 +105,7 @@ HOST_GCC_COMMON_CONF_OPT = \
 # Don't build documentation. It takes up extra space / build time,
 # and sometimes needs specific makeinfo versions to work
 HOST_GCC_COMMON_CONF_ENV = \
-	MAKEINFO=missing
+	MAKEINFO=missing CFLAGS="-fgnu89-inline"
 
 # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43810
 # Workaround until it's fixed in 4.5.4 or later
