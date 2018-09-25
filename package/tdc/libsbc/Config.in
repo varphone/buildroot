@@ -1,0 +1,17 @@
+config BR2_PACKAGE_LIBSBC
+	bool "libsbc"
+	depends on BR2_PACKAGE_TDC
+	select BR2_PACKAGE_LIBMODBUS
+	help
+	  Solar Power Controller library for ETLMD-V2.
+
+config BR2_PACKAGE_LIBSBC_CUSTOM_VERSION
+	bool "libsbc custom version"
+	depends on BR2_PACKAGE_LIBSBC
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBSBC_CUSTOM_VERSION_VALUE
+	string "libsbc git tag version"
+	default "1.0.2"
+	depends on BR2_PACKAGE_LIBSBC_CUSTOM_VERSION

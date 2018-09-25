@@ -1,0 +1,16 @@
+config BR2_PACKAGE_VRS_PLUGINS
+	bool "vrs-plugins"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Plugins for CVR-V1.
+
+config BR2_PACKAGE_VRS_PLUGINS_CUSTOM_VERSION
+	bool "vrs-plugins custom version"
+	depends on BR2_PACKAGE_VRS_PLUGINS
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_VRS_PLUGINS_CUSTOM_VERSION_VALUE
+	string "vrs-plugins git tag version"
+	default "1.0.1"
+	depends on BR2_PACKAGE_VRS_PLUGINS_CUSTOM_VERSION

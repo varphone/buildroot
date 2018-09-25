@@ -1,0 +1,16 @@
+config BR2_PACKAGE_ETLMD_IA_WS
+	bool "etlmd-ia-ws"
+	depends on BR2_PACKAGE_ETLMD_IA
+	help
+	  Web Service based on expressjs for etlmd-ia.
+
+config BR2_PACKAGE_ETLMD_IA_WS_CUSTOM_VERSION
+	bool "etlmd-ia-ws custom version"
+	depends on BR2_PACKAGE_ETLMD_IA_WS
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_ETLMD_IA_WS_CUSTOM_VERSION_VALUE
+	string "etlmd-ia-ws git tag version"
+	default "2.2"
+	depends on BR2_PACKAGE_ETLMD_IA_WS_CUSTOM_VERSION

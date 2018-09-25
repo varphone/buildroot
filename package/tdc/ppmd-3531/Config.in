@@ -1,0 +1,19 @@
+comment "ppmd-3531 needs mpp-lib, xpr"
+	depends on !BR2_PACKAGE_MPP_LIB || !BR2_PACKAGE_XPR
+
+config BR2_PACKAGE_PPMD_3531
+	bool "ppmd-3531"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Core application for PPMD-V1.
+
+config BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION
+	bool "ppmd-3531 custom version"
+	depends on BR2_PACKAGE_PPMD_3531
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION_VALUE
+	string "ppmg-3531 git tag version"
+	default "1.1.3"
+	depends on BR2_PACKAGE_PPMD_3531_CUSTOM_VERSION

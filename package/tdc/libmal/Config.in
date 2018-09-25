@@ -1,0 +1,18 @@
+config BR2_PACKAGE_LIBMAL
+	bool "libmal"
+	depends on BR2_PACKAGE_TDC
+	select BR2_PACKAGE_FREETYPE
+	select BR2_PACKAGE_XPR
+	help
+	  Hi3XXX MPP midware library for PPMD-V1.
+
+config BR2_PACKAGE_LIBMAL_CUSTOM_VERSION
+	bool "libmal custom version"
+	depends on BR2_PACKAGE_LIBMAL
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LIBMAL_CUSTOM_VERSION_VALUE
+	string "libmal git tag version"
+	default "1.0.4"
+	depends on BR2_PACKAGE_LIBMAL_CUSTOM_VERSION

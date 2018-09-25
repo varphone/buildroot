@@ -1,0 +1,34 @@
+#!/bin/sh
+
+DESC=etlmd-ia-bgp
+DAEMON=/usr/bin/node
+DAEMON_OPTS=index.js
+PID_FILE=/var/run/etlmd-ia-bgp.pid
+WORK_DIR=/usr/lib/etlmd-ia-bgp
+
+case "$1" in
+	start)
+		echo -n "Starting ${DESC}: "
+		start-stop-daemon -K -q -p ${PID_FILE} 2> /dev/null
+		start-stop-daemon -S -q -b -d ${WORK_DIR} -m -p ${PID_FILE} -x ${DAEMON} -- ${DAEMON_OPTS} 2> /dev/null
+		[ $? == 0 ] && echo "OK" || echo "FAIL"
+		;;
+	stop)
+		echo -n "Stoping ${DESC}: "
+		start-stop-daemon -K -q -p ${PID_FILE} 2> /dev/null
+		[ $? == 0 ] && echo "OK" || echo "FAIL"
+		;;
+	restart|reload)
+		echo -n "Restarting ${DESC}: "
+		start-stop-daemon -K -q -p ${PID_FILE} 2> /dev/null
+		start-stop-daemon -S -q -b -d ${WORK_DIR} -m -p ${PID_FILE} -x ${DAEMON} -- ${DAEMON_OPTS} 2> /dev/null
+		[ $? == 0 ] && echo "OK" || echo "FAIL"
+		;;
+	*)
+		echo "Usage: $0 start|stop|restart|reload"
+		exit 1
+		;;
+esac
+
+exit $?
+

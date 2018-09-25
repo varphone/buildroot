@@ -1,0 +1,19 @@
+comment "hinvr-qt needs gstreamer1, qt"
+	depends on !BR2_PACKAGE_GSTREAMER1 || !BR2_PACKAGE_QT
+
+config BR2_PACKAGE_HINVR_QT
+	bool "hinvr-qt"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Small NVR application for Hi35XX devices.
+
+config BR2_PACKAGE_HINVR_QT_CUSTOM_VERSION
+	bool "hinvr-qt custom version"
+	depends on BR2_PACKAGE_HINVR_QT
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_HINVR_QT_CUSTOM_VERSION_VALUE
+	string "hinvr-qt git tag version"
+	default "1.0.9"
+	depends on BR2_PACKAGE_HINVR_QT_CUSTOM_VERSION
