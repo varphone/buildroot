@@ -7,6 +7,7 @@
 GST1_PLUGINS_BAD_VERSION = 1.2.4
 GST1_PLUGINS_BAD_SOURCE = gst-plugins-bad-$(GST1_PLUGINS_BAD_VERSION).tar.xz
 GST1_PLUGINS_BAD_SITE = http://gstreamer.freedesktop.org/src/gst-plugins-bad
+GST1_PLUGINS_BAD_INSTALL_STAGING = YES
 GST1_PLUGINS_BAD_LICENSE_FILES = COPYING COPYING.LIB
 # Unknown and GPL licensed plugins will append to GST1_PLUGINS_BAD_LICENSE if
 # enabled.
@@ -693,6 +694,10 @@ GST1_PLUGINS_BAD_CONF_OPT += --enable-hls
 GST1_PLUGINS_BAD_DEPENDENCIES += gnutls
 else
 GST1_PLUGINS_BAD_CONF_OPT += --disable-hls
+endif
+
+ifeq ($(BR2_PREFER_STATIC_LIB),y)
+GST1_PLUGINS_BAD_CONF_OPT += --enable-static-plugins
 endif
 
 # Add GPL license if GPL licensed plugins enabled.

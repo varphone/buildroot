@@ -7,6 +7,7 @@
 GST1_PLUGINS_UGLY_VERSION = 1.2.4
 GST1_PLUGINS_UGLY_SOURCE = gst-plugins-ugly-$(GST1_PLUGINS_UGLY_VERSION).tar.xz
 GST1_PLUGINS_UGLY_SITE = http://gstreamer.freedesktop.org/src/gst-plugins-ugly
+GST1_PLUGINS_UGLY_INSTALL_STAGING = YES
 GST1_PLUGINS_UGLY_LICENSE_FILES = COPYING
 # GPL licensed plugins will append to GST1_PLUGINS_UGLY_LICENSE if enabled.
 GST1_PLUGINS_UGLY_LICENSE = LGPLv2.1+
@@ -91,6 +92,10 @@ GST1_PLUGINS_UGLY_DEPENDENCIES += libmpeg2
 GST1_PLUGINS_ULGY_HAS_GPL_LICENSE = y
 else
 GST1_PLUGINS_UGLY_CONF_OPT += --disable-mpeg2dec
+endif
+
+ifeq ($(BR2_PREFER_STATIC_LIB),y)
+GST1_PLUGINS_UGLY_CONF_OPT += --enable-static-plugins
 endif
 
 # Add GPL license if GPL plugins enabled.

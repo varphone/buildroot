@@ -8,6 +8,7 @@ GST1_LIBAV_VERSION = 1.2.4
 GST1_LIBAV_SOURCE = gst-libav-$(GST1_LIBAV_VERSION).tar.xz
 GST1_LIBAV_SITE = http://gstreamer.freedesktop.org/src/gst-libav
 
+GST1_LIBAV_INSTALL_STAGING = YES
 GST1_LIBAV_DEPENDENCIES = host-pkgconf gstreamer1 gst1-plugins-base
 
 GST1_LIBAV_CONF_EXTRA_OPT = \
@@ -82,5 +83,9 @@ endif
 
 GST1_LIBAV_CONF_OPT = \
 	--with-libav-extra-configure="$(GST1_LIBAV_CONF_EXTRA_OPT)"
+
+ifeq ($(BR2_PREFER_STATIC_LIB),y)
+GST1_LIBAV_CONF_OPT += --enable-static-plugins
+endif
 
 $(eval $(autotools-package))

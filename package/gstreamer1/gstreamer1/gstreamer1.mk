@@ -35,6 +35,10 @@ GSTREAMER1_CONF_OPT = \
 	$(if $(BR2_PACKAGE_GSTREAMER1_PLUGIN_REGISTRY),,--disable-registry) \
 	$(if $(BR2_PACKAGE_GSTREAMER1_INSTALL_TOOLS),,--disable-tools)
 
+ifeq ($(BR2_PREFER_STATIC_LIB),y)
+GSTREAMER1_CONF_OPT += --enable-static-plugins
+endif
+
 GSTREAMER1_DEPENDENCIES = libglib2 host-pkgconf host-bison host-flex
 
 $(eval $(autotools-package))

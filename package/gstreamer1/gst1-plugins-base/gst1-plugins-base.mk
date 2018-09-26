@@ -203,4 +203,8 @@ else
 GST1_PLUGINS_BASE_CONF_OPT += --disable-vorbis
 endif
 
+ifeq ($(BR2_PREFER_STATIC_LIB),y)
+GST1_PLUGINS_BASE_CONF_OPT += --enable-static-plugins
+endif
+
 $(eval $(autotools-package))
