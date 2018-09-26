@@ -38,7 +38,7 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	tput bold
 	echo "!!! Reducing the target filesystem: \"${TARGET_DIR}\" ..."
 	tput sgr0
-	pushd "${TARGET_DIR}"
+	pushd "${TARGET_DIR}" || exit 1
 	rm -f bin/chattr
 	rm -f bin/lsattr
 	rm -f sbin/badblocks
@@ -51,6 +51,7 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	rm -f sbin/resize2fs
 	rm -f sbin/tune2fs
 	rm -f usr/bin/aserver
+	rm -f usr/bin/envsubst
 	rm -f usr/bin/fc-cache
 	rm -f usr/bin/fc-cat
 	rm -f usr/bin/fc-list
@@ -61,6 +62,9 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	rm -f usr/bin/fc-validate
 	rm -f usr/bin/gapplication
 	rm -f usr/bin/gdbus
+	rm -f usr/bin/gdbus-codegen
+	rm -f usr/bin/gettext*
+	rm -f usr/bin/glib*
 	rm -f usr/bin/gio
 	rm -f usr/bin/gio-querymodules
 	rm -f usr/bin/gresource
@@ -71,14 +75,17 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	rm -f usr/bin/hb-ot-shape-closure
 	rm -f usr/bin/hb-shape
 	rm -f usr/bin/hb-view
+	rm -f usr/bin/ngettext
 	rm -f usr/bin/pango-view
 	rm -f usr/bin/pcregrep
 	rm -f usr/bin/pcretest
 	rm -f usr/bin/xmlwf
 	rm -f usr/bin/xmlcatalog
 	rm -f usr/bin/xmllint
+	rm -rf usr/lib/fonts
 	rm -rf usr/lib/gio
 	rm -rf usr/lib/gstreamer-1.0
+	rm -rf usr/lib/libffi-3.0.13
 	rm -rf usr/lib/qt
 	rm -f usr/lib/libaec.so
 	rm -f usr/lib/libanr.so
@@ -90,6 +97,7 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	rm -f usr/lib/libtde.so
 	rm -f usr/lib/libVoiceEngine.so
 	rm -f usr/lib/libvqev2.so
+	rm -f usr/lib/libstdc++.so*
 	rm -rf usr/libexec/lzo
 	rm -rf usr/share/alsa
 	rm -rf usr/share/ffmpeg
@@ -97,6 +105,8 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	rm -rf usr/share/glib-2.0
 	rm -rf usr/share/gst-plugins-base
 	rm -rf usr/share/gstreamer-1.0
+	rm -rf usr/share/locale
+	rm -rf usr/share/qt
 	# Remove unused timezone
 	rm -rf usr/share/zoneinfo/uclibc/Africa
 	rm -rf usr/share/zoneinfo/uclibc/America
@@ -113,7 +123,7 @@ if [ -n "${TARGET_DIR}" -a "x${MINI_BUILD}" == "xy" ]; then
 	rm -rf usr/share/zoneinfo/uclibc/Mexico
 	rm -rf usr/share/zoneinfo/uclibc/Pacific
 	rm -rf usr/share/zoneinfo/uclibc/US
-	pushd usr/share/zoneinfo/uclibc/Asia
+	pushd usr/share/zoneinfo/uclibc/Asia || exit 1
 	find . -type f ! -name Chongqing ! -name Shanghai -delete
 	popd
 	# Remove unused live555 progs
