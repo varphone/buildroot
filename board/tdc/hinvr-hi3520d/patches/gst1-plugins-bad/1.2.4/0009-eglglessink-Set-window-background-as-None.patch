@@ -1,0 +1,33 @@
+From a1e479a9a0f9d91eec147c27bd336d7e46e90648 Mon Sep 17 00:00:00 2001
+From: Yogish Kulkarni <yogishk@nvidia.com>
+Date: Thu, 29 May 2014 13:44:22 +0530
+Subject: [PATCH 09/11] eglglessink: Set window background as None
+
+Prevent X from redrawing the background on ConfigureNotify by
+setting background as None. Otherwise flickering is observed
+when resizing the window.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=730981
+---
+ ext/eglgles/video_platform_wrapper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/ext/eglgles/video_platform_wrapper.c b/ext/eglgles/video_platform_wrapper.c
+index 0482a8fd7..7f8401ccb 100644
+--- a/ext/eglgles/video_platform_wrapper.c
++++ b/ext/eglgles/video_platform_wrapper.c
+@@ -111,6 +111,11 @@ platform_create_native_window (gint width, gint height, gpointer * window_data)
+   s = DefaultScreen (d);
+   w = XCreateSimpleWindow (d, RootWindow (d, s), 10, 10, width, height, 1,
+       BlackPixel (d, s), WhitePixel (d, s));
++
++  /* Prevent X from redrawing the background on ConfigureNotify.
++     Otherwise flickering is observed when resizing the window. */
++  XSetWindowBackgroundPixmap (d, w, None);
++
+   XStoreName (d, w, "eglglessink");
+   XMapWindow (d, w);
+   XFlush (d);
+-- 
+2.19.0
+

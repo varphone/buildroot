@@ -1,0 +1,30 @@
+From b8b6dbd36dd28b97b3e6ec7ef512fc01c270f4ec Mon Sep 17 00:00:00 2001
+From: George Kiagiadakis <george.kiagiadakis@collabora.com>
+Date: Thu, 26 Jun 2014 11:16:34 +0300
+Subject: [PATCH 14/15] caps: unset the parent refcount of the old features
+ before freeing them in gst_caps_set_features()
+
+Otherwise gst_caps_features_free() asserts and the features structure is leaked
+---
+ gst/gstcaps.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/gst/gstcaps.c b/gst/gstcaps.c
+index 1a7b88ca8..96fa453d3 100644
+--- a/gst/gstcaps.c
++++ b/gst/gstcaps.c
+@@ -882,8 +882,10 @@ gst_caps_set_features (GstCaps * caps, guint index, GstCapsFeatures * features)
+   if (features)
+     gst_caps_features_set_parent_refcount (features, &GST_CAPS_REFCOUNT (caps));
+ 
+-  if (old)
++  if (old) {
++    gst_caps_features_set_parent_refcount (old, NULL);
+     gst_caps_features_free (old);
++  }
+ }
+ 
+ /**
+-- 
+2.19.0
+

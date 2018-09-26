@@ -1,0 +1,26 @@
+From dc63c5ff517c5726c66a1a33bb3736d50306d23f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>
+Date: Mon, 2 Jun 2014 21:43:34 -0400
+Subject: [PATCH 10/11] shmsink: Allocate enough memory to do alignment
+
+https://bugzilla.gnome.org/show_bug.cgi?id=731093
+---
+ sys/shm/gstshmsink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sys/shm/gstshmsink.c b/sys/shm/gstshmsink.c
+index cbebdf5ef..b7ecb66cc 100644
+--- a/sys/shm/gstshmsink.c
++++ b/sys/shm/gstshmsink.c
+@@ -258,7 +258,7 @@ gst_shm_sink_allocator_alloc_locked (GstShmSinkAllocator * self, gsize size,
+   /* allocate more to compensate for alignment */
+   maxsize += align;
+ 
+-  block = sp_writer_alloc_block (self->sink->pipe, size);
++  block = sp_writer_alloc_block (self->sink->pipe, maxsize);
+   if (block) {
+     GstShmSinkMemory *mymem;
+     gsize aoffset, padding;
+-- 
+2.19.0
+

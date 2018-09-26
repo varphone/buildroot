@@ -1,0 +1,27 @@
+From 7e0b990429730a799237a5e7b4eaeca9c2bb4562 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
+Date: Thu, 8 May 2014 17:50:50 +0100
+Subject: [PATCH 04/15] plugin: fix case where gst_plugin_load_file() didn't
+ set the error on failure
+
+---
+ gst/gstplugin.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gst/gstplugin.c b/gst/gstplugin.c
+index d6a9b760b..bfa145ca9 100644
+--- a/gst/gstplugin.c
++++ b/gst/gstplugin.c
+@@ -657,6 +657,9 @@ static GMutex gst_plugin_loading_mutex;
+ #define CHECK_PLUGIN_DESC_FIELD(desc,field,fn)                               \
+   if (G_UNLIKELY ((desc)->field == NULL || *(desc)->field == '\0')) {        \
+     g_warning ("Plugin description for '%s' has no valid %s field", fn, G_STRINGIFY (field)); \
++    g_set_error (error, GST_PLUGIN_ERROR, GST_PLUGIN_ERROR_MODULE, \
++        "Plugin %s has invalid plugin description field '%s'", \
++        filename, G_STRINGIFY (field)); \
+     goto return_error;                                                       \
+   }
+ 
+-- 
+2.19.0
+

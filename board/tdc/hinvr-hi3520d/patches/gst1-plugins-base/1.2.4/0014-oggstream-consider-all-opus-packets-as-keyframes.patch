@@ -1,0 +1,28 @@
+From 129fe2b9a1685a49894659c5558d01ec29c9483d Mon Sep 17 00:00:00 2001
+From: Vincent Penquerc'h <vincent.penquerch@collabora.co.uk>
+Date: Mon, 2 Jun 2014 12:40:27 +0100
+Subject: [PATCH 14/21] oggstream: consider all opus packets as "keyframes"
+
+This lets oggdemux determine they are not delta units, and removes
+spurious per packet warnings about being unable to determine the
+packet's keyframeness.
+---
+ ext/ogg/gstoggstream.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ext/ogg/gstoggstream.c b/ext/ogg/gstoggstream.c
+index 045985100..f4e3a6e5a 100644
+--- a/ext/ogg/gstoggstream.c
++++ b/ext/ogg/gstoggstream.c
+@@ -2325,7 +2325,7 @@ const GstOggMap mappers[] = {
+     granulepos_to_granule_opus,
+     granule_to_granulepos_default,
+     NULL,
+-    NULL,
++    is_packet_keyframe_true,
+     is_header_opus,
+     packet_duration_opus,
+     NULL,
+-- 
+2.19.0
+

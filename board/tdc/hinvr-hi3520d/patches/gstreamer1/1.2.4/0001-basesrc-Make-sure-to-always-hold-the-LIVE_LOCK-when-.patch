@@ -1,0 +1,33 @@
+From d75068d6cfb48ce10c34b0b0b2f93452fadf4840 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Sun, 20 Apr 2014 11:59:02 +0200
+Subject: [PATCH 01/15] basesrc: Make sure to always hold the LIVE_LOCK when
+ going to the flushing label
+
+https://bugzilla.gnome.org/show_bug.cgi?id=728596
+---
+ libs/gst/base/gstbasesrc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libs/gst/base/gstbasesrc.c b/libs/gst/base/gstbasesrc.c
+index dd55e32b3..eb0918c09 100644
+--- a/libs/gst/base/gstbasesrc.c
++++ b/libs/gst/base/gstbasesrc.c
+@@ -2628,10 +2628,12 @@ gst_base_src_loop (GstPad * pad)
+   if (gst_pad_check_reconfigure (pad)) {
+     if (!gst_base_src_negotiate (src)) {
+       gst_pad_mark_reconfigure (pad);
+-      if (GST_PAD_IS_FLUSHING (pad))
++      if (GST_PAD_IS_FLUSHING (pad)) {
++        GST_LIVE_LOCK (src);
+         goto flushing;
+-      else
++      } else {
+         goto negotiate_failed;
++      }
+     }
+   }
+ 
+-- 
+2.19.0
+

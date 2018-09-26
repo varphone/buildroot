@@ -1,0 +1,122 @@
+From b29adbaeaa78f642a1ade2ed83c38b8e8008d10d Mon Sep 17 00:00:00 2001
+From: Thiago Santos <ts.santos@sisa.samsung.com>
+Date: Mon, 9 Jun 2014 19:44:56 -0300
+Subject: [PATCH 12/21] video: avoid overflows when doing int operations for
+ size
+
+size is a gsize, so cast the operands to it to avoid overflows
+and setting wrong value to the video size.
+
+Includes tests.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=731195
+---
+ gst-libs/gst/video/video-info.c | 13 +++++------
+ tests/check/libs/video.c        | 38 +++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 6 deletions(-)
+
+diff --git a/gst-libs/gst/video/video-info.c b/gst-libs/gst/video/video-info.c
+index 6db2f664b..0a7d25c3c 100644
+--- a/gst-libs/gst/video/video-info.c
++++ b/gst-libs/gst/video/video-info.c
+@@ -358,10 +358,10 @@ gst_video_info_to_caps (GstVideoInfo * info)
+ static int
+ fill_planes (GstVideoInfo * info)
+ {
+-  gint width, height;
++  gsize width, height;
+ 
+-  width = info->width;
+-  height = info->height;
++  width = (gsize) info->width;
++  height = (gsize) info->height;
+ 
+   switch (info->finfo->format) {
+     case GST_VIDEO_FORMAT_YUY2:
+@@ -600,7 +600,8 @@ gst_video_info_convert (GstVideoInfo * info,
+     GstFormat dest_format, gint64 * dest_value)
+ {
+   gboolean ret = FALSE;
+-  int size, fps_n, fps_d;
++  int fps_n, fps_d;
++  gsize size;
+ 
+   g_return_val_if_fail (info != NULL, 0);
+   g_return_val_if_fail (info->finfo != NULL, 0);
+@@ -630,7 +631,7 @@ gst_video_info_convert (GstVideoInfo * info,
+   /* bytes to frames */
+   if (src_format == GST_FORMAT_BYTES && dest_format == GST_FORMAT_DEFAULT) {
+     if (size != 0) {
+-      *dest_value = gst_util_uint64_scale_int (src_value, 1, size);
++      *dest_value = gst_util_uint64_scale (src_value, 1, size);
+     } else {
+       GST_ERROR ("blocksize is 0");
+       *dest_value = 0;
+@@ -641,7 +642,7 @@ gst_video_info_convert (GstVideoInfo * info,
+ 
+   /* frames to bytes */
+   if (src_format == GST_FORMAT_DEFAULT && dest_format == GST_FORMAT_BYTES) {
+-    *dest_value = gst_util_uint64_scale_int (src_value, size, 1);
++    *dest_value = gst_util_uint64_scale (src_value, size, 1);
+     ret = TRUE;
+     goto done;
+   }
+diff --git a/tests/check/libs/video.c b/tests/check/libs/video.c
+index abbab1977..46576f075 100644
+--- a/tests/check/libs/video.c
++++ b/tests/check/libs/video.c
+@@ -641,6 +641,43 @@ GST_START_TEST (test_video_formats_rgb)
+ 
+ GST_END_TEST;
+ 
++
++GST_START_TEST (test_video_formats_rgba_large_dimension)
++{
++  GstVideoInfo vinfo;
++  gint width, height, framerate_n, framerate_d, par_n, par_d;
++  GstCaps *caps;
++  GstStructure *structure;
++
++  gst_video_info_init (&vinfo);
++  gst_video_info_set_format (&vinfo, GST_VIDEO_FORMAT_RGBA, 29700, 21000);
++  vinfo.par_n = 1;
++  vinfo.par_d = 1;
++  vinfo.fps_n = 0;
++  vinfo.fps_d = 1;
++  caps = gst_video_info_to_caps (&vinfo);
++  structure = gst_caps_get_structure (caps, 0);
++
++  fail_unless (gst_structure_get_int (structure, "width", &width));
++  fail_unless (gst_structure_get_int (structure, "height", &height));
++  fail_unless (gst_structure_get_fraction (structure, "framerate", &framerate_n,
++          &framerate_d));
++  fail_unless (gst_structure_get_fraction (structure, "pixel-aspect-ratio",
++          &par_n, &par_d));
++
++  fail_unless (width == 29700);
++  fail_unless (height == 21000);
++  fail_unless (framerate_n == 0);
++  fail_unless (framerate_d == 1);
++  fail_unless (par_n == 1);
++  fail_unless (par_d == 1);
++  fail_unless (vinfo.size == (gsize) 29700 * 21000 * 4);
++
++  gst_caps_unref (caps);
++}
++
++GST_END_TEST;
++
+ GST_START_TEST (test_dar_calc)
+ {
+   guint display_ratio_n, display_ratio_d;
+@@ -1665,6 +1702,7 @@ video_suite (void)
+   suite_add_tcase (s, tc_chain);
+   tcase_add_test (tc_chain, test_video_formats);
+   tcase_add_test (tc_chain, test_video_formats_rgb);
++  tcase_add_test (tc_chain, test_video_formats_rgba_large_dimension);
+   tcase_add_test (tc_chain, test_video_formats_all);
+   tcase_add_test (tc_chain, test_video_formats_pack_unpack);
+   tcase_add_test (tc_chain, test_dar_calc);
+-- 
+2.19.0
+

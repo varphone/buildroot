@@ -1,0 +1,25 @@
+From b2402e141c0d0bb2d2244afeadf037a523e2f111 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Wed, 4 Jun 2014 14:14:14 +0200
+Subject: [PATCH 16/21] decodebin: Do async-done on expose errors too
+
+---
+ gst/playback/gstdecodebin2.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gst/playback/gstdecodebin2.c b/gst/playback/gstdecodebin2.c
+index ea8908d43..4acc9be16 100644
+--- a/gst/playback/gstdecodebin2.c
++++ b/gst/playback/gstdecodebin2.c
+@@ -3933,6 +3933,8 @@ gst_decode_bin_expose (GstDecodeBin * dbin)
+       GST_ELEMENT_ERROR (dbin, STREAM, FAILED, (NULL),
+           ("all streams without buffers"));
+     }
++
++    do_async_done (dbin);
+     return FALSE;
+   }
+ 
+-- 
+2.19.0
+

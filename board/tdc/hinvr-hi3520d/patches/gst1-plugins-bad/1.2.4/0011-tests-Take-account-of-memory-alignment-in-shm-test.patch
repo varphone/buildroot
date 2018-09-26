@@ -1,0 +1,25 @@
+From 277b8c34e7214177764833b73f17e43ced496f8f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>
+Date: Mon, 2 Jun 2014 21:51:38 -0400
+Subject: [PATCH 11/11] tests: Take account of memory alignment in shm test
+
+---
+ tests/check/elements/shm.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tests/check/elements/shm.c b/tests/check/elements/shm.c
+index 741ff0109..f67e9ee02 100644
+--- a/tests/check/elements/shm.c
++++ b/tests/check/elements/shm.c
+@@ -143,6 +143,8 @@ GST_START_TEST (test_shm_alloc)
+ 
+   g_object_get (sink, "shm-size", &size, NULL);
+ 
++  size -= params.align | gst_memory_alignment;
++
+   /* alloc buffer of max size, this way, it will block forever it a copy
+    * is made inside shmsink*/
+   buf = gst_buffer_new_allocate (alloc, size, &params);
+-- 
+2.19.0
+

@@ -1,0 +1,31 @@
+From 8da13087f1580e8c68755673f507c8c42834f28b Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Tue, 3 Jun 2014 14:46:11 +0200
+Subject: [PATCH 09/15] info: GstDateTime does not have a GType as first field
+
+GstDateTime does not have the GType as the first field so we can't use
+it to detect its type.
+---
+ gst/gstinfo.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gst/gstinfo.c b/gst/gstinfo.c
+index 550121709..0192d62bf 100644
+--- a/gst/gstinfo.c
++++ b/gst/gstinfo.c
+@@ -677,9 +677,12 @@ gst_debug_print_object (gpointer ptr)
+     else
+       return str;
+   }
++#if 0
++  /* FIXME, datetime does not have a type as first field */
+   if (*(GType *) ptr == GST_TYPE_DATE_TIME) {
+     return __gst_date_time_serialize ((GstDateTime *) ptr, TRUE);
+   }
++#endif
+   if (GST_IS_BUFFER (ptr)) {
+     return gst_info_describe_buffer (GST_BUFFER_CAST (ptr));
+   }
+-- 
+2.19.0
+

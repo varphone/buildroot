@@ -1,0 +1,114 @@
+From 9b1e6ca8d25f8ccfd5cd91d7ee7143fe826c6b45 Mon Sep 17 00:00:00 2001
+From: Gwenole Beauchesne <gwenole.beauchesne@intel.com>
+Date: Fri, 18 Apr 2014 17:34:08 +0200
+Subject: [PATCH 02/11] ivfparse: avoid possible division-by-zero when
+ calculating PTS.
+
+Avoid possible division-by-zero while deriving the presentation timestamp
+of the buffer. The base class will take care of any interpolation needs.
+
+Signed-off-by: Gwenole Beauchesne <gwenole.beauchesne@intel.com>
+(cherry picked from commit 3b308cba3c6e5bfe2dbfc1a1f83640b44a27e5f9)
+---
+ gst/ivfparse/gstivfparse.c | 37 +++++++++++++++----------------------
+ gst/ivfparse/gstivfparse.h |  5 ++---
+ 2 files changed, 17 insertions(+), 25 deletions(-)
+
+diff --git a/gst/ivfparse/gstivfparse.c b/gst/ivfparse/gstivfparse.c
+index 54122f238..d361c780c 100644
+--- a/gst/ivfparse/gstivfparse.c
++++ b/gst/ivfparse/gstivfparse.c
+@@ -116,8 +116,8 @@ static void
+ gst_ivf_parse_reset (GstIvfParse * ivf)
+ {
+   ivf->state = GST_IVF_PARSE_START;
+-  ivf->rate_num = 0;
+-  ivf->rate_den = 0;
++  ivf->fps_n = 0;
++  ivf->fps_d = 0;
+ }
+ 
+ /* initialize the new element
+@@ -185,8 +185,8 @@ gst_ivf_parse_handle_frame_start (GstIvfParse * ivf, GstBaseParseFrame * frame,
+     guint32 fourcc = GST_READ_UINT32_LE (map.data + 8);
+     guint16 width = GST_READ_UINT16_LE (map.data + 12);
+     guint16 height = GST_READ_UINT16_LE (map.data + 14);
+-    guint32 rate_num = GST_READ_UINT32_LE (map.data + 16);
+-    guint32 rate_den = GST_READ_UINT32_LE (map.data + 20);
++    guint32 fps_n = GST_READ_UINT32_LE (map.data + 16);
++    guint32 fps_d = GST_READ_UINT32_LE (map.data + 20);
+ #ifndef GST_DISABLE_GST_DEBUG
+     guint32 num_frames = GST_READ_UINT32_LE (map.data + 24);
+ #endif
+@@ -199,10 +199,15 @@ gst_ivf_parse_handle_frame_start (GstIvfParse * ivf, GstBaseParseFrame * frame,
+       goto end;
+     }
+ 
++    ivf->fps_n = fps_n;
++    ivf->fps_d = fps_d;
++    gst_base_parse_set_frame_rate (GST_BASE_PARSE_CAST (ivf),
++        ivf->fps_n, ivf->fps_d, 0, 0);
++
+     /* create src pad caps */
+     caps = gst_caps_new_simple ("video/x-vp8",
+         "width", G_TYPE_INT, width, "height", G_TYPE_INT, height,
+-        "framerate", GST_TYPE_FRACTION, rate_num, rate_den, NULL);
++        "framerate", GST_TYPE_FRACTION, ivf->fps_n, ivf->fps_d, NULL);
+ 
+     GST_INFO_OBJECT (ivf, "Found stream: %" GST_PTR_FORMAT, caps);
+ 
+@@ -211,10 +216,6 @@ gst_ivf_parse_handle_frame_start (GstIvfParse * ivf, GstBaseParseFrame * frame,
+     gst_pad_set_caps (GST_BASE_PARSE_SRC_PAD (ivf), caps);
+     gst_caps_unref (caps);
+ 
+-    /* keep framerate in instance for convenience */
+-    ivf->rate_num = rate_num;
+-    ivf->rate_den = rate_den;
+-
+     /* move along */
+     ivf->state = GST_IVF_PARSE_DATA;
+     gst_base_parse_set_min_frame_size (GST_BASE_PARSE_CAST (ivf),
+@@ -272,19 +273,11 @@ gst_ivf_parse_handle_frame_data (GstIvfParse * ivf, GstBaseParseFrame * frame,
+     gst_buffer_replace (&frame->out_buffer, out_buffer);
+     gst_buffer_unref (out_buffer);
+ 
+-    GST_BUFFER_TIMESTAMP (out_buffer) =
+-        gst_util_uint64_scale_int (GST_SECOND * frame_pts, ivf->rate_den,
+-        ivf->rate_num);
+-    GST_BUFFER_DURATION (out_buffer) =
+-        gst_util_uint64_scale_int (GST_SECOND, ivf->rate_den, ivf->rate_num);
+-
+-    GST_DEBUG_OBJECT (ivf, "Pushing frame of size %u, ts %"
+-        GST_TIME_FORMAT ", dur %" GST_TIME_FORMAT ", off %"
+-        G_GUINT64_FORMAT ", off_end %" G_GUINT64_FORMAT,
+-        frame_size,
+-        GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (out_buffer)),
+-        GST_TIME_ARGS (GST_BUFFER_DURATION (out_buffer)),
+-        GST_BUFFER_OFFSET (out_buffer), GST_BUFFER_OFFSET_END (out_buffer));
++    if (ivf->fps_n > 0) {
++      GST_BUFFER_TIMESTAMP (out_buffer) =
++          gst_util_uint64_scale_int (GST_SECOND * frame_pts, ivf->fps_d,
++          ivf->fps_n);
++    }
+ 
+     ret = gst_base_parse_finish_frame (GST_BASE_PARSE_CAST (ivf), frame,
+         IVF_FRAME_HEADER_SIZE + frame_size);
+diff --git a/gst/ivfparse/gstivfparse.h b/gst/ivfparse/gstivfparse.h
+index c0abc6b87..c3c43f3b9 100644
+--- a/gst/ivfparse/gstivfparse.h
++++ b/gst/ivfparse/gstivfparse.h
+@@ -52,9 +52,8 @@ struct _GstIvfParse
+ 
+   GstIvfParseState state;
+ 
+-  /* framerate */
+-  guint rate_num;
+-  guint rate_den;
++  guint fps_n;
++  guint fps_d;
+ };
+ 
+ struct _GstIvfParseClass
+-- 
+2.19.0
+

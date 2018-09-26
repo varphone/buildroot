@@ -1,0 +1,29 @@
+From afbfb97ebe039cbd63dadb188fb0aeb458fae19b Mon Sep 17 00:00:00 2001
+From: Amaury Medeiros <amaurymedeiros@gmail.com>
+Date: Mon, 27 Jan 2014 23:55:57 -0300
+Subject: [PATCH 04/11] tsdemux: Fix flags comparison operator precedence
+
+Fix operator precedence, so the whole operation is
+negated instead of only flags variable.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=722096
+---
+ gst/mpegtsdemux/pesparse.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst/mpegtsdemux/pesparse.c b/gst/mpegtsdemux/pesparse.c
+index e18f8ed2b..08ec9a303 100644
+--- a/gst/mpegtsdemux/pesparse.c
++++ b/gst/mpegtsdemux/pesparse.c
+@@ -328,7 +328,7 @@ mpegts_parse_pes_header (const guint8 * data, gsize length, PESHeader * res)
+   }
+ 
+   /* jump if we don't have a PES 2nd extension */
+-  if (!flags & 0x01)
++  if (!(flags & 0x01))
+     goto stuffing_byte;
+ 
+   /* Extension flag 2 */
+-- 
+2.19.0
+

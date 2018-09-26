@@ -1,0 +1,33 @@
+From 351ccec237a8868797d8f21e8811e68b96a864a4 Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Fri, 30 May 2014 16:43:44 +0200
+Subject: [PATCH 07/12] h264depay: make sure we call handle_nal for each NAL
+
+Call handle_nal for each NAL in the STAP-A RTP packet. This makes
+sure we correctly extract the SPS and PPS.
+
+Fixes https://bugzilla.gnome.org/show_bug.cgi?id=730999
+---
+ gst/rtp/gstrtph264depay.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/gst/rtp/gstrtph264depay.c b/gst/rtp/gstrtph264depay.c
+index a7b52bda6..586cf7342 100644
+--- a/gst/rtp/gstrtph264depay.c
++++ b/gst/rtp/gstrtph264depay.c
+@@ -944,7 +944,11 @@ gst_rtp_h264_depay_process (GstRTPBaseDepayload * depayload, GstBuffer * buf)
+           memcpy (map.data + sizeof (sync_bytes), payload, nalu_size);
+           gst_buffer_unmap (outbuf, &map);
+ 
+-          gst_adapter_push (rtph264depay->adapter, outbuf);
++          outbuf =
++              gst_rtp_h264_depay_handle_nal (rtph264depay, outbuf, timestamp,
++              marker);
++          if (outbuf)
++            gst_adapter_push (rtph264depay->adapter, outbuf);
+ 
+           payload += nalu_size;
+           payload_len -= nalu_size;
+-- 
+2.19.0
+

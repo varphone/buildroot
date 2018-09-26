@@ -1,0 +1,25 @@
+From 6fdec4768700b6d3a8ffb7e8743eaf48e9e35052 Mon Sep 17 00:00:00 2001
+From: Stian Selnes <stian@pexip.com>
+Date: Tue, 15 Apr 2014 15:55:25 +0200
+Subject: [PATCH 03/15] bufferpool: fix log message of buffer pointer
+
+---
+ gst/gstbufferpool.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst/gstbufferpool.c b/gst/gstbufferpool.c
+index cdd3b2bef..86c32af0e 100644
+--- a/gst/gstbufferpool.c
++++ b/gst/gstbufferpool.c
+@@ -276,7 +276,7 @@ do_alloc_buffer (GstBufferPool * pool, GstBuffer ** buffer,
+   gst_buffer_foreach_meta (*buffer, mark_meta_pooled, pool);
+ 
+   GST_LOG_OBJECT (pool, "allocated buffer %d/%d, %p", cur_buffers,
+-      max_buffers, buffer);
++      max_buffers, *buffer);
+ 
+   return result;
+ 
+-- 
+2.19.0
+

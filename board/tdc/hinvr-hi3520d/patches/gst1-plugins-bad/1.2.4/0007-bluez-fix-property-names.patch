@@ -1,0 +1,43 @@
+From 0e5cfb04aa5349b833830fa101f991ba9200b429 Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Wed, 14 May 2014 11:47:03 +0200
+Subject: [PATCH 07/11] bluez: fix property names
+
+These were forgotten when they got renamed.
+
+Fixes https://bugzilla.gnome.org/show_bug.cgi?id=729731
+---
+ sys/bluez/gstavdtputil.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/sys/bluez/gstavdtputil.c b/sys/bluez/gstavdtputil.c
+index ed5c27650..caf7275a7 100644
+--- a/sys/bluez/gstavdtputil.c
++++ b/sys/bluez/gstavdtputil.c
+@@ -344,9 +344,9 @@ gst_avdtp_util_parse_sbc_raw (void *config)
+     gst_value_list_prepend_value (list, value);
+   }
+   if (gst_value_list_get_size (list) == 1)
+-    gst_structure_set_value (structure, "mode", value);
++    gst_structure_set_value (structure, "channel-mode", value);
+   else
+-    gst_structure_take_value (structure, "mode", list);
++    gst_structure_take_value (structure, "channel-mode", list);
+ 
+   g_value_unset (value);
+   g_value_reset (list);
+@@ -406,9 +406,9 @@ gst_avdtp_util_parse_sbc_raw (void *config)
+     gst_value_list_prepend_value (list, value);
+   }
+   if (gst_value_list_get_size (list) == 1)
+-    gst_structure_set_value (structure, "allocation", value);
++    gst_structure_set_value (structure, "allocation-method", value);
+   else
+-    gst_structure_take_value (structure, "allocation", list);
++    gst_structure_take_value (structure, "allocation-method", list);
+ 
+   g_value_unset (value);
+   g_value_reset (list);
+-- 
+2.19.0
+

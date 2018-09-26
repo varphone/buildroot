@@ -1,0 +1,40 @@
+From 608fb56707294f1947c7964fcaa1ab6e89d44673 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
+Date: Mon, 16 Jun 2014 20:29:56 +0100
+Subject: [PATCH 12/15] bufferlist: fix buffer leak in _remove()
+
+---
+ gst/gstbufferlist.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/gst/gstbufferlist.c b/gst/gstbufferlist.c
+index 565ed5b7c..f47fa8f66 100644
+--- a/gst/gstbufferlist.c
++++ b/gst/gstbufferlist.c
+@@ -283,14 +283,21 @@ gst_buffer_list_insert (GstBufferList * list, gint idx, GstBuffer * buffer)
+  * @idx: the index
+  * @length: the amount to remove
+  *
+- * Remove @length buffers starting from @idx in @list. The following buffers are
+- * moved to close the gap.
++ * Remove @length buffers starting from @idx in @list. The following buffers
++ * are moved to close the gap.
+  */
+ void
+ gst_buffer_list_remove (GstBufferList * list, guint idx, guint length)
+ {
++  GstBuffer *buf;
++  gint i;
++
+   g_return_if_fail (GST_IS_BUFFER_LIST (list));
+   g_return_if_fail (idx < list->array->len);
+ 
++  for (i = idx; i < idx + length; ++i) {
++    buf = g_array_index (list->array, GstBuffer *, i);
++    gst_buffer_unref (buf);
++  }
+   g_array_remove_range (list->array, idx, length);
+ }
+-- 
+2.19.0
+

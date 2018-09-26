@@ -1,0 +1,29 @@
+From 8257fdcb5d0409f9952bd25c7f46c60af66de878 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
+Date: Sun, 22 Jun 2014 12:50:42 +0100
+Subject: [PATCH 13/15] caps: gst_caps_is_any() should return TRUE or FALSE
+
+Not some flag value instead of TRUE. Fixes code like
+gst_caps_is_any() == TRUE.
+
+https://bugzilla.gnome.org//show_bug.cgi?id=731704
+---
+ gst/gstcaps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst/gstcaps.c b/gst/gstcaps.c
+index 7e10a2a21..1a7b88ca8 100644
+--- a/gst/gstcaps.c
++++ b/gst/gstcaps.c
+@@ -93,7 +93,7 @@ typedef struct _GstCapsImpl
+ 
+ /* same as gst_caps_is_any () */
+ #define CAPS_IS_ANY(caps)				\
+-  (GST_CAPS_FLAGS(caps) & GST_CAPS_FLAG_ANY)
++  (!!(GST_CAPS_FLAGS(caps) & GST_CAPS_FLAG_ANY))
+ 
+ /* same as gst_caps_is_empty () */
+ #define CAPS_IS_EMPTY(caps)				\
+-- 
+2.19.0
+

@@ -1,0 +1,47 @@
+From 8528026c3b39d68ab319383b667fafd2bf76f834 Mon Sep 17 00:00:00 2001
+From: Thiago Santos <ts.santos@sisa.samsung.com>
+Date: Mon, 16 Jun 2014 19:30:06 -0300
+Subject: [PATCH 11/15] baseparse: avoid returning _OK for _NOT_LINKED
+
+When the parser receives non-aligned packets it can push a buffer
+and get a not-linked return while still leaving some data still to
+be parsed. This remaining data will not form a complete frame and
+the subclass likely returns _OK and baseparse would take that
+as the return, while it the element is actually not-linked.
+
+This patch fixes this by storing the last flow-return from a push
+and using that if a parsing operation doesn't result in data being
+flushed or skipped.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=731474
+---
+ libs/gst/base/gstbaseparse.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/libs/gst/base/gstbaseparse.c b/libs/gst/base/gstbaseparse.c
+index ee224b81a..5242cef45 100644
+--- a/libs/gst/base/gstbaseparse.c
++++ b/libs/gst/base/gstbaseparse.c
+@@ -2706,6 +2706,7 @@ gst_base_parse_chain (GstPad * pad, GstObject * parent, GstBuffer * buffer)
+   GstBaseParseClass *bclass;
+   GstBaseParse *parse;
+   GstFlowReturn ret = GST_FLOW_OK;
++  GstFlowReturn old_ret = GST_FLOW_OK;
+   GstBuffer *tmpbuf = NULL;
+   guint fsize = 1;
+   gint skip = -1;
+@@ -2892,8 +2893,11 @@ gst_base_parse_chain (GstPad * pad, GstObject * parent, GstBuffer * buffer)
+     if (skip == 0 && flush == 0) {
+       GST_LOG_OBJECT (parse, "nothing skipped and no frames finished, "
+           "breaking to get more data");
++      /* ignore this return as it produced no data */
++      ret = old_ret;
+       goto done;
+     }
++    old_ret = ret;
+   }
+ 
+ done:
+-- 
+2.19.0
+

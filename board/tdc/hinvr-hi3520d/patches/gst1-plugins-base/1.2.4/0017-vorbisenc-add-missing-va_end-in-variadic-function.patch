@@ -1,0 +1,25 @@
+From eea8b718983c265c1dcfe6d04c3d2f5f2a9fc325 Mon Sep 17 00:00:00 2001
+From: Edward Hervey <bilboed@bilboed.com>
+Date: Mon, 9 Jun 2014 10:38:53 +0200
+Subject: [PATCH 17/21] vorbisenc: add missing va_end in variadic function
+
+Coverity 1139944
+---
+ ext/vorbis/gstvorbisenc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ext/vorbis/gstvorbisenc.c b/ext/vorbis/gstvorbisenc.c
+index 655dd1588..8769f65fe 100644
+--- a/ext/vorbis/gstvorbisenc.c
++++ b/ext/vorbis/gstvorbisenc.c
+@@ -657,6 +657,7 @@ _gst_caps_set_buffer_array (GstCaps * caps, const gchar * field,
+ 
+     buf = va_arg (va, GstBuffer *);
+   }
++  va_end (va);
+ 
+   gst_structure_take_value (structure, field, &array);
+ 
+-- 
+2.19.0
+

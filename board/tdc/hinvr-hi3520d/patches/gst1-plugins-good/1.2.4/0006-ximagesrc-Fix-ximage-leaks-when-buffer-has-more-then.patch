@@ -1,0 +1,45 @@
+From e76510d7d7a65f77526d70a82df77aa9a8c0d37a Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Tue, 20 May 2014 17:37:49 -0400
+Subject: [PATCH 06/12] ximagesrc: Fix ximage leaks when buffer has more then
+ one ximage
+
+From time to time, when the image_pool list has more then 1 element
+and I suppose at start, all but 1 pooled ximage are leaked. This is
+due to broken algorithm in gst_ximagesink_src_ximage_get(). There was
+also a risk of use after free for the case where the ximage size has
+changed.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=728502
+---
+ sys/ximage/gstximagesrc.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/sys/ximage/gstximagesrc.c b/sys/ximage/gstximagesrc.c
+index 644768d85..8ef98e78b 100644
+--- a/sys/ximage/gstximagesrc.c
++++ b/sys/ximage/gstximagesrc.c
+@@ -460,13 +460,15 @@ gst_ximage_src_ximage_get (GstXImageSrc * ximagesrc)
+ 
+     meta = GST_META_XIMAGE_GET (ximage);
+ 
+-    if ((meta->width != ximagesrc->width) ||
+-        (meta->height != ximagesrc->height)) {
+-      gst_ximage_buffer_free (ximage);
+-    }
+-
+     ximagesrc->buffer_pool = g_slist_delete_link (ximagesrc->buffer_pool,
+         ximagesrc->buffer_pool);
++
++    if ((meta->width == ximagesrc->width) ||
++        (meta->height == ximagesrc->height))
++      break;
++
++    gst_ximage_buffer_free (ximage);
++    ximage = NULL;
+   }
+   g_mutex_unlock (&ximagesrc->pool_lock);
+ 
+-- 
+2.19.0
+

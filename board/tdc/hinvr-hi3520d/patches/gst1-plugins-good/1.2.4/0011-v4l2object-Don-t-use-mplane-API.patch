@@ -1,0 +1,31 @@
+From e0417c28d56ac64a2e8d149bbaf812d2ce227153 Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.co.uk>
+Date: Tue, 29 Jul 2014 13:06:16 -0400
+Subject: [PATCH 11/12] v4l2object: Don't use mplane API
+
+This API isn't supported in 1.2, and should not be used. This didn't cause any
+issue on recent header because the first few fields of the union are the same.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=733263
+---
+ sys/v4l2/gstv4l2object.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
+index ee57d5f6b..d1e838606 100644
+--- a/sys/v4l2/gstv4l2object.c
++++ b/sys/v4l2/gstv4l2object.c
+@@ -2381,8 +2381,8 @@ gst_v4l2_object_set_format (GstV4l2Object * v4l2object, GstCaps * caps)
+ 
+   /* If no size in caps, use configured size */
+   if (width == 0 && height == 0) {
+-    width = format.fmt.pix_mp.width;
+-    height = format.fmt.pix_mp.height;
++    width = format.fmt.pix.width;
++    height = format.fmt.pix.height;
+   }
+ 
+   if (format.type != v4l2object->type ||
+-- 
+2.19.0
+

@@ -1,0 +1,54 @@
+From 8dc801ba63d168eaf802be4d59fb2edaa28b4bfe Mon Sep 17 00:00:00 2001
+From: Michael Olbrich <m.olbrich@pengutronix.de>
+Date: Thu, 12 Jun 2014 13:23:29 +0200
+Subject: [PATCH 18/21] tcpserversrc: return FLOW_FLUSHING instead of an error
+ when accept/select is canceled
+
+Canceling the accept/select happens when the source is shut down. This is
+not an error and the GST_FLOW_ERROR causes problems when only part of the
+pipeline is shut down.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=731567
+---
+ gst/tcp/gsttcpserversrc.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/gst/tcp/gsttcpserversrc.c b/gst/tcp/gsttcpserversrc.c
+index 141181dcf..4bd56af52 100644
+--- a/gst/tcp/gsttcpserversrc.c
++++ b/gst/tcp/gsttcpserversrc.c
+@@ -295,19 +295,27 @@ accept_error:
+   {
+     if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+       GST_DEBUG_OBJECT (src, "Cancelled accepting of client");
++      ret = GST_FLOW_FLUSHING;
+     } else {
+       GST_ELEMENT_ERROR (src, RESOURCE, OPEN_READ, (NULL),
+           ("Failed to accept client: %s", err->message));
++      ret = GST_FLOW_ERROR;
+     }
+     g_clear_error (&err);
+-    return GST_FLOW_ERROR;
++    return ret;
+   }
+ select_error:
+   {
+-    GST_ELEMENT_ERROR (src, RESOURCE, READ, (NULL),
+-        ("Select failed: %s", err->message));
++    if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
++      GST_DEBUG_OBJECT (src, "Cancelled select");
++      ret = GST_FLOW_FLUSHING;
++    } else {
++      GST_ELEMENT_ERROR (src, RESOURCE, OPEN_READ, (NULL),
++          ("Select failed: %s", err->message));
++      ret = GST_FLOW_ERROR;
++    }
+     g_clear_error (&err);
+-    return GST_FLOW_ERROR;
++    return ret;
+   }
+ get_available_error:
+   {
+-- 
+2.19.0
+

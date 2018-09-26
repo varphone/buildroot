@@ -1,0 +1,59 @@
+From 2b942d67acf6a2d0bc6f86c99b23d8b385763c32 Mon Sep 17 00:00:00 2001
+From: Edward Hervey <bilboed@bilboed.com>
+Date: Fri, 25 Apr 2014 11:30:37 +0200
+Subject: [PATCH 02/21] audiodecoder: Plug caps leaks
+
+We were returning in various places without unreffing the caps, and
+we were also leaking (overwriting) the caps we got from _get_current_caps()
+
+Spotted by Haakon Sporsheim in #gstreamer
+---
+ gst-libs/gst/audio/gstaudiodecoder.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/gst-libs/gst/audio/gstaudiodecoder.c b/gst-libs/gst/audio/gstaudiodecoder.c
+index 350467801..71120e67d 100644
+--- a/gst-libs/gst/audio/gstaudiodecoder.c
++++ b/gst-libs/gst/audio/gstaudiodecoder.c
+@@ -1824,11 +1824,13 @@ gst_audio_decoder_negotiate_default_caps (GstAudioDecoder * dec)
+ 
+   caps = gst_pad_get_current_caps (dec->srcpad);
+   if (caps && !gst_audio_info_from_caps (&dec->priv->ctx.info, caps))
+-    return FALSE;
++    goto caps_error;
++  if (caps)
++    gst_caps_unref (caps);
+ 
+   caps = gst_pad_get_allowed_caps (dec->srcpad);
+   if (!caps || gst_caps_is_empty (caps) || gst_caps_is_any (caps))
+-    return FALSE;
++    goto caps_error;
+ 
+   /* before fixating, try to use whatever upstream provided */
+   caps_size = gst_caps_get_size (caps);
+@@ -1887,7 +1889,7 @@ gst_audio_decoder_negotiate_default_caps (GstAudioDecoder * dec)
+   }
+ 
+   if (!caps || !gst_audio_info_from_caps (&dec->priv->ctx.info, caps))
+-    return FALSE;
++    goto caps_error;
+ 
+   GST_INFO_OBJECT (dec,
+       "Chose default caps %" GST_PTR_FORMAT " for initial gap", caps);
+@@ -1900,6 +1902,13 @@ gst_audio_decoder_negotiate_default_caps (GstAudioDecoder * dec)
+   }
+ 
+   return TRUE;
++
++caps_error:
++  {
++    if (caps)
++      gst_caps_unref (caps);
++    return FALSE;
++  }
+ }
+ 
+ static gboolean
+-- 
+2.19.0
+

@@ -1,0 +1,116 @@
+From 4c31880bf0a4b720ab90fc8753fbbcc72275d6f8 Mon Sep 17 00:00:00 2001
+From: Thiago Santos <ts.santos@sisa.samsung.com>
+Date: Mon, 9 Jun 2014 21:05:00 -0300
+Subject: [PATCH 13/21] videoscale: vs_image: strides are a gsize
+
+The strides that are set from the GstVideoInfo structs are
+a gsize. Using an int can cause overflows when dealing with large
+enough images
+
+https://bugzilla.gnome.org/show_bug.cgi?id=731195
+---
+ gst/videoscale/vs_fill_borders.c | 18 +++++++++---------
+ gst/videoscale/vs_image.h        |  2 +-
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/gst/videoscale/vs_fill_borders.c b/gst/videoscale/vs_fill_borders.c
+index 2a12d23b7..37ae78bef 100644
+--- a/gst/videoscale/vs_fill_borders.c
++++ b/gst/videoscale/vs_fill_borders.c
+@@ -51,7 +51,7 @@ vs_fill_borders_RGBA (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+   uint32_t v = READ_UINT32 (val);
+@@ -103,7 +103,7 @@ vs_fill_borders_RGB (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+ 
+@@ -140,7 +140,7 @@ vs_fill_borders_YUYV (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+ 
+@@ -189,7 +189,7 @@ vs_fill_borders_UYVY (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+ 
+@@ -238,7 +238,7 @@ vs_fill_borders_Y (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+ 
+@@ -275,7 +275,7 @@ vs_fill_borders_Y16 (const VSImage * dest, const uint16_t val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+ 
+@@ -312,7 +312,7 @@ vs_fill_borders_RGB565 (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+   uint16_t v = READ_UINT16 (val);
+@@ -350,7 +350,7 @@ vs_fill_borders_RGB555 (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+   uint16_t v = READ_UINT16 (val);
+@@ -388,7 +388,7 @@ vs_fill_borders_AYUV64 (const VSImage * dest, const uint8_t * val)
+   int width = dest->width;
+   int height = dest->height;
+   int real_width = dest->real_width;
+-  int stride = dest->stride;
++  gsize stride = dest->stride;
+   int tmp, tmp2;
+   uint8_t *data;
+   uint64_t v;
+diff --git a/gst/videoscale/vs_image.h b/gst/videoscale/vs_image.h
+index a59c6db13..d0a30ec11 100644
+--- a/gst/videoscale/vs_image.h
++++ b/gst/videoscale/vs_image.h
+@@ -42,7 +42,7 @@ struct _VSImage {
+   uint8_t *pixels;
+   int width;
+   int height;
+-  int stride;
++  gsize stride;
+ };
+ 
+ G_GNUC_INTERNAL void vs_image_scale_nearest_RGBA   (const VSImage * dest,
+-- 
+2.19.0
+

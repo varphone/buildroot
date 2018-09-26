@@ -1,0 +1,43 @@
+From 462a35b5806868578ace836fac2d2556125e179d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Thu, 1 May 2014 13:08:24 +0200
+Subject: [PATCH 06/21] playsink: Don't block on non-serialized events
+
+https://bugzilla.gnome.org/show_bug.cgi?id=729321
+---
+ gst/playback/gstplaysink.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/gst/playback/gstplaysink.c b/gst/playback/gstplaysink.c
+index 2dc13a2dd..310cfaee1 100644
+--- a/gst/playback/gstplaysink.c
++++ b/gst/playback/gstplaysink.c
+@@ -909,6 +909,12 @@ gst_play_sink_vis_blocked (GstPad * tee_pad, GstPadProbeInfo * info,
+ 
+   playsink = GST_PLAY_SINK (user_data);
+ 
++  if (GST_IS_EVENT (info->data) && !GST_EVENT_IS_SERIALIZED (info->data)) {
++    GST_DEBUG_OBJECT (playsink, "Letting non-serialized event %s pass",
++        GST_EVENT_TYPE_NAME (info->data));
++    return GST_PAD_PROBE_PASS;
++  }
++
+   GST_PLAY_SINK_LOCK (playsink);
+   GST_DEBUG_OBJECT (playsink, "vis pad blocked");
+   /* now try to change the plugin in the running vis chain */
+@@ -3945,6 +3951,12 @@ sinkpad_blocked_cb (GstPad * blockedpad, GstPadProbeInfo * info,
+   GstPlaySink *playsink = (GstPlaySink *) user_data;
+   GstPad *pad;
+ 
++  if (GST_IS_EVENT (info->data) && !GST_EVENT_IS_SERIALIZED (info->data)) {
++    GST_DEBUG_OBJECT (playsink, "Letting non-serialized event %s pass",
++        GST_EVENT_TYPE_NAME (info->data));
++    return GST_PAD_PROBE_PASS;
++  }
++
+   GST_PLAY_SINK_LOCK (playsink);
+ 
+   pad = GST_PAD_CAST (gst_proxy_pad_get_internal (GST_PROXY_PAD (blockedpad)));
+-- 
+2.19.0
+

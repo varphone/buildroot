@@ -1,0 +1,30 @@
+From 572a43a2cdaa814f2101c78f3b7449d9b8128ae5 Mon Sep 17 00:00:00 2001
+From: Jan Schmidt <jan@centricular.com>
+Date: Thu, 26 Jun 2014 04:27:31 +1000
+Subject: [PATCH 20/21] typefind: Bump iso mp4 typefinder to PRIMARY. Add mp4
+ extension hint.
+
+Fixes a problem with at least one file being detected incorrectly as
+DTS because there's DTS packets early enough in the file.
+---
+ gst/typefind/gsttypefindfunctions.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gst/typefind/gsttypefindfunctions.c b/gst/typefind/gsttypefindfunctions.c
+index 88836b8c9..c0e863952 100644
+--- a/gst/typefind/gsttypefindfunctions.c
++++ b/gst/typefind/gsttypefindfunctions.c
+@@ -5376,8 +5376,8 @@ plugin_init (GstPlugin * plugin)
+       "m4a", M4A_CAPS, NULL, NULL);
+   TYPE_FIND_REGISTER (plugin, "application/x-3gp", GST_RANK_PRIMARY,
+       q3gp_type_find, "3gp", Q3GP_CAPS, NULL, NULL);
+-  TYPE_FIND_REGISTER (plugin, "video/quicktime", GST_RANK_SECONDARY,
+-      qt_type_find, "mov", QT_CAPS, NULL, NULL);
++  TYPE_FIND_REGISTER (plugin, "video/quicktime", GST_RANK_PRIMARY,
++      qt_type_find, "mov,mp4", QT_CAPS, NULL, NULL);
+   TYPE_FIND_REGISTER (plugin, "image/x-quicktime", GST_RANK_SECONDARY,
+       qtif_type_find, "qif,qtif,qti", QTIF_CAPS, NULL, NULL);
+   TYPE_FIND_REGISTER (plugin, "image/jp2", GST_RANK_PRIMARY,
+-- 
+2.19.0
+

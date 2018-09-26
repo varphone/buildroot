@@ -1,0 +1,34 @@
+From 5a67055d773e8250e305839e9fb123f002ba3f42 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rafa=C5=82=20Mu=C5=BCy=C5=82o?= <galtgendo@o2.pl>
+Date: Tue, 18 Feb 2014 10:32:46 +0000
+Subject: [PATCH 08/21] audio: map channels=1,channel-mask=0 to MONO instead of
+ NONE
+
+Fixes problem in audioconvert, which would end up using
+a mixmatrix when converting between different mono format
+because it thinks MONO positioning is different from
+unpositioned channels, which is not the case in this
+special case. The mixmatrix would end up being 0.0 so
+audioconvert would convert to silence samples.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=724509
+---
+ gst-libs/gst/audio/audio-info.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst-libs/gst/audio/audio-info.c b/gst-libs/gst/audio/audio-info.c
+index 2cae7e124..809d0275c 100644
+--- a/gst-libs/gst/audio/audio-info.c
++++ b/gst-libs/gst/audio/audio-info.c
+@@ -215,7 +215,7 @@ gst_audio_info_from_caps (GstAudioInfo * info, const GstCaps * caps)
+     goto no_channels;
+ 
+   if (!gst_structure_get (str, "channel-mask", GST_TYPE_BITMASK, &channel_mask,
+-          NULL)) {
++          NULL) || (channel_mask == 0 && channels == 1)) {
+     if (channels == 1) {
+       position[0] = GST_AUDIO_CHANNEL_POSITION_MONO;
+     } else if (channels == 2) {
+-- 
+2.19.0
+

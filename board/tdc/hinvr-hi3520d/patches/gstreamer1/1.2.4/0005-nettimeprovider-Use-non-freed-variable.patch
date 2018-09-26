@@ -1,0 +1,29 @@
+From d8bdba3102712af27b2e957c0ba9690877a8e67c Mon Sep 17 00:00:00 2001
+From: Edward Hervey <bilboed@bilboed.com>
+Date: Fri, 9 May 2014 14:46:59 +0200
+Subject: [PATCH 05/15] nettimeprovider: Use non-freed variable
+
+address is only used temporarily. Use the proper variable instead.
+
+CID #1212189
+---
+ libs/gst/net/gstnettimeprovider.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/libs/gst/net/gstnettimeprovider.c b/libs/gst/net/gstnettimeprovider.c
+index 202b6c796..cad816439 100644
+--- a/libs/gst/net/gstnettimeprovider.c
++++ b/libs/gst/net/gstnettimeprovider.c
+@@ -325,7 +325,8 @@ gst_net_time_provider_start (GstNetTimeProvider * self)
+     GST_DEBUG_OBJECT (self, "notifying port %d", port);
+     g_object_notify (G_OBJECT (self), "port");
+   }
+-  GST_DEBUG_OBJECT (self, "bound on UDP address %s, port %d", address, port);
++  GST_DEBUG_OBJECT (self, "bound on UDP address %s, port %d",
++      self->priv->address, port);
+   g_object_unref (bound_addr);
+ 
+   self->priv->socket = socket;
+-- 
+2.19.0
+

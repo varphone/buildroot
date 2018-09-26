@@ -1,0 +1,27 @@
+From 4f01875cfe40f06b6ad98d5644938a90a7adfbbc Mon Sep 17 00:00:00 2001
+From: "Haakon Sporsheim (ieei)" <haakon.sporsheim@gmail.com>
+Date: Tue, 29 Apr 2014 15:06:00 +0000
+Subject: [PATCH 05/11] h264parse: unref/replace force_key_unit_event in
+ gst_h264_parse_reset
+
+https://bugzilla.gnome.org/show_bug.cgi?id=729200
+---
+ gst/videoparsers/gsth264parse.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst/videoparsers/gsth264parse.c b/gst/videoparsers/gsth264parse.c
+index c64ecb258..6024e5011 100644
+--- a/gst/videoparsers/gsth264parse.c
++++ b/gst/videoparsers/gsth264parse.c
+@@ -208,7 +208,7 @@ gst_h264_parse_reset (GstH264Parse * h264parse)
+   h264parse->do_ts = TRUE;
+ 
+   h264parse->pending_key_unit_ts = GST_CLOCK_TIME_NONE;
+-  h264parse->force_key_unit_event = NULL;
++  gst_event_replace (&h264parse->force_key_unit_event, NULL);
+ 
+   gst_h264_parse_reset_frame (h264parse);
+ }
+-- 
+2.19.0
+

@@ -1,0 +1,29 @@
+From 7603cf52188eb942dc8a13cb2ff84f3efc6ba481 Mon Sep 17 00:00:00 2001
+From: Evan Nemerson <evan@nemerson.com>
+Date: Fri, 6 Jun 2014 16:36:00 -0700
+Subject: [PATCH 07/15] queuearray: fix expanding size of queue from 1
+
+Without we would not actually expand and access
+memory beyond the allocated region for the array.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=731349
+---
+ libs/gst/base/gstqueuearray.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/gst/base/gstqueuearray.c b/libs/gst/base/gstqueuearray.c
+index 4b8395978..fb909beea 100644
+--- a/libs/gst/base/gstqueuearray.c
++++ b/libs/gst/base/gstqueuearray.c
+@@ -145,7 +145,7 @@ gst_queue_array_push_tail (GstQueueArray * array, gpointer data)
+   /* Check if we need to make room */
+   if (G_UNLIKELY (array->length == array->size)) {
+     /* newsize is 50% bigger */
+-    guint newsize = (3 * array->size) / 2;
++    guint newsize = MAX ((3 * array->size) / 2, array->size + 1);
+ 
+     /* copy over data */
+     if (array->tail != 0) {
+-- 
+2.19.0
+

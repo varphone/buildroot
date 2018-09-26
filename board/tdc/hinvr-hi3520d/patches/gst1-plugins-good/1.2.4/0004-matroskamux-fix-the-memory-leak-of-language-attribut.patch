@@ -1,0 +1,25 @@
+From ef6850d2fcb54834a043fed4b9274dc8f2ba5b70 Mon Sep 17 00:00:00 2001
+From: Adrien SCH <adrien.schwartzentruber@gmail.com>
+Date: Thu, 17 Apr 2014 13:04:00 +0000
+Subject: [PATCH 04/12] matroskamux: fix the memory leak of language attribute
+
+https://bugzilla.gnome.org/show_bug.cgi?id=728418
+---
+ gst/matroska/matroska-mux.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gst/matroska/matroska-mux.c b/gst/matroska/matroska-mux.c
+index e6ab40743..d5f2768da 100644
+--- a/gst/matroska/matroska-mux.c
++++ b/gst/matroska/matroska-mux.c
+@@ -798,6 +798,7 @@ gst_matroska_mux_handle_sink_event (GstCollectPads * pads,
+         lang_code = gst_tag_get_language_code_iso_639_2B (lang);
+         if (lang_code) {
+           GST_INFO_OBJECT (pad, "Setting language to '%s'", lang_code);
++          g_free (context->language);
+           context->language = g_strdup (lang_code);
+         } else {
+           GST_WARNING_OBJECT (pad, "Did not get language code for '%s'", lang);
+-- 
+2.19.0
+

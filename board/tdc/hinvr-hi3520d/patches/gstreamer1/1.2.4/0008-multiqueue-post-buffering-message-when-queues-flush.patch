@@ -1,0 +1,28 @@
+From 0302d3924fe403902490c6de2ee4750323e83eaa Mon Sep 17 00:00:00 2001
+From: Thiago Santos <ts.santos@sisa.samsung.com>
+Date: Tue, 27 May 2014 08:09:36 -0300
+Subject: [PATCH 08/15] multiqueue: post buffering message when queues flush
+
+The buffering status goes back to 0, so inform the application about it
+
+https://bugzilla.gnome.org/show_bug.cgi?id=726423
+---
+ plugins/elements/gstmultiqueue.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/plugins/elements/gstmultiqueue.c b/plugins/elements/gstmultiqueue.c
+index 15394520f..a4a33f81d 100644
+--- a/plugins/elements/gstmultiqueue.c
++++ b/plugins/elements/gstmultiqueue.c
+@@ -2087,6 +2087,8 @@ gst_single_queue_flush_queue (GstSingleQueue * sq, gboolean full)
+   gst_data_queue_flush (sq->queue);
+   if (was_flushing)
+     gst_data_queue_set_flushing (sq->queue, TRUE);
++
++  update_buffering (sq->mqueue, sq);
+ }
+ 
+ static void
+-- 
+2.19.0
+

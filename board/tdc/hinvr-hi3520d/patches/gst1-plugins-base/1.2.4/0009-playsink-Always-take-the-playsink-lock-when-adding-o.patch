@@ -1,0 +1,37 @@
+From 5a70f26dbdfcccb9ea889581ef8657ae15205214 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Tue, 20 May 2014 09:48:56 +0200
+Subject: [PATCH 09/21] playsink: Always take the playsink lock when adding or
+ removing pad probes
+
+Otherwise we might end up inside the callback without having stored
+the probe id... then try to remove that probe (not!) from the callback
+and wait forever for the pad to unblock.
+---
+ gst/playback/gstplaysink.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gst/playback/gstplaysink.c b/gst/playback/gstplaysink.c
+index 310cfaee1..0b7657e19 100644
+--- a/gst/playback/gstplaysink.c
++++ b/gst/playback/gstplaysink.c
+@@ -4206,6 +4206,8 @@ gst_play_sink_request_pad (GstPlaySink * playsink, GstPlaySinkType type)
+      * element is 'running' */
+     gst_pad_set_active (res, TRUE);
+     gst_element_add_pad (GST_ELEMENT_CAST (playsink), res);
++
++    GST_PLAY_SINK_LOCK (playsink);
+     if (block_id && *block_id == 0) {
+       GstPad *blockpad =
+           GST_PAD_CAST (gst_proxy_pad_get_internal (GST_PROXY_PAD (res)));
+@@ -4221,6 +4223,7 @@ gst_play_sink_request_pad (GstPlaySink * playsink, GstPlaySinkType type)
+       PENDING_FLAG_SET (playsink, type);
+       gst_object_unref (blockpad);
+     }
++    GST_PLAY_SINK_UNLOCK (playsink);
+     if (!activate)
+       gst_pad_set_active (res, activate);
+   }
+-- 
+2.19.0
+

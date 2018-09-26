@@ -1,0 +1,30 @@
+From 7c07e32b90d6a70d733bdb8619b55f886892a963 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Thu, 1 May 2014 13:05:05 +0200
+Subject: [PATCH 04/21] subtitleoverlay: Don't block on non-serialized events
+
+https://bugzilla.gnome.org/show_bug.cgi?id=729321
+---
+ gst/playback/gstsubtitleoverlay.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/gst/playback/gstsubtitleoverlay.c b/gst/playback/gstsubtitleoverlay.c
+index 76ff34599..401a9bff7 100644
+--- a/gst/playback/gstsubtitleoverlay.c
++++ b/gst/playback/gstsubtitleoverlay.c
+@@ -1013,6 +1013,12 @@ _pad_blocked_cb (GstPad * pad, GstPadProbeInfo * info, gpointer user_data)
+   GstCaps *subcaps;
+   GList *l, *factories = NULL;
+ 
++  if (GST_IS_EVENT (info->data) && !GST_EVENT_IS_SERIALIZED (info->data)) {
++    GST_DEBUG_OBJECT (pad, "Letting non-serialized event %s pass",
++        GST_EVENT_TYPE_NAME (info->data));
++    return GST_PAD_PROBE_PASS;
++  }
++
+   GST_DEBUG_OBJECT (pad, "Pad blocked");
+ 
+   GST_SUBTITLE_OVERLAY_LOCK (self);
+-- 
+2.19.0
+

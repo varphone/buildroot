@@ -1,0 +1,32 @@
+From 47971e3b1eb581113469a89067cc80d16c23c167 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?G=C3=B6ran=20J=C3=B6nsson?= <goranjn@axis.com>
+Date: Thu, 13 Mar 2014 09:37:48 +0100
+Subject: [PATCH 01/12] gstrtph264pay: Reset sps pps variable when state
+ change.
+
+Reset last_spspps and sps/pps arrays  when state transition
+GST_STATE_CHANGE_PAUSED_TO_READY.
+
+Fixes https://bugzilla.gnome.org/show_bug.cgi?id=726015
+---
+ gst/rtp/gstrtph264pay.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/gst/rtp/gstrtph264pay.c b/gst/rtp/gstrtph264pay.c
+index 953379d73..86cc8fca8 100644
+--- a/gst/rtp/gstrtph264pay.c
++++ b/gst/rtp/gstrtph264pay.c
+@@ -1237,6 +1237,10 @@ gst_rtp_h264_pay_change_state (GstElement * element, GstStateChange transition)
+       rtph264pay->send_spspps = FALSE;
+       gst_adapter_clear (rtph264pay->adapter);
+       break;
++    case GST_STATE_CHANGE_PAUSED_TO_READY:
++      rtph264pay->last_spspps = -1;
++      gst_rtp_h264_pay_clear_sps_pps (rtph264pay);
++      break;
+     default:
+       break;
+   }
+-- 
+2.19.0
+

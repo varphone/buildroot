@@ -1,0 +1,51 @@
+From 8b9a8e4fb0c1cfb91f23d21d7b7dce86fea7232f Mon Sep 17 00:00:00 2001
+From: Wim Taymans <wtaymans@redhat.com>
+Date: Tue, 3 Jun 2014 14:47:17 +0200
+Subject: [PATCH 10/15] info: first handle all miniobjects, then GObjects
+
+First handle all miniobjects before we attempt to dereference the first
+field pointer and look at the GType. With the recent glib change to
+speed up G_IS_OBJECT, this causes crashes on miniobjects otherwise.
+---
+ gst/gstinfo.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/gst/gstinfo.c b/gst/gstinfo.c
+index 0192d62bf..dee9cdcec 100644
+--- a/gst/gstinfo.c
++++ b/gst/gstinfo.c
+@@ -691,15 +691,6 @@ gst_debug_print_object (gpointer ptr)
+     return g_strdup_printf ("<poisoned@%p>", ptr);
+   }
+ #endif
+-  if (GST_IS_PAD (object) && GST_OBJECT_NAME (object)) {
+-    return g_strdup_printf ("<%s:%s>", GST_DEBUG_PAD_NAME (object));
+-  }
+-  if (GST_IS_OBJECT (object) && GST_OBJECT_NAME (object)) {
+-    return g_strdup_printf ("<%s>", GST_OBJECT_NAME (object));
+-  }
+-  if (G_IS_OBJECT (object)) {
+-    return g_strdup_printf ("<%s@%p>", G_OBJECT_TYPE_NAME (object), object);
+-  }
+   if (GST_IS_MESSAGE (object)) {
+     return gst_info_describe_message (GST_MESSAGE_CAST (object));
+   }
+@@ -724,6 +715,15 @@ gst_debug_print_object (gpointer ptr)
+     g_free (s);
+     return ret;
+   }
++  if (GST_IS_PAD (object) && GST_OBJECT_NAME (object)) {
++    return g_strdup_printf ("<%s:%s>", GST_DEBUG_PAD_NAME (object));
++  }
++  if (GST_IS_OBJECT (object) && GST_OBJECT_NAME (object)) {
++    return g_strdup_printf ("<%s>", GST_OBJECT_NAME (object));
++  }
++  if (G_IS_OBJECT (object)) {
++    return g_strdup_printf ("<%s@%p>", G_OBJECT_TYPE_NAME (object), object);
++  }
+ 
+   return g_strdup_printf ("%p", ptr);
+ }
+-- 
+2.19.0
+

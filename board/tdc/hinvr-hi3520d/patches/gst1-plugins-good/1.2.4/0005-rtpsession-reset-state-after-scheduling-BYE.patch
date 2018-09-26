@@ -1,0 +1,27 @@
+From c5a612bbd35e2114cf9efbf09f0f60b16d576925 Mon Sep 17 00:00:00 2001
+From: George Kiagiadakis <george.kiagiadakis@collabora.com>
+Date: Thu, 12 Dec 2013 10:32:48 +0100
+Subject: [PATCH 05/12] rtpsession: reset state after scheduling BYE
+
+After we do RTCP, we are not scheduling bye anymore.
+
+Fixes https://bugzilla.gnome.org/show_bug.cgi?id=728714
+---
+ gst/rtpmanager/rtpsession.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gst/rtpmanager/rtpsession.c b/gst/rtpmanager/rtpsession.c
+index 6720315b3..6175a3446 100644
+--- a/gst/rtpmanager/rtpsession.c
++++ b/gst/rtpmanager/rtpsession.c
+@@ -3468,6 +3468,7 @@ rtp_session_on_timeout (RTPSession * sess, GstClockTime current_time,
+     sess->last_rtcp_send_time = data.current_time;
+   sess->first_rtcp = FALSE;
+   sess->next_early_rtcp_time = GST_CLOCK_TIME_NONE;
++  sess->scheduled_bye = FALSE;
+ 
+ done:
+   RTP_SESSION_UNLOCK (sess);
+-- 
+2.19.0
+

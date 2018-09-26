@@ -1,0 +1,31 @@
+From bf9fc440723eb45bec92406ddd4f7219a644d414 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Thu, 1 May 2014 13:06:53 +0200
+Subject: [PATCH 05/21] playsinkconvertbin: Don't block on non-serialized
+ events
+
+https://bugzilla.gnome.org/show_bug.cgi?id=729321
+---
+ gst/playback/gstplaysinkconvertbin.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/gst/playback/gstplaysinkconvertbin.c b/gst/playback/gstplaysinkconvertbin.c
+index d4f299cd4..885ebfe0b 100644
+--- a/gst/playback/gstplaysinkconvertbin.c
++++ b/gst/playback/gstplaysinkconvertbin.c
+@@ -188,6 +188,12 @@ pad_blocked_cb (GstPad * pad, GstPadProbeInfo * info, gpointer user_data)
+   GstCaps *caps;
+   gboolean raw;
+ 
++  if (GST_IS_EVENT (info->data) && !GST_EVENT_IS_SERIALIZED (info->data)) {
++    GST_DEBUG_OBJECT (self, "Letting non-serialized event %s pass",
++        GST_EVENT_TYPE_NAME (info->data));
++    return GST_PAD_PROBE_PASS;
++  }
++
+   GST_PLAY_SINK_CONVERT_BIN_LOCK (self);
+   GST_DEBUG_OBJECT (self, "Pad blocked");
+ 
+-- 
+2.19.0
+
