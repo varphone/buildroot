@@ -1,0 +1,26 @@
+From baa4092b97b7172049999e80c7b76300069cc0c0 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Thu, 27 Sep 2018 14:58:58 +0800
+Subject: [PATCH] bin: Reduce async handling threads overhead
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ gst/gstbin.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst/gstbin.c b/gst/gstbin.c
+index 581b251e9..0d072b9d2 100644
+--- a/gst/gstbin.c
++++ b/gst/gstbin.c
+@@ -475,7 +475,7 @@ gst_bin_class_init (GstBinClass * klass)
+   GST_DEBUG ("creating bin thread pool");
+   err = NULL;
+   klass->pool =
+-      g_thread_pool_new ((GFunc) gst_bin_continue_func, NULL, -1, FALSE, &err);
++      g_thread_pool_new ((GFunc) gst_bin_continue_func, NULL, 1, TRUE, &err);
+   if (err != NULL) {
+     g_critical ("could alloc threadpool %s", err->message);
+   }
+-- 
+2.19.0
+
