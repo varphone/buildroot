@@ -1,0 +1,26 @@
+From 9c6cf5a81d8204ef2f571fa5b180be2b756e9f63 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Thu, 27 Sep 2018 15:47:29 +0800
+Subject: [PATCH] element: Reduce async handling overhead for embbeded devices
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ gst/gstelement.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gst/gstelement.c b/gst/gstelement.c
+index 8a908a1a5..44743251f 100644
+--- a/gst/gstelement.c
++++ b/gst/gstelement.c
+@@ -194,7 +194,7 @@ gst_element_setup_thread_pool (void)
+ 
+   GST_DEBUG ("creating element thread pool");
+   gst_element_pool =
+-      g_thread_pool_new ((GFunc) gst_element_call_async_func, NULL, -1, FALSE,
++      g_thread_pool_new ((GFunc) gst_element_call_async_func, NULL, 1, TRUE,
+       &err);
+   if (err != NULL) {
+     g_critical ("could not alloc threadpool %s", err->message);
+-- 
+2.19.0
+
