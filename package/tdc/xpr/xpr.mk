@@ -23,6 +23,20 @@ XPR_MAKE_ENV = \
  BUILD_EXAMPLES=n\
  BUILD_TESTS=n
 
+ifneq ($(BR2_SHARED_LIBS),y)
+XPR_MAKE_ENV += BUILD_STATIC=y BUILD_SHARED=n XPR_PLUGIN=n
+define XPR_INSTALL_A
+	$(INSTALL) -D -m 0644 $(@D)/lib/libxpr.a $(1)/usr/lib
+endef
+endif
+
+ifneq ($(BR2_STATIC_LIBS),y)
+XPR_MAKE_ENV += BUILD_STATIC=n BUILD_SHARED=y
+define XPR_INSTALL_SO
+	$(INSTALL) -D -m 0755 $(@D)/lib/libxpr.so $(1)/usr/lib
+endef
+endif
+
 define XPR_CONFIGURE_CMDS
 endef
 
@@ -33,11 +47,12 @@ endef
 define XPR_INSTALL_STAGING_CMDS
 	$(INSTALL) -d -m 0755 $(STAGING_DIR)/usr/include/xpr
 	$(INSTALL) -D -m 0644 $(@D)/include/xpr/*.h $(STAGING_DIR)/usr/include/xpr
-	$(INSTALL) -D -m 0755 $(@D)/lib/libxpr.so $(STAGING_DIR)/usr/lib
+	$(call XPR_INSTALL_A,$(STAGING_DIR))
+	$(call XPR_INSTALL_SO,$(STAGING_DIR))
 endef
 
 define XPR_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 0755 $(@D)/lib/libxpr.so $(TARGET_DIR)/usr/lib
+	$(call XPR_INSTALL_SO,$(TARGET_DIR))
 endef
 
 $(eval $(generic-package))
