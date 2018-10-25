@@ -13,5 +13,5 @@ config BR2_PACKAGE_XPR_CUSTOM_VERSION
 
 config BR2_PACKAGE_XPR_CUSTOM_VERSION_VALUE
 	string "xpr git tag version"
-	default "2.1-rc2"
+	default "2.1.5"
 	depends on BR2_PACKAGE_XPR_CUSTOM_VERSION
