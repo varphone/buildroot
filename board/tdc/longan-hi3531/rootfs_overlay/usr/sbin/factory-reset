@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#
+# if the MASK_FILE exists, then will be check the hash in HASH_FILE.
+# if hash check ok, the format the cache part to wipe all user datas.
+#
+MARK_FILE=/misc/factory-reset
+HASH_FILE=/misc/factory-reset.hash
+
+grep -q "misc" /proc/mounts
+if [ $? -eq 0 ]; then
+	dd if=/dev/urandom of=${MARK_FILE} bs=1k count=1 2&>1 > /dev/null
+	md5sum ${MARK_FILE} > ${HASH_FILE}
+	sync
+fi
+
