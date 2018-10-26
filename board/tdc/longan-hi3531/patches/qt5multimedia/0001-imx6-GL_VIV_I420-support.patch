@@ -1,0 +1,12 @@
+--- a/src/plugins/videonode/imx6/qsgvivantevideonode.cpp	2016-12-17 16:13:33.991247839 +0800
++++ b/src/plugins/videonode/imx6/qsgvivantevideonode.cpp	2016-12-17 16:14:31.087711202 +0800
+@@ -61,7 +61,9 @@
+ const QMap<QVideoFrame::PixelFormat, GLenum>& QSGVivanteVideoNode::getVideoFormat2GLFormatMap()
+ {
+     if (static_VideoFormat2GLFormatMap.isEmpty()) {
++#ifdef GL_VIV_I420
+         static_VideoFormat2GLFormatMap.insert(QVideoFrame::Format_YUV420P,  GL_VIV_I420);
++#endif
+         static_VideoFormat2GLFormatMap.insert(QVideoFrame::Format_YV12,     GL_VIV_YV12);
+         static_VideoFormat2GLFormatMap.insert(QVideoFrame::Format_NV12,     GL_VIV_NV12);
+         static_VideoFormat2GLFormatMap.insert(QVideoFrame::Format_NV21,     GL_VIV_NV21);
