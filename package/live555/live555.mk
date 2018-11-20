@@ -42,6 +42,12 @@ ifndef ($(BR2_ENABLE_LOCALE),y)
 LIVE555_CFLAGS += -DLOCALE_NOT_USED
 endif
 
+ifeq ($(BR2_PACKAGE_LIVE555_CUSTOM_TARBALL),y)
+define LIVE555_INSTALL_PC
+	$(INSTALL) -D -m 0644 $(@D)/live.pc $(STAGING_DIR)/usr/lib/pkgconfig
+endef
+endif
+
 define LIVE555_CONFIGURE_CMDS
 	echo 'COMPILE_OPTS = $$(INCLUDES) -I. -DSOCKLEN_T=socklen_t $(LIVE555_CFLAGS)' >> $(@D)/config.$(LIVE555_CONFIG_TARGET)
 	echo 'C_COMPILER = $(TARGET_CC)' >> $(@D)/config.$(LIVE555_CONFIG_TARGET)
@@ -67,6 +73,7 @@ define LIVE555_INSTALL_STAGING_CMDS
 	$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/include/groupsock/*.* $(STAGING_DIR)/usr/include/live
 	$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/include/liveMedia/*.* $(STAGING_DIR)/usr/include/live
 	$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/include/UsageEnvironment/*.* $(STAGING_DIR)/usr/include/live
+	$(call LIVE555_INSTALL_PC)
 endef
 
 ifeq ($(BR2_PACKAGE_LIVE555_FORCE_STATIC_LIBS),)
