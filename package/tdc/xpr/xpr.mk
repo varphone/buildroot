@@ -7,7 +7,7 @@
 ifeq ($(BR2_PACKAGE_XPR_CUSTOM_VERSION),y)
 XPR_VERSION = $(call qstrip, $(BR2_PACKAGE_XPR_CUSTOM_VERSION_VALUE))
 else
-XPR_VERSION = 2.1.6
+XPR_VERSION = 2.1.7
 endif
 XPR_SOURCE = xpr-$(XPR_VERSION).tar.bz2
 XPR_SITE = https://10.0.2.2/cgit/rdst/xpr.git/snapshot
@@ -47,6 +47,7 @@ endef
 define XPR_INSTALL_STAGING_CMDS
 	$(INSTALL) -d -m 0755 $(STAGING_DIR)/usr/include/xpr
 	$(INSTALL) -D -m 0644 $(@D)/include/xpr/*.h $(STAGING_DIR)/usr/include/xpr
+	$(INSTALL) -D -m 0644 $(@D)/xpr.pc $(STAGING_DIR)/usr/lib/pkgconfig
 	$(call XPR_INSTALL_A,$(STAGING_DIR))
 	$(call XPR_INSTALL_SO,$(STAGING_DIR))
 endef
