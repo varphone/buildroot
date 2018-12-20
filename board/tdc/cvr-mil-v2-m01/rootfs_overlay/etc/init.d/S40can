@@ -1,0 +1,19 @@
+#!bin/sh
+case "$1" in
+        start)
+                ip link set can0 up type can bitrate 1000000
+                ;;
+        stop)
+                ifconfig can0 down
+                ;;
+        restart|reload)
+               ifconfig can0 down
+               ip link set can0 up type can bitrate 1000000
+                ;;
+        *)
+                echo "Usage: $0 {start|stop|restart}"
+                exit 1
+                ;;
+esac
+
+exit $?
