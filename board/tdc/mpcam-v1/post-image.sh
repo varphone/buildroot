@@ -5,7 +5,7 @@ UENV_TXT=$(realpath board/tdc/mpcam-v1/uEnv.txt)
 cp ${UENV_TXT} ${BINARIES_DIR}/uEnv.txt
 
 # Copy the fpga.bin to images dir.
-FPGA_BIN=$(realpath board/tdc/mpcam-v1/rootsf_overlay/lib/firmware/fpga.bin)
+FPGA_BIN=$(realpath board/tdc/mpcam-v1/fpga.bin)
 cp ${FPGA_BIN} ${BINARIES_DIR}/fpga.bin
 
 # Make FIT Image

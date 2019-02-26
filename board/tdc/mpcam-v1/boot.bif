@@ -1,0 +1,9 @@
+//arch = zynq; split = false; format = MCS
+the_ROM_image:
+{
+	[bootloader]FSBL_BOOT.elf
+	[offset = 0x40000]fpga.bit
+	[offset = 0x540000]u-boot.elf
+	[offset = 0x5E0000]zynq-mpcam-v1.dtb
+	[offset = 0x600000]image.itb
+}
