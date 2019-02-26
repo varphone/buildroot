@@ -24,6 +24,8 @@ mpcam-v1
 - **`post-image.sh`** - 生成各个镜像后执行的脚本，你可以通过此脚本对生成的镜像进行额外的处理，例如发行、打包等等。
 - **`pre-image.sh`**-  生成各个镜像前执行的脚本，你可以通过次脚本进行最后的镜像内容调整。
 - **`uEnv.txt`** - 存在 SD 卡上的用户环境变量，设备在启动时会从 SD 卡导入到 `u-boot` 环境变量中。
+- **`boot.bif`** - 适用于 `Xilinx Bootgen` 工具的配置文件，用于生成可用于 `JTAG` 下载的启动文件。
+
 
 开发备注
 --------
@@ -102,48 +104,69 @@ LINUX_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/linux-stable
 UBOOT_OVERRIDE_SRCDIR = /home/varphone/workspace/sources/u-boot
 ```
 
+开发调试
+--------
+
+由于最终的产品没有网络接口，因此为了便于调试，系统默认将 `USB0` 模拟为网卡使用，
+通过使用 `Micro USB` 线连接板子的 `USB` 插座即可以与其进行通信。
+
+其配置如下：
+
+设备名称：`usb0`
+网络地址：`10.10.70.1`
+子网掩码：`255.255.255.0`
+
+设备内部开了以下服务：
+
+- `ftp` - 可用于上传即下载文件，可用匿名登录。
+- `telnet` - 用于进行远程操作，登录的用户名为 `root`，密码为空。
+
+
 更新固件
 --------
 
-### 更新 SD 卡固件
+### 更新 eMMC 固件
 
 设备上有两个 `MMC` 设备，一个是板载的 `eMMC`，一个是外置的 `SD` 卡。
 
 在当前版本的内核中，`eMMC` 对应的是 `/dev/mmcblk0` 设备，`SD` 卡对应的是 `/dev/mmcblk1` 设备。
 
-更新 SD 卡固件可以有多种方式，包括：设备外部更新、设备内部更新。
+更新 `eMMC` 固件可以有多种方式，包括：Linux 下更新、U-Boot 下更新。
 
-设备外部更新：
-
-1. 将编译出的固件从 `xxx/images` 目录复制到你能烧录 SD 的机器上。
-2. 将 SD 卡挂载到你能烧录 SD 的机器的 Linux 系统中。
-3. 找到 SD 对象的设备文件，例如 `/dev/sdb`，这个设备文件一定不要搞错，否则就会损坏你系统上其他盘的数据。
-4. 在 SD 卡镜像文件所在的目录中执行 `dd if=sdcard.img of=/dev/sdb bs=1` 将 SD 卡镜像文件烧录到 SD 卡中；再次警告：这个设备文件 `/dev/sdb` 一定不要搞错，否则就会损坏你系统上其他盘的数据。
-
-设备内部更新：
+Linux 下更新：
 
 1. 启动设备时在调试串口中按 `回车键` 进入 `u-boot` 环境。
 2. 执行 `setenv bootconf '#ramdisk'` 将启动模式配置为 `Ramdisk` 模式。
 3. 执行 `run sdboot` 或 `run qspiboot` 从 SD 或 QSPI Flash 启动系统。
-4. 进入 Linux 系统后，使用 `TFTP` 或 `NFS` 将 SD 镜像文件传输到设备中。
-5. 在 SD 卡镜像文件所在的目录中执行 `dd if=sdcard of=/dev/mmcblk1 bs=512` 将镜像烧录到 SD 中。
+4. 进入 Linux 系统后，使用 `FTP` 或 `NFS` 将 `sdcard.img` 镜像文件传输到设备中，建议上传到 `/tmp/` 目录下，其他目录可能不能写入或空间不足。
+5. 在 `sdcard.img` 镜像文件所在的目录中执行 `dd if=sdcard.img of=/dev/mmcblk0 bs=512` 将镜像烧录到 `eMMC` 中。
+6. 执行 `sync && reboot` 刷新数据到 `Flash` 中并重启。
+7. 重新启动设备时在调试串口中按 `回车键` 进入 `u-boot` 环境。
+8. 执行 `setenv bootconf '#noramdisk'` 将启动模式配置为正常模式。
+9. 执行 `saveenv` 保存配置并断电重启即可。
 
-在设备内部更新 SD 固件时，推荐使用 `NFS` 方式来传输文件，关于 NFS 的使用见下面的常见问题中相关描述。
+U-Boot 下更新：
 
-如果你不想烧录整个 `eMMC` 或 `SD` 卡，你可以将需要更新的分区挂载到系统中，然后更新其中的文件，例如：
+1. 将编译出的固件从 `xxx/images` 目录复制到你的 `FAT32` 格式的 `U` 盘中。
+2. 将存在有固件文件的 `U` 盘连接到设备的 `USB` 接口。
+3. 启动设备时在调试串口中按 `回车键` 进入 `u-boot` 环境。
+4. 执行 `run usbupdate` 命令设备会自动从 `U` 盘中读取文件并写入 `eMMC` 中。
+5. 拔出 `U` 盘断电重启即可。
+
+如果你不想烧录整个 `eMMC`，你可以将需要更新的分区挂载到系统中，然后更新其中的文件，例如：
 
 ```sh
-mount /dev/mmcblk1p1 /mnt # 将 SD 卡 的 BOOT 分区挂载到 /mnt 目录
+mount /dev/mmcblk0p1 /mnt # 将 SD 卡 的 BOOT 分区挂载到 /mnt 目录
 cp /nfs/mpcam-v1/images/image.itb /mnt # 使用 NFS 目录中的 image.itb 更新到 SD 卡中
 sync # 同步系统缓存数据到存储设备中，确保数据完整
 ```
 
 ### 更新 QSPI Flash 固件
 
-1. 将你已经更新过固件的 SD 卡插入设备中。
-2. 在 u-boot 环境下运行 `run qspiupdate` 命令将 SD 上的固件更新到 QSPI Flash 中。
+1. 在更新 `QSPI` 固件时确保最新的固件已经更新到 `eMMC` 中，并且测试成功。
+2. 在 `u-boot` 环境下运行 `run qspiupdate` 命令将 `eMMC` 上的固件更新到 `QSPI Flash` 中。
 
-> 注意：更新到 QSPI Flash 中的固件大小不能超过 16MiB，否则会更新失败。
+> 注意：更新到 `QSPI Flash` 中的固件大小不能超过 `32MiB`，否则会更新失败。
 
 常见问题
 --------

@@ -21,7 +21,7 @@
 
         ramdisk-1 {
             description = "Rootfs Ramdisk";
-            data = /incbin/("rootfs.cpio.lz4");
+            data = /incbin/("rootfs.cpio.gz");
             type = "ramdisk";
             arch = "arm";
             os = "linux";
