@@ -6,11 +6,20 @@
 case $1 in
 	start)
 		echo "Start adv7391 configure ..."
+		# Fix first access bugs
+		i2cget -f -y 1 0x2B 0x00 > /dev/null 2>&1
+		# Reset the chip standalone
+		i2cset -f -y 1 0x2B 0x17 0x02
+		# Load configurations
 		i2cload -f -y 1 /etc/mpcam/adv7391.conf
 		;;
 	stop)
 		;;
 	reload|restart)
+		echo "Re-configure the adv7391 ..."
+		# Reset the chip standalone
+		i2cset -f -y 1 0x2B 0x17 0x02
+		# Load configurations
 		i2cload -f -y 1 /etc/mpcam/adv7391.conf
 		;;
 	*)
