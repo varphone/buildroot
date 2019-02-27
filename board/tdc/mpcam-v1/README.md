@@ -32,18 +32,18 @@ mpcam-v1
 
 ### 版本分支
 
-由于各个不同板型，可能需要在 `2018.05.1-tdc` 代码树的基础上进行裁减或修改，因此各个板型的代码都有自己的专属分支来存放这些差异内容。
+由于各个不同板型，可能需要在 `2018.08.4-tdc` 代码树的基础上进行裁减或修改，因此各个板型的代码都有自己的专属分支来存放这些差异内容。
 
 在构建不同的板型时，需要检出相应的分支代码。
 
 例如要构建 `mpcam-v1` 设备的系统：
 
 ```sh
-git checkout 2018.05.1-mpcam-v1
-make O=/opt/tdc/2018.05.1-mpcam-v1 ......
+git checkout 2018.08.4-mpcam
+make O=/opt/tdc/2018.08.4-mpcam ......
 ```
 
-在以上命令中：`O=/opt/tdc/2018.05.1-mpcam-v1` 表示指定编译的输出目录为 `/opt/tdc/2018.05.1-mpcam-v1`，所有的编译文件源码、编译过程中生成的文件、工具链、编译好的二进制文件、最终生成的固件等等都会存在在此目录中。
+在以上命令中：`O=/opt/tdc/2018.08.4-mpcam` 表示指定编译的输出目录为 `/opt/tdc/2018.08.4-mpcam`，所有的编译文件源码、编译过程中生成的文件、工具链、编译好的二进制文件、最终生成的固件等等都会存在在此目录中。
 
 **注意：** 如果你是开发、测试编译，并非用于发行，最好使用自己的编译目录，也就是将 `O=...` 的目录改为自己的目录。
 
@@ -73,7 +73,7 @@ make ...
 **例如：**
 
 ```sh
-make O=/opt/tdc/2018.05.1-mpcam-v1 source WGET_USER=A000 WGET_PASSWORD=123456
+make O=/opt/tdc/2018.08.4-mpcam source WGET_USER=A000 WGET_PASSWORD=123456
 ```
 
 **注意：**
@@ -197,14 +197,14 @@ Linux 系统里提供了 Xilinx Zynq FPGA Manager 来更新 FPGA 程序。
 
 假如你想单独编译某个 C/C++ 源文件，你可以使用编译好的工具链来实现。
 
-假设你的编译输出目录是：`/opt/tdc/2018.05.1-mpcam-v1`，那么工具链程序就在 `/opt/tdc/2018.05.1-mpcam-v1/host/bin` 目录里面。
+假设你的编译输出目录是：`/opt/tdc/2018.08.4-mpcam`，那么工具链程序就在 `/opt/tdc/2018.08.4-mpcam/host/bin` 目录里面。
 
 例如：
 
 ```sh
 # 导出 C/C++ 编译器为环境变量，以免每次都需要输入完整路径
-export CC=/opt/tdc/2018.05.1-mpcam-v1/host/bin/arm-linux-gcc
-export CXX=/opt/tdc/2018.05.1-mpcam-v1/host/bin/arm-linux-g++
+export CC=/opt/tdc/2018.08.4-mpcam/host/bin/arm-linux-gcc
+export CXX=/opt/tdc/2018.08.4-mpcam/host/bin/arm-linux-g++
 # 编译 test.c 并生成 test 二进制可执行文件
 $CC test.c -o test
 or
@@ -222,7 +222,7 @@ $CXX test.cpp -o test
 ### 如何更新设备固件中的 FPGA 固件文件
 
 1. 将新的 FPGA 固件文替换 `board/tdc/mpcam-v1/rootfs_overlay/lib/firmware/` 目录下的 `fpga.bin`。
-2. 执行 `make O=/opt/tdc/2018.05.1-mpcam-v1/ all` 重新生成固件。
+2. 执行 `make O=/opt/tdc/2018.08.4-mpcam/ all` 重新生成固件。
 
 如果你得到的是 `bit` 格式的文件，你需要使用 `fpga-bit-to-bin.py` 将其转换成 `bin` 文件格式，
 命令使用方法如下：
