@@ -1,0 +1,28 @@
+comment "longan-hi3531 needs boost, mpp-lib, xpr"
+	depends on !BR2_PACKAGE_BOOST || !BR2_PACKAGE_MPP_LIB || !BR2_PACKAGE_XPR
+
+config BR2_PACKAGE_LONGAN_HI3531
+	bool "longan-hi3531"
+	depends on BR2_PACKAGE_TDC
+	help
+	  Longan Application built on Hi3531 platform.
+
+config BR2_PACKAGE_LONGAN_HI3531_BUILD_EXAMPLES
+	bool "build with examples"
+	depends on BR2_PACKAGE_LONGAN_HI3531
+
+config BR2_PACKAGE_LONGAN_HI3531_BUILD_TESTS
+	bool "build with tests"
+	depends on BR2_PACKAGE_LONGAN_HI3531
+
+config BR2_PACKAGE_LONGAN_HI3531_CUSTOM_VERSION
+	bool "longan-hi3531 custom version"
+	depends on BR2_PACKAGE_LONGAN_HI3531
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_LONGAN_HI3531_CUSTOM_VERSION_VALUE
+	string "longan-hi3531 git tag version"
+	default "1.0.9"
+	depends on BR2_PACKAGE_LONGAN_HI3531_CUSTOM_VERSION
+
