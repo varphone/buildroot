@@ -1,0 +1,44 @@
+#!/bin/sh
+
+ADV7182_ADDR=0x21
+ADV7430_ADDR=0x6b
+
+I2CG="i2cget -f -y 0"
+I2CL="i2cload -f -y -8 0"
+I2CS="i2cset -f -y 0"
+
+config() {
+	echo "Configure ADV7182 and ADV7430 ..."
+
+	# Test ADV7182
+	${I2CG} ${ADV7182_ADDR} 0x00 > /dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		# Reset the chip
+		${I2CS} ${ADV7182_ADDR} 0x0F 0x80
+		usleep 200000;
+		${I2CL} /etc/longan/adv7182.conf
+	fi
+
+	# Test ADV7340
+	${I2CG} ${ADV7430_ADDR} 0x00 > /dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		${I2CL} /etc/longan/adv7430.conf
+	fi
+}
+
+case $1 in
+	start)
+		config
+		;;
+	stop)
+		;;
+	reload|restart)
+		 config
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart]"
+		exit 1
+		;;
+esac
+
+exit $?
