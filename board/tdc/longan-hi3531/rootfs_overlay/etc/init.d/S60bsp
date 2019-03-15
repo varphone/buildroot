@@ -3,19 +3,27 @@
 init() {
 	echo "Initialize Hi3531 BSP ..."
 
-	./load3531 -i 1hd
+	./load3531 -i 1hd > /dev/null 2>&1
     
-	#config for USB power
-	himm 0x20050080 0x31A8
-	himm 0x200f0148 0
-	himm 0x200f014c 0
+	# Config for USB power
+	himm 0x20050080 0x31A8 > /dev/null
+	himm 0x200f0148 0 > /dev/null
+	himm 0x200f014c 0 > /dev/null
 
-	himm 0x201f0400 0x0c
-	himm 0x201f0030 0x04
+	himm 0x201f0400 0x0c > /dev/null
+	himm 0x201f0030 0x04 > /dev/null
 	
-	#ftdi_sio driver for serials about one to four
-	modprobe ftdi_sio
+	# ftdi_sio driver for serials about one to four
+	modprobe -q ftdi_sio
+
+	# Forece power up the port
 	echo -n 1 > /sys/bus/usb/devices/1-2.2/bConfigurationValue
+
+	# GS2971 RSTN: high=normal, low=reset
+	echo 85 > /sys/class/gpio/export
+	echo high > /sys/class/gpio/gpio10_5/direction
+	usleep 50000
+	echo low > /sys/class/gpio/gpio10_5/direction
 }
 
 case $1 in
