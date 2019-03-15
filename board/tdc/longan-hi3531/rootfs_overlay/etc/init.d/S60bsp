@@ -21,9 +21,9 @@ init() {
 
 	# GS2971 RSTN: high=normal, low=reset
 	echo 85 > /sys/class/gpio/export
-	echo high > /sys/class/gpio/gpio10_5/direction
-	usleep 50000
 	echo low > /sys/class/gpio/gpio10_5/direction
+	usleep 50000
+	echo high > /sys/class/gpio/gpio10_5/direction
 }
 
 case $1 in
