@@ -6,3 +6,4 @@ tmpfs		/tmp		tmpfs	mode=1777	0	0
 tmpfs		/run		tmpfs	mode=0755,nosuid,nodev	0	0
 sysfs		/sys		sysfs	defaults	0	0
 ubi0:misc	/misc		ubifs	defaults	0	0
+/dev/sda1	/var/log	ext4	defaults	0	0

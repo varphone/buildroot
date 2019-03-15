@@ -15,6 +15,12 @@ while true; do
 	esac
 done
 
+# /var/log if mount for sda1 on target rootfs
+if [ -L "${TARGET_DIR}/var/log" ]; then
+	rm -rf "${TARGET_DIR}/var/log"
+	mkdir -p "${TARGET_DIR}/var/log"
+fi
+
 # Gen misc ubifs image
 MISC_FS="${SCRIPT_DIR}/misc_fs"
 MISC_UBIFS="${BINARIES_DIR}/misc.ubifs"
