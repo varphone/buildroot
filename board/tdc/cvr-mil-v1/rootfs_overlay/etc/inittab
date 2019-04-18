@@ -22,7 +22,7 @@
 ::sysinit:/bin/hostname -F /etc/hostname
 ::sysinit:/sbin/sysctl -p -q
 # now run any rc scripts
-::sysinit:/etc/profile
+#::sysinit:/etc/profile
 ::sysinit:/etc/init.d/rcS
 
 # Put a getty on the serial port
