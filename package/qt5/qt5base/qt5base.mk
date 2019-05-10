@@ -23,15 +23,8 @@ QT5BASE_CONFIGURE_OPTS += \
 	-no-cups \
 	-no-iconv \
 	-system-zlib \
-	-system-pcre \
 	-no-pch \
 	-shared
-
-ifeq ($(BR2_PACKAGE_QT5_VERSION_5_6),y)
-QT5BASE_DEPENDENCIES += pcre
-else
-QT5BASE_DEPENDENCIES += pcre2
-endif
 
 ifeq ($(BR2_X86_CPU_HAS_SSE2),)
 QT5BASE_CONFIGURE_OPTS += -no-sse2
