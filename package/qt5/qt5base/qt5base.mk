@@ -321,7 +321,7 @@ define QT5BASE_CONFIGURE_CMDS
 		./configure \
 		-v \
 		-prefix /usr \
-		-hostprefix $(HOST_DIR) \
+		-hostprefix $(HOST_DIR)/usr \
 		-headerdir /usr/include/qt5 \
 		-sysroot $(STAGING_DIR) \
 		-plugindir /usr/lib/qt/plugins \
@@ -344,7 +344,7 @@ endef
 # compiled into the Qt library. We need it to make "qmake" relocatable.
 define QT5BASE_INSTALL_QT_CONF
 	sed -e "s|@@HOST_DIR@@|$(HOST_DIR)|" -e "s|@@STAGING_DIR@@|$(STAGING_DIR)|" \
-		$(QT5BASE_PKGDIR)/qt.conf.in > $(HOST_DIR)/bin/qt.conf
+		$(QT5BASE_PKGDIR)/qt.conf.in > $(HOST_DIR)/usr/bin/qt.conf
 endef
 
 define QT5BASE_INSTALL_STAGING_CMDS
