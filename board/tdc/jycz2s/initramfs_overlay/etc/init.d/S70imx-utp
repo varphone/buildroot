@@ -1,0 +1,78 @@
+#!/bin/sh
+#
+# Start Fastboot over USB-UTP for i.MX6 MFGTools v3.
+#
+
+DAEMON=/usr/bin/ufb
+NAME=ufb
+OPTS=/dev/usb-utp0/ep0
+GADGET_DIR=/sys/kernel/config/usb_gadget/g1
+
+case "$1" in
+	start)
+		echo "Starting ${NAME} ..."
+
+		modprobe libcomposite
+		modprobe u_ether
+		modprobe usb_f_rndis
+
+		mount -t configfs none /sys/kernel/config
+
+		mkdir -p ${GADGET_DIR}
+		cd ${GADGET_DIR}
+
+		#echo "64" > bMaxPacketSize0
+		#echo "0x200" > bcdUSB
+		#echo "0x100" > bcdDevice
+		echo "0x066F" > idVendor
+		echo "0x9BFF" > idProduct
+
+		mkdir -p strings/0x409
+		echo 0000000000000000 > strings/0x409/serialnumber
+		echo "JYCZ-2 Board" > strings/0x409/product
+
+		mkdir -p configs/c1.1
+
+		echo 5 > configs/c1.1/MaxPower
+		echo 1 > os_desc/use
+		echo "MSFT100" > os_desc/qw_sign
+		echo 0x40 > os_desc/b_vendor_code
+
+		mkdir -p functions/ffs.utp0
+		mkdir -p /dev/usb-utp0
+		mount -t functionfs utp0 /dev/usb-utp0
+		ln -s functions/ffs.utp0 configs/c1.1/
+		ln -s configs/c1.1 os_desc
+
+		mkdir -p functions/mass_storage.1
+		ln -s functions/mass_storage.1 configs/c1.1/
+
+		# Create vfat image for mass storage
+		dd if=/dev/zero of=/tmp/utp.vfat bs=1M count=1 > /dev/null 2>&1
+		mkdosfs /tmp/utp.vfat > /dev/null 2>&1
+
+		echo /tmp/utp.vfat > functions/mass_storage.1/lun.0/file
+
+		# Start fastboot daemon
+		start-stop-daemon -S -q -b -m -p /var/run/${NAME}.pid -x ${DAEMON} -- ${OPTS}
+
+		# Wait for ufb ready
+		while [ ! -e /dev/usb-utp0/ep1 ]; do
+			echo "."
+			sleep 1;
+		done
+
+		# Start the UDC
+		echo "ci_hdrc.0" > UDC
+		;;
+	stop)
+		;;
+	restart|reload)
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?
+

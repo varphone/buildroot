@@ -1,0 +1,5 @@
+#!/bin/sh
+
+modprobe -r g_mass_storage
+modprobe g_mass_storage file=/dev/mmcblk3p6 stall=0 removable=1
+
