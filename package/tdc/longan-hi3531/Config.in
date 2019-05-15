@@ -15,6 +15,14 @@ config BR2_PACKAGE_LONGAN_HI3531_BUILD_TESTS
 	bool "build with tests"
 	depends on BR2_PACKAGE_LONGAN_HI3531
 
+config BR2_PACKAGE_LONGAN_HI3531_TARGET
+	string "hi3531 target board"
+	default "longan"
+	depends on BR2_PACKAGE_LONGAN_HI3531
+	help
+	  This option allows to specified the target board,
+	  board availables: hivcap, hinvr, longan, ppmd
+
 config BR2_PACKAGE_LONGAN_HI3531_CUSTOM_VERSION
 	bool "longan-hi3531 custom version"
 	depends on BR2_PACKAGE_LONGAN_HI3531
