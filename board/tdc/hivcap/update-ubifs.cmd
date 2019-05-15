@@ -2,12 +2,12 @@ setenv loadaddr 0x82000000
 setenv bootargs_base console=ttyAMA0,115200 mem=128M panic=5
 setenv mtdparts mtdparts=hinand:1M(boot),2M(reserved),4M(kernel),-(ubifs)
 setenv netargs stmmac.hitoe=1
-setenv rootargs ubi.mtd=3 root=ubi0:rootfs rw rootfstype=ubifs
-tftp ${loadaddr} longan-hi3531/images/uImage
+setenv rootargs ubi.mtd=3 root=ubi0:rootfs rw rootfstype=squashfs
+tftp ${loadaddr} hivcap/images/uImage
 nand erase 0x300000 0x400000
 nand write ${loadaddr} 0x300000 ${filesize}
 setenv kernelsize ${filesize}
-tftp ${loadaddr} longan-hi3531/images/rootfs.ubi
+tftp ${loadaddr} hivcap/images/rootfs.ubi
 nand erase 0x700000 0x7900000
 nand write ${loadaddr} 0x700000 ${filesize}
 setenv rootfssize ${filesize}

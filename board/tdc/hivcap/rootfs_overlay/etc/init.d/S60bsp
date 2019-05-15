@@ -1,5 +1,7 @@
 #!/bin/sh
 
+REL_NAME=$(grep '^NAME=' /etc/os-release  | awk -F= '{print $2}')
+
 init() {
 	echo "Initialize Hi3531 BSP ..."
 
@@ -17,13 +19,17 @@ init() {
 	modprobe -q ftdi_sio
 
 	# Forece power up the port
-	echo -n 1 > /sys/bus/usb/devices/1-2.2/bConfigurationValue
+	if [ -f /sys/bus/usb/devices/1-2.2/bConfigurationValue ]; then
+		echo -n 1 > /sys/bus/usb/devices/1-2.2/bConfigurationValue
+	fi
 
-	# GS2971 RSTN: high=normal, low=reset
-	echo 85 > /sys/class/gpio/export
-	echo low > /sys/class/gpio/gpio10_5/direction
-	usleep 50000
-	echo high > /sys/class/gpio/gpio10_5/direction
+	if [ "${REL_NAME}" = "LONGAN-HI3531" ] ; then
+		# GS2971 RSTN: high=normal, low=reset
+		echo 85 > /sys/class/gpio/export
+		echo low > /sys/class/gpio/gpio10_5/direction
+		usleep 50000
+		echo high > /sys/class/gpio/gpio10_5/direction
+	fi
 }
 
 case $1 in

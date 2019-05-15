@@ -1,9 +1,9 @@
 #!/bin/sh
 
 FILE=${TARGET_DIR}/etc/os-release
-NAME="LONGAN-HI3531"
+NAME="HIVCAP"
 VERSION="$(git describe --abbrev=7 --tags)"
-ID="longan-hi3531"
+ID="hivcap"
 VERSION_ID=${VERSION}
 PRETTY_NAME="${NAME} ${VERSION}"
 

@@ -1,12 +1,12 @@
-LONGAN-Hi3531
-=============
+HiVCAP
+======
 
-非接触式障碍物检测系统，ARM 核心板，基于 Hi3531 平台构建。
+高清视频捕捉设备(第一版)，基于 Hi3531 平台构建。
 
 GnuPG 信息
 ----------
 
-- 默认标识：`longan`
+- 默认标识：`hivcap`
 - 证书密码：`Wg5tBuDM`
 
 
@@ -54,7 +54,7 @@ mtdparts=hinand:1M(boot),2M(reserved),4M(kernel),-(ubifs)
 ### Update kernel
 
 ```sh
-tftp ${loadaddr} longan-hi3531/images/uImage
+tftp ${loadaddr} hivcap/images/uImage
 nand erase 0x300000 0x400000
 nand write ${loadaddr} 0x300000 ${filesize}
 setenv kernelsize ${filesize}
@@ -64,7 +64,7 @@ sa
 ### Update ubifs
 
 ```sh
-tftp ${loadaddr} longan-hi3531/images/rootfs.ubi
+tftp ${loadaddr} hivcap/images/rootfs.ubi
 nand erase 0x700000 0x8000000
 nand write ${loadaddr} 0x700000 ${filesize}
 setenv rootfssize ${filesize}
@@ -100,14 +100,14 @@ sa
 **升级 kernel, misc, rootfs**
 
 ```sh
-tftp 0x80000000 longan-hi3531/images/update.scr
+tftp 0x80000000 hivcap/images/update.scr
 source 0x80000000
 ```
 
 **升级 u-boot**
 
 ```sh
-tftp 0x80000000 longan-hi3531/images/update-uboot.scr
+tftp 0x80000000 hivcap/images/update-uboot.scr
 source 0x80000000
 ```
 

@@ -21,6 +21,14 @@ if [ -L "${TARGET_DIR}/var/log" ]; then
 	mkdir -p "${TARGET_DIR}/var/log"
 fi
 
+# Link the longan-hi3531 to hivcap
+if [ -e "${TARGET_DIR}/usr/bin/longan-hi3531" ]; then
+	ln -sf longan-hi3531 "${TARGET_DIR}/usr/bin/hivcap"
+fi
+
+# Make os-release file
+${SCRIPT_DIR}/mk-os-release.sh
+
 # Gen misc ubifs image
 MISC_FS="${SCRIPT_DIR}/misc_fs"
 MISC_UBIFS="${BINARIES_DIR}/misc.ubifs"

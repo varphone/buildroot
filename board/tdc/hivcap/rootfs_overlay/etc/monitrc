@@ -1,0 +1,12 @@
+set daemon 5
+	with start delay 10
+
+set httpd port 2812
+	allow 0.0.0.0/0.0.0.0
+	allow admin:monit
+
+check system localhost
+
+check process hivcap with pidfile /var/run/hivcap.pid
+	start program = "/etc/init.d/S90hivcap start"
+	stop program = "/etc/init.d/S90hivcap stop"

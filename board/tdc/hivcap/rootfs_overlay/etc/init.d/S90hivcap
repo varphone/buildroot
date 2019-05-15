@@ -1,9 +1,9 @@
 #!/bin/sh
 #
-# Start longan-hi3531
+# Start hivcap
 #
 
-NAME=longan-hi3531
+NAME=hivcap
 DAEMON=/usr/bin/${NAME}
 PIDFILE=/var/run/${NAME}.pid
 
