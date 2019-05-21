@@ -1,0 +1,9 @@
+menuconfig BR2_PACKAGE_TDC
+	bool "tdc packages"
+	help
+	  Those packages provide tdc devices supports.
+
+if BR2_PACKAGE_TDC
+source "package/tdc/radar-qt/Config.in"
+endif
+
