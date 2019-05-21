@@ -1,0 +1,342 @@
+From f3c2741074c0dc90fad4f2ce3009e939cd9406d1 Mon Sep 17 00:00:00 2001
+From: Varphone Wong <varphone@qq.com>
+Date: Tue, 21 May 2019 14:33:11 +0800
+Subject: [PATCH] Remove pxp module for linux-3.0.35 kernel
+
+Signed-off-by: Varphone Wong <varphone@qq.com>
+---
+ pxp/Makefile  |  43 ----------
+ pxp/pxp_lib.c | 223 --------------------------------------------------
+ pxp/pxp_lib.h |  40 ---------
+ 3 files changed, 306 deletions(-)
+ delete mode 100644 pxp/Makefile
+ delete mode 100644 pxp/pxp_lib.c
+ delete mode 100644 pxp/pxp_lib.h
+
+diff --git a/pxp/Makefile b/pxp/Makefile
+deleted file mode 100644
+index cf08c98..0000000
+--- a/pxp/Makefile
++++ /dev/null
+@@ -1,43 +0,0 @@
+-CC ?=$(CROSS_COMPILE)gcc
+-AR ?=$(CROSS_COMPILE)ar
+-CFLAGS ?=-O2
+-
+-# list of platforms which want this test case
+-INCLUDE_LIST:=IMX50 IMX51 IMX5 IMX6Q IMX6S IMX7 IMX6UL
+-
+-OBJ = pxp_lib.o
+-
+-LIBNAME = libpxp
+-SONAMEVERSION=0
+-LFLAGS += -lpthread
+-
+-ifeq ($(PLATFORM), $(findstring $(PLATFORM), $(INCLUDE_LIST)))
+-
+-all: $(LIBNAME).so $(LIBNAME).a
+-
+-install: install_headers
+-	@mkdir -p $(DEST_DIR)/usr/lib
+-	cp -P $(LIBNAME).* $(DEST_DIR)/usr/lib
+-
+-install_headers:
+-	@mkdir -p $(DEST_DIR)/usr/include
+-	cp pxp_lib.h $(DEST_DIR)/usr/include
+-else
+-all install :
+-endif
+-
+-%.o: %.c
+-	$(CC) -D$(PLATFORM) $(INCLUDE) -Wall -fPIC $(CFLAGS) -c $^ -o $@
+-
+-$(LIBNAME).so.$(SONAMEVERSION): $(OBJ)
+-	$(CC) -shared -nostartfiles -Wl,-soname,$@ $(LFLAGS) $^ -o $@ $(LDFLAGS)
+-
+-$(LIBNAME).so: $(LIBNAME).so.$(SONAMEVERSION)
+-	ln -s $< $@
+-
+-$(LIBNAME).a: $(OBJ)
+-	$(AR) -rc $@  $^
+-
+-.PHONY: clean
+-clean:
+-	rm -f $(LIBNAME).* $(OBJ)
+diff --git a/pxp/pxp_lib.c b/pxp/pxp_lib.c
+deleted file mode 100644
+index 7c75600..0000000
+--- a/pxp/pxp_lib.c
++++ /dev/null
+@@ -1,223 +0,0 @@
+-/*
+- * pxp_lib - a user space library for PxP
+- *
+- * Copyright (C) 2013-2014 Freescale Semiconductor, Inc.
+- */
+-
+-/*
+- * The code contained herein is licensed under the GNU Lesser General
+- * Public License.  You may obtain a copy of the GNU Lesser General
+- * Public License Version 2.1 or later at the following locations:
+- *
+- * http://www.opensource.org/licenses/lgpl-license.html
+- * http://www.gnu.org/copyleft/lgpl.html
+- */
+-
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <sys/mman.h>
+-#include <sys/ioctl.h>
+-#include <sys/types.h>
+-#include <sys/stat.h>
+-#include <fcntl.h>
+-#include <unistd.h>
+-#include <pthread.h>
+-
+-#include "pxp_lib.h"
+-
+-#define	PXP_DEVICE_NAME	"/dev/pxp_device"
+-
+-#define DBG_DEBUG		3
+-#define DBG_INFO		2
+-#define DBG_WARNING		1
+-#define DBG_ERR			0
+-
+-static int debug_level = DBG_ERR;
+-#define dbg(flag, fmt, args...)	{ if(flag <= debug_level)  printf("%s:%d "fmt, __FILE__, __LINE__,##args); }
+-
+-static int fd = -1;
+-static int active_open_nr;
+-static pthread_spinlock_t lock;
+-
+-int pxp_init(void)
+-{
+-	pthread_spin_lock(&lock);
+-	if (fd > 0) {
+-		active_open_nr++;
+-		pthread_spin_unlock(&lock);
+-		return 0;
+-	}
+-
+-	if (fd < 0) {
+-		fd = open(PXP_DEVICE_NAME, O_RDWR, 0);
+-		if (fd < 0) {
+-			pthread_spin_unlock(&lock);
+-			dbg(DBG_ERR, "open file error.\n");
+-			return -1;
+-		}
+-	}
+-
+-	active_open_nr++;
+-	pthread_spin_unlock(&lock);
+-	return 0;
+-}
+-
+-int pxp_request_channel(pxp_chan_handle_t *pxp_chan)
+-{
+-	int cid;
+-	int ret = 0;
+-
+-	ret = ioctl(fd, PXP_IOC_GET_CHAN, &cid);
+-	if (ret < 0)
+-		return -1;
+-
+-	pxp_chan->handle = cid;
+-	return 0;
+-}
+-
+-void pxp_release_channel(pxp_chan_handle_t *pxp_chan)
+-{
+-	ioctl(fd, PXP_IOC_PUT_CHAN, &(pxp_chan->handle));
+-}
+-
+-int pxp_config_channel(pxp_chan_handle_t *pxp_chan, struct pxp_config_data *pxp_conf)
+-{
+-	int ret = 0;
+-
+-	pxp_conf->handle = pxp_chan->handle;
+-	dbg(DBG_INFO, "channel handle %d\n\n", pxp_conf->handle);
+-
+-	ret = ioctl(fd, PXP_IOC_CONFIG_CHAN, pxp_conf);
+-
+-	return ret;
+-}
+-
+-int pxp_start_channel(pxp_chan_handle_t *pxp_chan)
+-{
+-	int ret = 0;
+-
+-	ret = ioctl(fd, PXP_IOC_START_CHAN, &(pxp_chan->handle));
+-
+-	return ret;
+-}
+-
+-int pxp_wait_for_completion(pxp_chan_handle_t *pxp_chan, int times)
+-{
+-	int _times = 0;
+-	int ret = 0;
+-
+-	while ((ret = ioctl(fd, PXP_IOC_WAIT4CMPLT, pxp_chan)) < 0) {
+-		_times++;
+-		if (_times >= times) {
+-			return ret;
+-		}
+-	}
+-
+-	return ret;
+-}
+-
+-void pxp_uninit(void)
+-{
+-	pthread_spin_lock(&lock);
+-	if (fd == -1) {
+-		pthread_spin_unlock(&lock);
+-		return;
+-	}
+-
+-	if (active_open_nr > 1) {
+-		active_open_nr--;
+-	} else if (active_open_nr == 1) {
+-		active_open_nr--;
+-		if (fd > 0) {
+-			close(fd);
+-			fd = -1;
+-		}
+-	}
+-	pthread_spin_unlock(&lock);
+-}
+-
+-/*
+- * Below are helper functions to alloc/free the phy/virt buffer
+- */
+-int pxp_get_phymem(struct pxp_mem_desc *mem)
+-{
+-	if (ioctl(fd, PXP_IOC_GET_PHYMEM, mem) < 0) {
+-		mem->phys_addr = 0;
+-		dbg(DBG_ERR, "PXP_IOC_GET_PHYMEM err\n");
+-		return -1;
+-	}
+-
+-	dbg(DBG_INFO, "succeed mem.phys_addr = 0x%08x\n", mem->phys_addr);
+-	return 0;
+-}
+-
+-int pxp_put_phymem(struct pxp_mem_desc *mem)
+-{
+-	if (ioctl(fd, PXP_IOC_PUT_PHYMEM, mem) < 0) {
+-		mem->phys_addr = 0;
+-		dbg(DBG_ERR, "PXP_IOC_PUT_PHYMEM err\n");
+-		return -1;
+-	}
+-
+-	dbg(DBG_DEBUG, "succeed\n");
+-	return 0;
+-}
+-
+-int pxp_get_virtmem(struct pxp_mem_desc *mem)
+-{
+-	void *va_addr;
+-
+-	va_addr = mmap(NULL, mem->size, PROT_READ | PROT_WRITE,
+-				      MAP_SHARED, fd, mem->phys_addr);
+-
+-	if (va_addr == MAP_FAILED) {
+-		mem->virt_uaddr = 0;
+-		dbg(DBG_ERR, "MAP_FAILED.\n");
+-		return -1;
+-	}
+-
+-	mem->virt_uaddr = (unsigned long)va_addr;
+-	dbg(DBG_INFO, "virt addr = %08x\n", mem->virt_uaddr);
+-
+-	return 0;
+-}
+-
+-int pxp_put_virtmem(struct pxp_mem_desc *mem)
+-{
+-	if (mem->virt_uaddr != 0) {
+-		if (munmap((void *)mem->virt_uaddr, mem->size) != 0)
+-			dbg(DBG_ERR, "UNMAP_FAILED.\n");
+-	}
+-
+-	mem->virt_uaddr = 0;
+-	return 0;
+-}
+-
+-int pxp_get_mem(struct pxp_mem_desc *mem)
+-{
+-	int ret;
+-
+-	ret = pxp_get_phymem(mem);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = pxp_get_virtmem(mem);
+-	if (ret < 0)
+-		return ret;
+-
+-	return 0;
+-}
+-int pxp_put_mem(struct pxp_mem_desc *mem)
+-{
+-	int ret;
+-
+-	ret = pxp_put_virtmem(mem);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = pxp_put_phymem(mem);
+-	if (ret < 0)
+-		return ret;
+-
+-	return 0;
+-}
+diff --git a/pxp/pxp_lib.h b/pxp/pxp_lib.h
+deleted file mode 100644
+index 1c023af..0000000
+--- a/pxp/pxp_lib.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/*
+- * pxp_lib - a user space library for PxP
+- *
+- * Copyright (C) 2010-2013 Freescale Semiconductor, Inc.
+- */
+-
+-/*
+- * The code contained herein is licensed under the GNU Lesser General
+- * Public License.  You may obtain a copy of the GNU Lesser General
+- * Public License Version 2.1 or later at the following locations:
+- *
+- * http://www.opensource.org/licenses/lgpl-license.html
+- * http://www.gnu.org/copyleft/lgpl.html
+- */
+-
+-#ifndef	PXP_LIB_H
+-#define	PXP_LIB_H
+-
+-#include <linux/pxp_device.h>
+-
+-#ifndef true
+-#define true    1
+-#endif
+-#ifndef false
+-#define false   0
+-#endif
+-
+-typedef struct pxp_chan_handle pxp_chan_handle_t;
+-
+-int pxp_init();
+-void pxp_uninit();
+-int pxp_request_channel(pxp_chan_handle_t *pxp_chan);
+-void pxp_release_channel(pxp_chan_handle_t *pxp_chan);
+-int pxp_config_channel(pxp_chan_handle_t *pxp_chan, struct pxp_config_data *pxp_conf);
+-int pxp_start_channel(pxp_chan_handle_t *pxp_chan);
+-int pxp_wait_for_completion(pxp_chan_handle_t *pxp_chan, int times);
+-int pxp_get_mem(struct pxp_mem_desc *mem);
+-int pxp_put_mem(struct pxp_mem_desc *mem);
+-
+-#endif
+-- 
+2.21.0
+
