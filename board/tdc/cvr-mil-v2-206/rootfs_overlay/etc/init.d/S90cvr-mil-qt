@@ -12,6 +12,7 @@ case "$1" in
 	start)
 		echo "Starting ${NAME} ..."
 		echo 256 256 256 256 > /sys/class/misc/isl7998x/sensor_fixup_cfg
+		echo 95000 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp
 		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON} -- ${OPTS}
 		;;
 	stop)
