@@ -84,4 +84,15 @@ config BR2_PACKAGE_GST1_IMX_V4L2VIDEOSRC
 	help
 	  Elements for V4L2 capture
 
+config BR2_PACKAGE_GST1_IMX_CUSTOM_VERSION
+	bool "gst1-imx custom version"
+	depends on BR2_PACKAGE_GST1_IMX
+	help
+	  This option allows to use a specific official version from git.
+
+config BR2_PACKAGE_GST1_IMX_CUSTOM_VERSION_VALUE
+	string "gst1-imx git tag version"
+	default "0.13.0-R20"
+	depends on BR2_PACKAGE_GST1_IMX_CUSTOM_VERSION
+
 endif
