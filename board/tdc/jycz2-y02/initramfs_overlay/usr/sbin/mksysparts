@@ -1,0 +1,86 @@
+#!/bin/sh
+
+DEV=
+YES=
+
+for var in "$@"; do
+	if [[ "${var}" = "-y" ]]; then
+		YES=y
+	else
+		DEV=${var}
+	fi
+done
+
+if [[ -z "${DEV}" ]]; then
+	echo "Usage: mksysparts <block device>"
+	echo "  Example: mksysparts /dev/sda"
+	exit 1;
+fi
+
+CAP=$(blockdev --getsize64 ${DEV})
+if [ -z ${CAP} ]; then
+	echo "The target device ${DEV} not valid."
+	echo 2;
+fi
+
+if [ ${CAP} -lt 8000000000 ]; then
+	echo "The Target device $1(${CAP}) must large than 8GB."
+	exit 3;
+fi
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "!!! Warning: All data on \"${DEV}\" will be destroy !!!"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo
+if [[ -z "${YES}" ]]; then
+	read -p "Are you sure? [yes|no]: "
+
+	case ${REPLY} in
+		y|yes|Y|YES) ;;
+		*) exit 0;;
+	esac
+fi
+
+# Partition sizes
+BOOT_SIZE=100M
+RECOVERY_SIZE=400M
+MISC_SIZE=100M
+SYSTEM_SIZE=500M
+CACHE_SIZE=
+
+# <16G
+#if [ ${CAP} -lt 16000000000 ]; then
+#fi
+# <32G
+if [ ${CAP} -lt 32000000000 ]; then
+	BOOT_SIZE=200M
+	RECOVERY_SIZE=800M
+	MISC_SIZE=100M
+	SYSTEM_SIZE=1G
+fi
+# <64G
+if [ ${CAP} -lt 128000000000 ]; then
+	BOOT_SIZE=200M
+	RECOVERY_SIZE=800M
+	MISC_SIZE=100M
+	SYSTEM_SIZE=1G
+fi
+
+sgdisk -o -g ${DEV}
+sgdisk -n=1:0:+${BOOT_SIZE} -c=1:boot ${DEV}
+sgdisk -n=2:0:+${RECOVERY_SIZE} -c=2:recovery ${DEV}
+sgdisk -n=3:0:+${MISC_SIZE} -c=3:misc ${DEV}
+sgdisk -n=4:0:+${SYSTEM_SIZE} -c=4:system ${DEV}
+sgdisk -N=5 -c=5:cache ${DEV}
+mkfs.vfat -n boot ${DEV}1
+mkfs.vfat -n recovery ${DEV}2
+mkfs.ext2 -L misc ${DEV}3
+mkfs.ext2 -L system ${DEV}4
+mkfs.ext2 -L cache ${DEV}5
+
+echo
+echo "======================================================="
+echo "===        All system partitions created.           ==="
+echo "======================================================="
+exit $?
+
