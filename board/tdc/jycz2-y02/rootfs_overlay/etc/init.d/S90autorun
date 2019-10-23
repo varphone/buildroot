@@ -13,6 +13,10 @@ case "$1" in
 		echo "Starting ${NAME} ..."
 		# Turn on the power of the front camera
 		echo 1 > /sys/class/misc/atm88pa/cam_f_pwr
+		echo 1 > /sys/class/misc/atm88pa/cam_b_pwr
+		echo 1 > /sys/class/misc/atm88pa/cam_l_pwr
+		echo 1 > /sys/class/misc/atm88pa/cam_r_pwr
+		sleep 3
 		# Start the daemon
 		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON} -- ${OPTS}
 		;;
@@ -22,6 +26,9 @@ case "$1" in
 		start-stop-daemon -K -p ${PIDFILE}
 		# Turn off the power of the front camera
 		echo 0 > /sys/class/misc/atm88pa/cam_f_pwr
+		echo 0 > /sys/class/misc/atm88pa/cam_b_pwr
+		echo 0 > /sys/class/misc/atm88pa/cam_r_pwr
+		echo 0 > /sys/class/misc/atm88pa/cam_l_pwr
 		;;
 	restart|reload)
 		echo "Restarting ${NAME} ..."
