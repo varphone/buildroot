@@ -1,0 +1,36 @@
+--- a/kernel-module-imx-gpu-viv-src/hal/os/linux/kernel/gc_hal_kernel_os.c	2019-12-03 16:40:21.978561812 +0800
++++ b/kernel-module-imx-gpu-viv-src/hal/os/linux/kernel/gc_hal_kernel_os.c	2019-12-03 16:41:30.482684037 +0800
+@@ -5987,14 +5987,14 @@
+     if (userTask != gcvNULL)
+     {
+         info.si_signo = 48;
+-        info.si_code  = __SI_CODE(__SI_RT, SI_KERNEL);
++        info.si_code  = SI_KERNEL;
+         info.si_pid   = 0;
+         info.si_uid   = 0;
+         info.si_ptr   = (gctPOINTER) Signal;
+ 
+         /* Signals with numbers between 32 and 63 are real-time,
+            send a real-time signal to the user process. */
+-        result = send_sig_info(48, &info, userTask);
++        result = do_send_sig_info(48, &info, userTask, false);
+ 
+         printk("gckOS_SetSignalVG:0x%x\n", result);
+         /* Error? */
+@@ -6562,14 +6562,14 @@
+     if (userTask != gcvNULL)
+     {
+         info.si_signo = 48;
+-        info.si_code  = __SI_CODE(__SI_RT, SI_KERNEL);
++        info.si_code  = SI_KERNEL;
+         info.si_pid   = 0;
+         info.si_uid   = 0;
+         info.si_ptr   = (gctPOINTER) Signal;
+ 
+         /* Signals with numbers between 32 and 63 are real-time,
+            send a real-time signal to the user process. */
+-        result = send_sig_info(48, &info, userTask);
++        result = do_send_sig_info(48, &info, userTask, false);
+ 
+         /* Error? */
+         if (result < 0)
