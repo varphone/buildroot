@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ ! -f /tmp/64m.vfat ]; then
+	umass-pre
+fi
+
+if [ -x ${HOME}/.umass-con-hook ]; then
+	sh ${HOME}/.umass-con-hook
+fi
+
+umount /mnt
+modprobe -r g_mass_storage
+modprobe g_mass_storage file=/tmp/64m.vfat stall=0 removable=1
+
