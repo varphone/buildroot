@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Start fixsda ...
+#
+
+start() {
+        if [ ! -b /dev/sda ]; then
+                echo "Disk does not installed!"
+                exit 0
+        fi
+        if [ ! -b /dev/sda1 ]; then
+                echo "Disk does not parted, fix now ..."
+                sgdisk -Z /dev/sda
+                sgdisk -N=1 /dev/sda
+        fi
+        blkid /dev/sda1 | grep -q ext4 || {
+                mkfs.ext4 /dev/sda1
+        }
+        cat /proc/mounts | grep -q /var/lib/dcim || {
+                mount -t ext4 /dev/sda1 /var/lib/dcim
+        }
+}
+
+case "$1" in
+        start)
+                echo "Fixing the sda ..."
+                start
+                ;;
+        stop)
+                ;;
+        restart|reload)
+                ;;
+        *)
+                echo "Usage: $0 {start|stop|restart}"
+                exit 1
+esac
+
+exit $?
+
