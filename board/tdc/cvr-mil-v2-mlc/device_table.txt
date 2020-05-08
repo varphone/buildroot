@@ -34,3 +34,4 @@
 /etc/gnupg/secring.gpg			f	600	0	0	-	-	-	-	-
 /etc/gnupg/trustdb.gpg			f	600	0	0	-	-	-	-	-
 /etc/profile				f	755	0	0	-	-	-	-	-
+/etc/monitrc				f	700	0	0	-	-	-	-	-
