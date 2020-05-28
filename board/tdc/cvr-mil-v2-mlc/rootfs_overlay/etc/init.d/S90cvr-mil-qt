@@ -12,7 +12,6 @@ case "$1" in
 	start)
 		echo "Starting ${NAME} ..."
 		echo 256 256 256 256 > /sys/class/misc/isl7998x/sensor_fixup_cfg
-		echo 95000 > /sys/devices/virtual/thermal/thermal_zone0/trip_point_0_temp
 		echo 1 > /sys/class/misc/atm88pa/cam_f_pwr
 		echo 1 > /sys/class/misc/atm88pa/cam_r_pwr
 		echo 1 > /sys/class/misc/atm88pa/cam_l_pwr
