@@ -16,6 +16,7 @@ case "$1" in
 		echo 1 > /sys/class/misc/atm88pa/cam_r_pwr
 		echo 1 > /sys/class/misc/atm88pa/cam_l_pwr
 		echo 1 > /sys/class/misc/atm88pa/cam_r_pwr
+		sleep 3
 		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON} -- ${OPTS}
 		;;
 	stop)
