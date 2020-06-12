@@ -14,7 +14,7 @@ start() {
                 sgdisk -N=1 /dev/sda
         fi
         blkid /dev/sda1 | grep -q ext4 || {
-                mkfs.ext4 /dev/sda1
+                mkfs.ext4 -F /dev/sda1
         }
         cat /proc/mounts | grep -q /var/lib/dcim || {
                 mount -t ext4 /dev/sda1 /var/lib/dcim
