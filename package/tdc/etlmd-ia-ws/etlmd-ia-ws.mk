@@ -10,7 +10,7 @@ else
 ETLMD_IA_WS_VERSION = 2.2
 endif
 ETLMD_IA_WS_SOURCE = etlmd-ia-ws-$(ETLMD_IA_WS_VERSION).tar.bz2
-ETLMD_IA_WS_SITE = https://10.0.2.2/cgit/rdst/etlmd-ia-ws.git/snapshot
+ETLMD_IA_WS_SITE = https://192.168.0.2/cgit/rdst/etlmd-ia-ws.git/snapshot
 ETLMD_IA_WS_STRIP_COMPONENTS = 1
 ETLMD_IA_WS_INSTALL_STAGING = NO
 ETLMD_IA_WS_DEPENDENCIES = etlmd-ia nodejs

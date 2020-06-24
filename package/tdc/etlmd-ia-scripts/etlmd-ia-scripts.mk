@@ -10,7 +10,7 @@ else
 ETLMD_IA_SCRIPTS_VERSION = 1.3
 endif
 ETLMD_IA_SCRIPTS_SOURCE = etlmd-ia-scripts-$(ETLMD_IA_SCRIPTS_VERSION).tar.bz2
-ETLMD_IA_SCRIPTS_SITE = https://10.0.2.2/cgit/rdst/etlmd-ia-scripts.git/snapshot
+ETLMD_IA_SCRIPTS_SITE = https://192.168.0.2/cgit/rdst/etlmd-ia-scripts.git/snapshot
 ETLMD_IA_SCRIPTS_STRIP_COMPONENTS = 1
 ETLMD_IA_SCRIPTS_INSTALL_STAGING = NO
 ETLMD_IA_SCRIPTS_DEPENDENCIES = etlmd-ia

@@ -10,7 +10,7 @@ else
 LIBXD_PLAYER_VERSION = 1.0.0
 endif
 LIBXD_PLAYER_SOURCE = libxd_player-$(LIBXD_PLAYER_VERSION).tar.xz
-LIBXD_PLAYER_SITE = https://10.0.2.2/cgit/rdst/libxd_player.git/snapshot
+LIBXD_PLAYER_SITE = https://192.168.0.2/cgit/rdst/libxd_player.git/snapshot
 LIBXD_PLAYER_STRIP_COMPONENTS = 1
 LIBXD_PLAYER_INSTALL_STAGING = YES
 LIBXD_PLAYER_LICENSE = GPLv2

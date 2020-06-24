@@ -10,10 +10,10 @@ else
 ETLMD_IA_VERSION = 2.0.2
 endif
 ETLMD_IA_SOURCE = etlmd-ia-$(ETLMD_IA_VERSION).tar.bz2
-#ETLMD_IA_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
-#ETLMD_IA_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
-#ETLMD_IA_SITE = https://10.0.2.2/git/rdst/etlmd-ia/archive
-ETLMD_IA_SITE = https://10.0.2.2/cgit/rdst/etlmd-ia.git/snapshot
+#ETLMD_IA_SITE = https://192.168.0.2/cgit/rdst/binaries-release.git/plain
+#ETLMD_IA_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
+#ETLMD_IA_SITE = https://192.168.0.2/git/rdst/etlmd-ia/archive
+ETLMD_IA_SITE = https://192.168.0.2/cgit/rdst/etlmd-ia.git/snapshot
 ETLMD_IA_STRIP_COMPONENTS = 1
 ETLMD_IA_INSTALL_STAGING = NO
 ETLMD_IA_DEPENDENCIES = opencv libpes-legacy libstream-legacy xpr-legacy

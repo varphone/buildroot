@@ -10,7 +10,7 @@ else
 ETLMD_IA_DATA_VERSION = 1.3
 endif
 ETLMD_IA_DATA_SOURCE = etlmd-ia-data-$(ETLMD_IA_DATA_VERSION).tar.bz2
-ETLMD_IA_DATA_SITE = https://10.0.2.2/cgit/rdst/etlmd-ia-data.git/snapshot
+ETLMD_IA_DATA_SITE = https://192.168.0.2/cgit/rdst/etlmd-ia-data.git/snapshot
 ETLMD_IA_DATA_STRIP_COMPONENTS = 1
 ETLMD_IA_DATA_INSTALL_STAGING = NO
 ETLMD_IA_DATA_DEPENDENCIES = etlmd-ia

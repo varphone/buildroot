@@ -10,10 +10,10 @@ else
 LIBPES_LEGACY_VERSION = 1.0
 endif
 LIBPES_LEGACY_SOURCE = libpes-legacy-$(LIBPES_LEGACY_VERSION).tar.bz2
-#LIBPES_LEGACY_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
-#LIBPES_LEGACY_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
-#LIBPES_LEGACY_SITE = https://10.0.2.2/git/rdst/ppmd-3531/archive
-LIBPES_LEGACY_SITE = https://10.0.2.2/cgit/rdst/libpes-legacy.git/snapshot
+#LIBPES_LEGACY_SITE = https://192.168.0.2/cgit/rdst/binaries-release.git/plain
+#LIBPES_LEGACY_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
+#LIBPES_LEGACY_SITE = https://192.168.0.2/git/rdst/ppmd-3531/archive
+LIBPES_LEGACY_SITE = https://192.168.0.2/cgit/rdst/libpes-legacy.git/snapshot
 LIBPES_LEGACY_STRIP_COMPONENTS = 1
 LIBPES_LEGACY_INSTALL_STAGING = YES
 LIBPES_LEGACY_LICENSE = GPLv2

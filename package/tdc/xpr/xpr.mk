@@ -10,7 +10,7 @@ else
 XPR_VERSION = 2.1-rc2
 endif
 XPR_SOURCE = xpr-$(XPR_VERSION).tar.bz2
-XPR_SITE = https://10.0.2.2/cgit/rdst/xpr.git/snapshot
+XPR_SITE = https://192.168.0.2/cgit/rdst/xpr.git/snapshot
 XPR_STRIP_COMPONENTS = 1
 XPR_INSTALL_STAGING = YES
 XPR_DEPENDENCIES = live555

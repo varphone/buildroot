@@ -10,7 +10,7 @@ else
 LIBMAL_VERSION = 1.0.4
 endif
 LIBMAL_SOURCE = libmal-$(LIBMAL_VERSION).tar.bz2
-LIBMAL_SITE = https://10.0.2.2/cgit/rdst/libmal.git/snapshot
+LIBMAL_SITE = https://192.168.0.2/cgit/rdst/libmal.git/snapshot
 LIBMAL_STRIP_COMPONENTS = 1
 LIBMAL_INSTALL_STAGING = YES
 LIBMAL_LICENSE = GPLv2

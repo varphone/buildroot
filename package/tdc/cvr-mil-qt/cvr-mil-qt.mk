@@ -10,7 +10,7 @@ else
 CVR_MIL_QT_VERSION = 2.0.0-dev
 endif
 CVR_MIL_QT_SOURCE = cvr-mil-qt-$(CVR_MIL_QT_VERSION).tar.xz
-CVR_MIL_QT_SITE = https://10.0.2.2/cgit/rdst/cvr-mil-qt.git/snapshot
+CVR_MIL_QT_SITE = https://192.168.0.2/cgit/rdst/cvr-mil-qt.git/snapshot
 CVR_MIL_QT_STRIP_COMPONENTS = 1
 CVR_MIL_QT_INSTALL_STAGING = NO
 CVR_MIL_QT_DEPENDENCIES = gstreamer1 gst1-imx qt5base

@@ -10,7 +10,7 @@ else
 LIBXD_STREAM_VERSION = 4.2.0
 endif
 LIBXD_STREAM_SOURCE = libxd_stream-$(LIBXD_STREAM_VERSION).tar.xz
-LIBXD_STREAM_SITE = https://10.0.2.2/cgit/rdst/libxd_stream.git/snapshot
+LIBXD_STREAM_SITE = https://192.168.0.2/cgit/rdst/libxd_stream.git/snapshot
 LIBXD_STREAM_STRIP_COMPONENTS = 1
 LIBXD_STREAM_INSTALL_STAGING = YES
 LIBXD_STREAM_LICENSE = GPLv2

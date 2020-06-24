@@ -6,8 +6,8 @@
 
 MPP_KO_VERSION := $(call qstrip,$(BR2_PACKAGE_HISILICON_PLATFORM))_SDK_$(call qstrip,$(BR2_PACKAGE_HISILICON_SDK_VERSION))
 MPP_KO_SOURCE = mpp-ko-$(MPP_KO_VERSION).tar.xz
-#MPP_KO_SITE = https://10.0.2.2/cgit/rdst/binaries-release.git/plain
-MPP_KO_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
+#MPP_KO_SITE = https://192.168.0.2/cgit/rdst/binaries-release.git/plain
+MPP_KO_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
 MPP_KO_STRIP_COMPONENTS = 1
 MPP_KO_LICENSE = GPLv2
 MPP_KO_LICENSE_FILES =

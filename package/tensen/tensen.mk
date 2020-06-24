@@ -6,7 +6,7 @@
 
 TENSEN_VERSION = 1.0.0
 TENSEN_SOURCE = tensen-fonts-ttf-$(TENSEN_VERSION).tar.xz
-TENSEN_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
+TENSEN_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
 TENSEN_STRIP_COMPONENTS = 0
 TENSEN_LICENSE_FILES =
 

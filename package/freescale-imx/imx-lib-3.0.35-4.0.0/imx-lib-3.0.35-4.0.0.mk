@@ -6,7 +6,7 @@
 
 IMX_LIB_3_0_35_4_0_0_VERSION = 3.0.35-4.0.0
 IMX_LIB_3_0_35_4_0_0_SOURCE = imx-lib-$(IMX_GPU_VIV_BIN_3_0_35_4_0_0_VERSION).tar.gz
-IMX_LIB_3_0_35_4_0_0_SITE = https://10.0.2.2/git/rdst/binaries-release/raw/master
+IMX_LIB_3_0_35_4_0_0_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
 IMX_LIB_3_0_35_4_0_0_LICENSE = LGPLv2.1+
 IMX_LIB_3_0_35_4_0_0_LICENSE_FILES = COPYING-LGPL-2.1
 

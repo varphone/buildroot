@@ -10,7 +10,7 @@ else
 LIBPWC_VERSION = 1.0.3
 endif
 LIBPWC_SOURCE = libpwc-$(LIBPWC_VERSION).tar.bz2
-LIBPWC_SITE = https://10.0.2.2/cgit/rdst/libpwc.git/snapshot
+LIBPWC_SITE = https://192.168.0.2/cgit/rdst/libpwc.git/snapshot
 LIBPWC_STRIP_COMPONENTS = 1
 LIBPWC_INSTALL_STAGING = YES
 LIBPWC_LICENSE = GPLv2

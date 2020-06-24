@@ -9,7 +9,7 @@ GST1_IMX_VERSION = $(call qstrip, $(BR2_PACKAGE_GST1_IMX_CUSTOM_VERSION_VALUE))
 else
 GST1_IMX_VERSION = 0.13.0-R20
 endif
-GST1_IMX_SITE = https://10.0.2.2/cgit/rdst/gstreamer-imx.git/snapshot
+GST1_IMX_SITE = https://192.168.0.2/cgit/rdst/gstreamer-imx.git/snapshot
 GST1_IMX_SOURCE = gstreamer-imx-$(GST1_IMX_VERSION).tar.xz
 GST1_IMX_STRIP_COMPONENTS = 1
 

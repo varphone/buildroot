@@ -10,7 +10,7 @@ else
 LIBXD_MUXER_VERSION = 1.0.0
 endif
 LIBXD_MUXER_SOURCE = libxd_muxer-$(LIBXD_MUXER_VERSION).tar.xz
-LIBXD_MUXER_SITE = https://10.0.2.2/cgit/rdst/libxd_muxer.git/snapshot
+LIBXD_MUXER_SITE = https://192.168.0.2/cgit/rdst/libxd_muxer.git/snapshot
 LIBXD_MUXER_STRIP_COMPONENTS = 1
 LIBXD_MUXER_INSTALL_STAGING = YES
 LIBXD_MUXER_LICENSE = GPLv2

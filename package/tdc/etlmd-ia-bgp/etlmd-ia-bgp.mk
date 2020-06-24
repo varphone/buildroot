@@ -10,7 +10,7 @@ else
 ETLMD_IA_BGP_VERSION = 1.2
 endif
 ETLMD_IA_BGP_SOURCE = etlmd-ia-bgp-$(ETLMD_IA_BGP_VERSION).tar.bz2
-ETLMD_IA_BGP_SITE = https://10.0.2.2/cgit/rdst/etlmd-ia-bgp.git/snapshot
+ETLMD_IA_BGP_SITE = https://192.168.0.2/cgit/rdst/etlmd-ia-bgp.git/snapshot
 ETLMD_IA_BGP_STRIP_COMPONENTS = 1
 ETLMD_IA_BGP_INSTALL_STAGING = NO
 ETLMD_IA_BGP_DEPENDENCIES = etlmd-ia nodejs

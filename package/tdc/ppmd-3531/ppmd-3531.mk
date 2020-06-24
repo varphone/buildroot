@@ -10,7 +10,7 @@ else
 PPMD_3531_VERSION = 1.1.3
 endif
 PPMD_3531_SOURCE = ppmd-3531-$(PPMD_3531_VERSION).tar.bz2
-PPMD_3531_SITE = https://10.0.2.2/cgit/rdst/ppmd-3531.git/snapshot
+PPMD_3531_SITE = https://192.168.0.2/cgit/rdst/ppmd-3531.git/snapshot
 PPMD_3531_STRIP_COMPONENTS = 1
 PPMD_3531_INSTALL_STAGING = NO
 PPMD_3531_DEPENDENCIES = libavt libir370 libmal libpwc libserial-ppmd mpp-lib xpr

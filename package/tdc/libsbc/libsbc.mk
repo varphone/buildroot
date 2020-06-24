@@ -10,7 +10,7 @@ else
 LIBSBC_VERSION = 1.0.2
 endif
 LIBSBC_SOURCE = libsbc-$(LIBSBC_VERSION).tar.bz2
-LIBSBC_SITE = https://10.0.2.2/cgit/rdst/libsbc.git/snapshot
+LIBSBC_SITE = https://192.168.0.2/cgit/rdst/libsbc.git/snapshot
 LIBSBC_STRIP_COMPONENTS = 1
 LIBSBC_INSTALL_STAGING = YES
 LIBSBC_LICENSE = GPLv2

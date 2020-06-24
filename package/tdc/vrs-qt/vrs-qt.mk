@@ -10,7 +10,7 @@ else
 VRS_QT_VERSION = 1.0.0
 endif
 VRS_QT_SOURCE = vrs-qt-$(VRS_QT_VERSION).tar.xz
-VRS_QT_SITE = https://10.0.2.2/cgit/rdst/vrs-qt.git/snapshot
+VRS_QT_SITE = https://192.168.0.2/cgit/rdst/vrs-qt.git/snapshot
 VRS_QT_STRIP_COMPONENTS = 1
 VRS_QT_INSTALL_STAGING = NO
 VRS_QT_DEPENDENCIES = libpes-legacy libxd_stream libxd_muxer libxd_player libmal mpp-lib qt xpr zlog

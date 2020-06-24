@@ -10,7 +10,7 @@ else
 GSTVAFILTERS_VERSION = 1.0.0
 endif
 GSTVAFILTERS_SOURCE = gstvafilters-$(GSTVAFILTERS_VERSION).tar.xz
-GSTVAFILTERS_SITE = https://10.0.2.2/cgit/rdst/gstvafilters.git/snapshot
+GSTVAFILTERS_SITE = https://192.168.0.2/cgit/rdst/gstvafilters.git/snapshot
 GSTVAFILTERS_STRIP_COMPONENTS = 1
 GSTVAFILTERS_INSTALL_STAGING = NO
 GSTVAFILTERS_DEPENDENCIES = gstreamer1 gst1-plugins-base

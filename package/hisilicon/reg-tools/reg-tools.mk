@@ -10,7 +10,7 @@ else
 REG_TOOLS_VERSION := 1.0.0-$(call qstrip,$(BR2_PACKAGE_HISILICON_PLATFORM))_SDK_$(call qstrip,$(BR2_PACKAGE_HISILICON_SDK_VERSION))
 endif
 REG_TOOLS_SOURCE = reg-tools-$(REG_TOOLS_VERSION).tar.gz
-REG_TOOLS_SITE =https://10.0.2.2/cgit/rdst/reg-tools.git/snapshot
+REG_TOOLS_SITE =https://192.168.0.2/cgit/rdst/reg-tools.git/snapshot
 REG_TOOLS_STRIP_COMPONENTS = 1
 REG_TOOLS_INSTALL_STAGING = NO
 REG_TOOLS_LICENSE = GPLv2

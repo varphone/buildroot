@@ -10,7 +10,7 @@ else
 LIBIR370_VERSION = 1.0.4
 endif
 LIBIR370_SOURCE = libir370-$(LIBIR370_VERSION).tar.bz2
-LIBIR370_SITE = https://10.0.2.2/cgit/rdst/libir370.git/snapshot
+LIBIR370_SITE = https://192.168.0.2/cgit/rdst/libir370.git/snapshot
 LIBIR370_STRIP_COMPONENTS = 1
 LIBIR370_INSTALL_STAGING = YES
 LIBIR370_LICENSE = GPLv2

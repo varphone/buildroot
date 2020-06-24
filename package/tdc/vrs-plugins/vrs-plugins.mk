@@ -10,7 +10,7 @@ else
 VRS_PLUGINS_VERSION = 1.0.1
 endif
 VRS_PLUGINS_SOURCE = vrs-plugins-$(VRS_PLUGINS_VERSION).tar.xz
-VRS_PLUGINS_SITE = https://10.0.2.2/cgit/rdst/vrs-plugins.git/snapshot
+VRS_PLUGINS_SITE = https://192.168.0.2/cgit/rdst/vrs-plugins.git/snapshot
 VRS_PLUGINS_STRIP_COMPONENTS = 1
 VRS_PLUGINS_INSTALL_STAGING = YES
 VRS_PLUGINS_LICENSE = GPLv2
