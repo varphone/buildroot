@@ -1,0 +1,14 @@
+--- a/mkspecs/devices/linux-buildroot-g++/arch.conf	2018-01-09 07:58:30.788771831 +0800
++++ b/mkspecs/devices/linux-buildroot-g++/arch.conf	2018-01-09 18:53:12.380446609 +0800
+@@ -0,0 +1,11 @@
++#
++# i.MX 6 Platform Libraries and Definitions
++#
++QMAKE_LIBS_EGL         += -lEGL
++QMAKE_LIBS_OPENGL_ES2  += -lGLESv2 -lEGL -lGAL
++QMAKE_LIBS_OPENVG      += -lOpenVG -lEGL -lGAL
++
++IMX6_CFLAGS             = -DLINUX=1 -DEGL_API_FB=1 -DQT_KEYPAD_NAVIGATION=1
++QMAKE_CFLAGS           += $$IMX6_CFLAGS
++QMAKE_CXXFLAGS         += $$IMX6_CFLAGS
++
