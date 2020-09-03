@@ -11,8 +11,8 @@ LIBSTREAM_LEGACY_VERSION = 1.0
 endif
 LIBSTREAM_LEGACY_SOURCE = libstream-legacy-$(LIBSTREAM_LEGACY_VERSION).tar.bz2
 #LIBSTREAM_LEGACY_SITE = https://cgit.vaxpl.com/rdst/binaries-release/plain
-#LIBSTREAM_LEGACY_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
-#LIBSTREAM_LEGACY_SITE = https://192.168.0.2/git/rdst/ppmd-3531/archive
+#LIBSTREAM_LEGACY_SITE = https://git.vaxpl.com/rdst/binaries-release/raw/master
+#LIBSTREAM_LEGACY_SITE = https://git.vaxpl.com/rdst/ppmd-3531/archive
 LIBSTREAM_LEGACY_SITE = https://cgit.vaxpl.com/rdst/libstream-legacy/snapshot
 LIBSTREAM_LEGACY_STRIP_COMPONENTS = 1
 LIBSTREAM_LEGACY_INSTALL_STAGING = YES

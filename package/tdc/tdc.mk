@@ -4,6 +4,6 @@
 #
 ################################################################################
 
-TDC_SITE = https://192.168.0.2/git/
+TDC_SITE = https://git.vaxpl.com/
 
 include $(sort $(wildcard package/tdc/*/*.mk))

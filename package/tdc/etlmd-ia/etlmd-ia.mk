@@ -11,8 +11,8 @@ ETLMD_IA_VERSION = 2.0.2
 endif
 ETLMD_IA_SOURCE = etlmd-ia-$(ETLMD_IA_VERSION).tar.bz2
 #ETLMD_IA_SITE = https://cgit.vaxpl.com/rdst/binaries-release/plain
-#ETLMD_IA_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
-#ETLMD_IA_SITE = https://192.168.0.2/git/rdst/etlmd-ia/archive
+#ETLMD_IA_SITE = https://git.vaxpl.com/rdst/binaries-release/raw/master
+#ETLMD_IA_SITE = https://git.vaxpl.com/rdst/etlmd-ia/archive
 ETLMD_IA_SITE = https://cgit.vaxpl.com/rdst/etlmd-ia/snapshot
 ETLMD_IA_STRIP_COMPONENTS = 1
 ETLMD_IA_INSTALL_STAGING = NO

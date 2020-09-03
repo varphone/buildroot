@@ -7,7 +7,7 @@
 AAC_AUDIO_LIB_VERSION = 1.0.0
 AAC_AUDIO_LIB_SOURCE = aac-audio-lib-$(AAC_AUDIO_LIB_VERSION).tar.xz
 #AAC_AUDIO_LIB_SITE = https://cgit.vaxpl.com/rdst/binaries-release/plain
-AAC_AUDIO_LIB_SITE = https://192.168.0.2/git/rdst/binaries-release/raw/master
+AAC_AUDIO_LIB_SITE = https://git.vaxpl.com/rdst/binaries-release/raw/master
 AAC_AUDIO_LIB_STRIP_COMPONENTS = 1
 AAC_AUDIO_LIB_INSTALL_STAGING = YES
 AAC_AUDIO_LIB_LICENSE = GPLv2
