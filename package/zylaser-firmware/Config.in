@@ -1,0 +1,5 @@
+config BR2_PACKAGE_ZYLASER_FIRMWARE
+	bool "zylaser-firmware"
+	help
+	  This package provides various binary firmware files (closed
+	  binary blobs) for zylaser like FSBL, FPGA etc.
