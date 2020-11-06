@@ -1,0 +1,63 @@
+config BR2_TARGET_ZYNQ_FSBL
+	bool "zynq-fsbl"
+	help
+	  First stage boot loader for Zynq-7000 Devices.
+
+if BR2_TARGET_ZYNQ_FSBL
+
+choice
+	prompt "Zynq FSBL Version"
+	help
+	  Select the specific Zynq FSBL version you want to use
+
+config BR2_TARGET_ZYNQ_FSBL_LATEST_VERSION
+	bool "Latest version"
+
+config BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION
+	bool "Custom version"
+	help
+	  This option allows to use a specific official versions
+
+config BR2_TARGET_ZYNQ_FSBL_CUSTOM_TARBALL
+	bool "Custom tarball"
+
+endchoice
+
+config BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION_VALUE
+	string "Zynq FSBL version"
+	depends on BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION
+
+config BR2_TARGET_ZYNQ_FSBL_CUSTOM_TARBALL_LOCATION
+	string "URL of custom Zynq FSBL tarball"
+	depends on BR2_TARGET_ZYNQ_FSBL_CUSTOM_TARBALL
+
+config BR2_TARGET_ZYNQ_FSBL_VERSION
+	string
+	default "xilinx-v2020.1" if BR2_TARGET_ZYNQ_FSBL_LATEST_VERSION
+	default BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION_VALUE \
+		if BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION
+	default "custom" if BR2_TARGET_ZYNQ_FSBL_CUSTOM_TARBALL
+
+config BR2_TARGET_ZYNQ_FSBL_BOARDNAME
+	string "Zynq FSBL board name"
+	default "zc702"
+	help
+	  One of U-Boot supported boards to be built,
+	  availables: zc702, zc706, zed, zylaser.
+
+config BR2_TARGET_ZYNQ_FSBL_DEBUG_INFO
+	bool "Enable debugging output"
+	help
+	  Select this option if you need output debug messages.
+
+config BR2_TARGET_ZYNQ_FSBL_MMC_SUPPORT
+	bool "MMC Support"
+	help
+	  Select this option if you need from mmc/sd devices.
+
+config BR2_TARGET_ZYNQ_FSBL_RSA_SUPPORT
+	bool "RSA Support"
+	help
+	  Select this option if you need rsa authentication.
+
+endif # BR2_TARGET_ZYNQ_FSBL
