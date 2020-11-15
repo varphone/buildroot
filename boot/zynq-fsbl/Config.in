@@ -33,17 +33,17 @@ config BR2_TARGET_ZYNQ_FSBL_CUSTOM_TARBALL_LOCATION
 
 config BR2_TARGET_ZYNQ_FSBL_VERSION
 	string
-	default "xilinx-v2020.1" if BR2_TARGET_ZYNQ_FSBL_LATEST_VERSION
+	default "v2020.1-r1" if BR2_TARGET_ZYNQ_FSBL_LATEST_VERSION
 	default BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION_VALUE \
 		if BR2_TARGET_ZYNQ_FSBL_CUSTOM_VERSION
 	default "custom" if BR2_TARGET_ZYNQ_FSBL_CUSTOM_TARBALL
 
 config BR2_TARGET_ZYNQ_FSBL_BOARDNAME
 	string "Zynq FSBL board name"
-	default "zc702"
+	default "zylaser"
 	help
 	  One of U-Boot supported boards to be built,
-	  availables: zc702, zc706, zed, zylaser.
+	  availables: zylaser, zylaser-ax7z02.
 
 config BR2_TARGET_ZYNQ_FSBL_DEBUG_INFO
 	bool "Enable debugging output"

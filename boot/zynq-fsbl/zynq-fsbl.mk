@@ -19,7 +19,7 @@ ZYNQ_FSBL_SITE = $(patsubst %/,%,$(dir $(ZYNQ_FSBL_TARBALL)))
 ZYNQ_FSBL_SOURCE = $(notdir $(ZYNQ_FSBL_TARBALL))
 else
 # Handle stable official Zynq FSBL versions
-ZYNQ_FSBL_SITE = $(call github,varphone,embeddedsw,$(ZYNQ_FSBL_VERSION))
+ZYNQ_FSBL_SITE = $(call github,varphone,zynq-fsbl,$(ZYNQ_FSBL_VERSION))
 endif
 
 ifeq ($(BR2_TARGET_ZYNQ_FSBL)$(BR2_TARGET_ZYNQ_FSBL_LATEST_VERSION),y)
@@ -40,14 +40,16 @@ ifeq ($(BR2_TARGET_ZYNQ_FSBL_RSA_SUPPORT),y)
 CFLAGS += -DRSA_SUPPORT
 endif
 
-ZYNQ_FSBL_MAKE_OPTS = CFLAGS="$(CFLAGS)"
+ZYNQ_FSBL_MAKE_OPTS += BOARD=$(ZYNQ_FSBL_BOARD_NAME)
+ZYNQ_FSBL_MAKE_OPTS += CFLAGS="$(CFLAGS)"
 
 define ZYNQ_FSBL_BUILD_CMDS
-	$(MAKE) -C $(@D)/lib/sw_apps/zynq_fsbl/src $(ZYNQ_FSBL_MAKE_OPTS)
+	$(HOST_MAKE_ENV) $(MAKE1) -C $(@D) $(ZYNQ_FSBL_MAKE_OPTS) clean
+	$(HOST_MAKE_ENV) $(MAKE1) -C $(@D) $(ZYNQ_FSBL_MAKE_OPTS)
 endef
 
 define ZYNQ_FSBL_INSTALL_IMAGES_CMDS
-	$(INSTALL) -m 0755 $(@D)/lib/sw_apps/zynq_fsbl/src/fsbl.elf $(BINARIES_DIR)/zynq_fsbl.elf
+	$(INSTALL) -m 0755 $(@D)/src/executable.elf $(BINARIES_DIR)/zynq_fsbl.elf
 endef
 
 $(eval $(generic-package))
