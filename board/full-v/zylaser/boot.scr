@@ -11,8 +11,8 @@
 fdt_addr=0x1000
 imageub_addr=0x10000000
 kernel_addr=0x80000
-kernel_offset=0x1E00200
-kernel_size=0x7800000
+kernel_offset=0xa80000
+kernel_size=0x1400000
 kernel_type=image.ub
 
 for boot_target in ${boot_targets};
@@ -35,7 +35,7 @@ do
 		booti ${kernel_addr} - ${fdt_addr};
 		exit;
 	fi
-	if test "${boot_target}" = "xspi0"; then
+	if test "${boot_target}" = "qspi"; then
 		sf probe 0 0 0;
 		if test "${kernel_type}" = "image.ub"; then
 			sf read ${imageub_addr} ${kernel_offset} ${kernel_size};

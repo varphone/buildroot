@@ -42,7 +42,7 @@
 	};
 
         configurations {
-                default = "noramdisk";
+                default = "ramdisk";
 
                 ramdisk {
 			description = "1 Linux kernel, FDT blob, ramdisk";
