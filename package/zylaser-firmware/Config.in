@@ -3,3 +3,47 @@ config BR2_PACKAGE_ZYLASER_FIRMWARE
 	help
 	  This package provides various binary firmware files (closed
 	  binary blobs) for zylaser like FSBL, FPGA etc.
+
+if BR2_PACKAGE_ZYLASER_FIRMWARE
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_BOARDNAME
+	string "Zylaser firmware board name"
+	default "zylaser"
+	help
+	  One of firmware supported boards to be installed,
+	  availables: zylaser, zylaser-ax7z02.
+
+choice
+	prompt "Zylaser Firmware Version"
+	help
+	  Select the specific Zylaser Firmware version you want to use
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_LATEST_VERSION
+	bool "Latest version"
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_VERSION
+	bool "Custom version"
+	help
+	  This option allows to use a specific official versions
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_TARBALL
+	bool "Custom tarball"
+
+endchoice
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_VERSION_VALUE
+	string "Zylaser Firmware Version"
+	depends on BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_VERSION
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_TARBALL_LOCATION
+	string "URL of custom Zylaser Firmware tarball"
+	depends on BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_TARBALL
+
+config BR2_PACKAGE_ZYLASER_FIRMWARE_VERSION
+	string
+	default "v1.0.1" if BR2_PACKAGE_ZYLASER_FIRMWARE_LATEST_VERSION
+	default BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_VERSION_VALUE \
+		if BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_VERSION
+	default "custom" if BR2_PACKAGE_ZYLASER_FIRMWARE_CUSTOM_TARBALL
+
+endif
