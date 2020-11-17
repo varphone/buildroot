@@ -1,0 +1,135 @@
+#!/bin/sh
+
+SOURCE_DEV=
+TARGET_DEV=
+YES=
+
+check_device_size()
+{
+	CAP=$(blockdev --getsize64 $1 2> /dev/null)
+	if [ -z "${CAP}" ]; then
+		echo "### The target device $1 not valid."
+		exit 1;
+	fi
+
+	if [ ${CAP} -lt $2 ]; then
+		echo "### The Target device $1(${CAP} < $2) too small."
+		exit 1;
+	fi
+}
+
+find_source_dev()
+{
+	BLKS=$(blkid | tr -s '\n' ';')
+	IFS=';'
+	for BLK in ${BLKS}
+	do
+		DEV=
+		LABEL=
+		TYPE=
+		UUID=
+		IFS=' '
+		for INFO in ${BLK}
+		do
+			case ${INFO} in
+				'LABEL="ETLMDV2"')
+					LABEL=$(echo ${INFO} | cut -d= -f2)
+					SOURCE_DEV=${DEV}
+					;;
+				*)
+					DEV=$(echo ${INFO} | cut -d: -f1)
+					;;
+			esac
+		done
+		IFS=';'
+	done
+}
+
+for var in "$@"; do
+	if [[ "${var}" = "-y" ]]; then
+		YES=y
+	else
+		TARGET_DEV=${var}
+	fi
+done
+
+if [[ -z "${TARGET_DEV}" ]]; then
+	echo "Usage: install-sys <block device>"
+	echo "  Example: install-sys /dev/sda"
+	exit 1
+fi
+
+find_source_dev
+
+if [ -z "${SOURCE_DEV}" ]; then
+	echo "### Error: Install source not found."
+	exit 1
+fi
+
+echo "=== Install source: ${SOURCE_DEV}"
+
+check_device_size ${TARGET_DEV}1 100000000
+check_device_size ${TARGET_DEV}2 200000000
+check_device_size ${TARGET_DEV}3 100000000
+check_device_size ${TARGET_DEV}4 500000000
+check_device_size ${TARGET_DEV}5 500000000
+
+echo
+echo "!!! Warning: All data on \"${TARGET_DEV}\" will be destroy !!!"
+echo
+if [[ -z "${YES}" ]]; then
+	read -p "Are you sure? [yes|no]: "
+
+	case ${REPLY} in
+		y|yes|Y|YES) ;;
+		*) exit 0;;
+	esac
+fi
+
+mkdir -p /mnt/source
+mkdir -p /mnt/target
+
+echo "=== Mount install source ..."
+mount ${SOURCE_DEV} /mnt/source
+if [ $? -ne 0 ]; then
+	echo "### Error: Failed to mount install source."
+	exit 1
+fi
+
+test -r /mnt/source/dist/boot.tgz
+if [ $? -ne 0 ]; then
+	echo "### Error: Install source: dist/boot.tgz not found."
+	umount /mnt/source
+	exit 1
+fi
+
+test -r /mnt/source/dist/system.ext2
+if [ $? -ne 0 ]; then
+	echo "### Error: Install source: dist/system.ext2 not found."
+	umount /mnt/source
+	exit 1
+fi
+
+echo "=== Install boot ..."
+mount ${TARGET_DEV}1 /mnt/target
+rm -rf /mnt/target/*.*
+tar -xvf /mnt/source/dist/boot.tgz -C/mnt/target/
+umount /mnt/target
+
+echo "=== Install recovery ..."
+mount ${TARGET_DEV}2 /mnt/target
+rm -rf /mnt/target/*.*
+cp -apr /mnt/source/dist /mnt/target/
+tar -xvf /mnt/source/dist/boot.tgz -C/mnt/target/
+umount /mnt/target
+
+echo "=== Install system ..."
+dd if=/mnt/source/dist/system.ext2 of=${TARGET_DEV}4 bs=512
+
+umount /mnt/source
+sync
+
+echo
+echo "=== System installation complete."
+exit $?
+

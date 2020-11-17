@@ -1,0 +1,2 @@
+export GNUPGHOME=/etc/gnupg
+

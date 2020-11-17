@@ -1,0 +1,11 @@
+# <file system>	<mount pt>	<type>	<options>	<dump>	<pass>
+#proc		/proc		proc	defaults	0	0
+#devtmpfs	/dev		devtmpfs	defaults	0	0
+devpts		/dev/pts	devpts	defaults,gid=5,mode=620	0	0
+tmpfs		/dev/shm	tmpfs	mode=0777	0	0
+tmpfs		/tmp		tmpfs	mode=1777	0	0
+tmpfs		/run		tmpfs	mode=0755,nosuid,nodev	0	0
+sysfs		/sys		sysfs	defaults	0	0
+/dev/mmcblk3p5	/boot		vfat	ro,defaults,noatime	0	1
+/dev/mmcblk3p7	/misc		ext4	rw,defaults,noatime	0	1
+/dev/mmcblk3p9	/var/lib/dcim	vfat	rw,defaults,noatime	0	1

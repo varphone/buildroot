@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# Start modules ...
+#
+
+MODULES_CONF=/etc/modules.conf
+
+load_modules() {
+	while read p; do
+		modprobe $p
+	done < $1
+}
+
+case "$1" in
+	start)
+		echo "Starting modules ..."
+		load_modules ${MODULES_CONF}
+		;;
+	stop)
+		;;
+	restart|reload)
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?
+
