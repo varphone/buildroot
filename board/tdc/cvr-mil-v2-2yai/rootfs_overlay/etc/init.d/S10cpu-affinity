@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+# Start cpu-affinity ...
+#
+
+bind_irqs() {
+	# Bind VPU, GPU to CPU1
+	echo 2 > /proc/irq/27/smp_affinity
+	echo 2 > /proc/irq/28/smp_affinity
+	echo 2 > /proc/irq/301/smp_affinity
+	echo 2 > /proc/irq/302/smp_affinity
+	echo 2 > /proc/irq/303/smp_affinity
+	# Bind IPU0 to CPU2
+	echo 4 > /proc/irq/302/smp_affinity
+	echo 4 > /proc/irq/303/smp_affinity
+	# Bind IPU0 to CPU3
+	echo 8 > /proc/irq/304/smp_affinity
+	echo 8 > /proc/irq/303/smp_affinity
+}
+
+bind_kths() {
+	# Bind VPU kernel threads to CPU1
+	for p in $(pgrep -x "vpu_wq"); do
+		tasket -p 0x02 $p
+	done
+	# Bind GPU kernel threads to CPU1
+	for p in $(pgrep -x "galcore workque"); do
+		tasket -p 0x02 $p
+	done
+	for p in $(pgrep -x "galcore daemon "); do
+		tasket -p 0x02 $p
+	done
+	for p in $(pgrep -x "Vivante Kernel "); do
+		tasket -p 0x02 $p
+	done
+	# Bind IPU0 kernel threads to CPU2
+	for p in $(pgrep -x "ipu1_task"); do
+		tasket -p 0x04 $p
+	done
+	# Bind IPU1 kernel threads to CPU3
+	for p in $(pgrep -x "ipu2_task"); do
+		tasket -p 0x08 $p
+	done
+}
+
+case "$1" in
+	start)
+		echo "Starting cpu-affinity ..."
+		bind_irqs
+		bind_kths
+		;;
+	stop)
+		;;
+	restart|reload)
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?
+
