@@ -20,26 +20,26 @@ bind_irqs() {
 
 bind_kths() {
 	# Bind VPU kernel threads to CPU1
-	for p in $(pgrep -x "vpu_wq"); do
-		tasket -p 0x02 $p
-	done
+	#for p in $(pgrep -x "vpu_wq"); do
+	#	taskset -p 0x02 $p
+	#done
 	# Bind GPU kernel threads to CPU1
-	for p in $(pgrep -x "galcore workque"); do
-		tasket -p 0x02 $p
-	done
+	#for p in $(pgrep -x "galcore workque"); do
+	#	taskset -p 0x02 $p
+	#done
 	for p in $(pgrep -x "galcore daemon "); do
-		tasket -p 0x02 $p
+		taskset -p 0x02 $p
 	done
 	for p in $(pgrep -x "Vivante Kernel "); do
-		tasket -p 0x02 $p
+		taskset -p 0x02 $p
 	done
 	# Bind IPU0 kernel threads to CPU2
 	for p in $(pgrep -x "ipu1_task"); do
-		tasket -p 0x04 $p
+		taskset -p 0x04 $p
 	done
 	# Bind IPU1 kernel threads to CPU3
 	for p in $(pgrep -x "ipu2_task"); do
-		tasket -p 0x08 $p
+		taskset -p 0x08 $p
 	done
 }
 
