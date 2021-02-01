@@ -13,6 +13,8 @@ BOOT_BIF=boot.bif
 BOOT_BIN=BOOT.BIN
 BOOT_QSPI_BIF=boot-qspi.bif
 BOOT_QSPI_BIN=BOOT-QSPI.BIN
+FPGA_BIF=fpga.bif
+FPGA_BIN=fpga.bit.bin
 IMAGE_ITS=image.its
 IMAGE_ITB=image.ub
 FIRST_DT=$(sed -n \
@@ -38,6 +40,10 @@ cp "${BOARD_DIR}/${BOOT_BIF}" "${BINARIES_DIR}"
 # Make BOOT-QSPI.BIN for Zynq-7000
 cp "${BOARD_DIR}/${BOOT_QSPI_BIF}" "${BINARIES_DIR}"
 (cd "${BINARIES_DIR}" && ${BOOTGEN} -arch zynq -image ${BOOT_QSPI_BIF} -o ${BOOT_QSPI_BIN} -w)
+
+# Make FPGA.BIN for Zynq-7000
+cp "${BOARD_DIR}/${FPGA_BIF}" "${BINARIES_DIR}"
+(cd "${BINARIES_DIR}" && ${BOOTGEN} -arch zynq -image ${FPGA_BIF} -process_bitstream bin -o ${FPGA_BIN} -w)
 
 # Make Images for Flash
 support/scripts/genimage.sh -c ${BOARD_DIR}/genimage.cfg
