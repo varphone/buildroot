@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-HOST_BOOTGEN_VERSION = 2020.1
+HOST_BOOTGEN_VERSION = 2020.2
 HOST_BOOTGEN_SITE = $(call github,Xilinx,bootgen,$(HOST_BOOTGEN_VERSION))
 HOST_BOOTGEN_LICENSE = Apache-2.0
 # HOST_BOOTGEN_INSTALL_TARGET = NO
