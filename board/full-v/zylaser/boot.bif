@@ -2,6 +2,6 @@
 the_ROM_image:
 {
 	[bootloader]zynq_fsbl.elf
-	fpga.bit
-	u-boot.elf
+	[offset=0x40000]fpga.bit
+	[offset=0x540000]u-boot.elf
 }
