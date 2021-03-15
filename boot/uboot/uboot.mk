@@ -152,6 +152,15 @@ UBOOT_MAKE_OPTS += \
 	HOSTLDFLAGS="$(HOST_LDFLAGS)" \
 	$(call qstrip,$(BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS))
 
+ifeq ($(BR2_TARGET_UBOOT_USE_LINARO_TOOLCHAINS),y)
+UBOOT_DEPENDENCIES += \
+	host-gcc-linaro-aarch64-none-elf \
+	host-gcc-linaro-arm-none-eabi
+UBOOT_MAKE_OPTS += \
+	CROSS_COMPILE=aarch64-none-elf- \
+	CROSS_COMPILE_T32=arm-none-eabi-
+endif
+
 ifeq ($(BR2_TARGET_UBOOT_NEEDS_ATF_BL31),y)
 UBOOT_DEPENDENCIES += arm-trusted-firmware
 ifeq ($(BR2_TARGET_UBOOT_NEEDS_ATF_BL31_ELF),y)

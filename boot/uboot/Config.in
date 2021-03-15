@@ -557,4 +557,12 @@ config BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS
 	  List of custom make options passed at build time. Can be
 	  used for example to pass a DEVICE_TREE= value.
 
+config BR2_TARGET_UBOOT_USE_LINARO_TOOLCHAINS
+	bool "Use linaro aarch64-none-elf and arm-none-eabi toolchains"
+	select BR2_PACKAGE_HOST_GCC_LINARO_AARCH64_NONE_ELF
+	select BR2_PACKAGE_HOST_GCC_LINARO_ARM_NONE_EABI
+	help
+	  The gcc-linaro-aarch64-none-elf and gcc-linaro-arm-none-eabi,
+	  it's required for compile amlogic vendor u-boot.
+
 endif # BR2_TARGET_UBOOT
