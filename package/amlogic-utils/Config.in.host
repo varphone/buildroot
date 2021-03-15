@@ -1,0 +1,6 @@
+config BR2_PACKAGE_HOST_AMLOGIC_UTILS
+	bool "host amlogic-utils"
+	help
+	  This package contains the prebuilt binary and
+	  some open source tools for amlogic boards.
+
