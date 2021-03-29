@@ -36,6 +36,15 @@ ROOTFS_CPIO_DEPENDENCIES += host-cpio
 ROOTFS_CPIO_OPTS += --reproducible
 endif
 
+ifneq ($(BR2_TARGET_ROOTFS_CPIO_FILE_LIST),)
+define ROOTFS_CPIO_CMD
+	cd $(TARGET_DIR) && \
+	cat $(TOPDIR)/$(BR2_TARGET_ROOTFS_CPIO_FILE_LIST) \
+	| LC_ALL=C sort \
+	| cpio $(ROOTFS_CPIO_OPTS) --quiet -o -H newc \
+	> $@
+endef
+else
 define ROOTFS_CPIO_CMD
 	cd $(TARGET_DIR) && \
 	find . \
@@ -43,6 +52,7 @@ define ROOTFS_CPIO_CMD
 	| cpio $(ROOTFS_CPIO_OPTS) --quiet -o -H newc \
 	> $@
 endef
+endif
 
 ifeq ($(BR2_TARGET_ROOTFS_CPIO_UIMAGE),y)
 ROOTFS_CPIO_DEPENDENCIES += host-uboot-tools
