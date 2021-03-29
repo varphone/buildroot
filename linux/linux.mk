@@ -379,17 +379,17 @@ ifeq ($(BR2_LINUX_KERNEL_DTB_IS_SELF_BUILT),)
 define LINUX_BUILD_DTB
 	$(LINUX_MAKE_ENV) $(MAKE) $(LINUX_MAKE_FLAGS) -C $(@D) $(LINUX_DTBS)
 endef
+endif # BR2_LINUX_KERNEL_DTB_IS_SELF_BUILT
 ifeq ($(BR2_LINUX_KERNEL_APPENDED_DTB),)
 define LINUX_INSTALL_DTB
 	# dtbs moved from arch/<ARCH>/boot to arch/<ARCH>/boot/dts since 3.8-rc1
 	$(foreach dtb,$(LINUX_DTBS), \
 		install -D \
-			$(or $(wildcard $(LINUX_ARCH_PATH)/boot/dts/$(dtb)),$(LINUX_ARCH_PATH)/boot/$(dtb)) \
+			$(or $(wildcard $(LINUX_ARCH_PATH)/boot/dts/**/$(dtb)),$(LINUX_ARCH_PATH)/boot/$(dtb)) \
 			$(1)/$(if $(BR2_LINUX_KERNEL_DTB_KEEP_DIRNAME),$(dtb),$(notdir $(dtb)))
 	)
 endef
 endif # BR2_LINUX_KERNEL_APPENDED_DTB
-endif # BR2_LINUX_KERNEL_DTB_IS_SELF_BUILT
 endif # BR2_LINUX_KERNEL_DTS_SUPPORT
 
 ifeq ($(BR2_LINUX_KERNEL_APPENDED_DTB),y)
