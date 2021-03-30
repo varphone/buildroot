@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Start cvr-mil-qt
+#
+
+DAEMON=/usr/bin/cvr-mil-qt
+NAME=cvr-mil-qt
+PIDFILE=/var/run/cvr-mil-qt.pid
+OPTS=
+
+case "$1" in
+	start)
+		echo "Starting ${NAME} ..."
+		# Turn on the power of the front camera
+		echo 1 > /sys/class/misc/atm88pa/cam_f_pwr
+		# Start the daemon
+		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON} -- ${OPTS}
+		;;
+	stop)
+		echo "Stopping ${NAME} ..."
+		# Kill the daemon with pidfile
+		start-stop-daemon -K -p ${PIDFILE}
+		# Turn off the power of the front camera
+		echo 0 > /sys/class/misc/atm88pa/cam_f_pwr
+		;;
+	restart|reload)
+		echo "Restarting ${NAME} ..."
+		start-stop-daemon -K -p ${PIDFILE}
+		start-stop-daemon -S -b -m -n ${NAME} -p ${PIDFILE} -x ${DAEMON} -- ${OPTS}
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit $?
+

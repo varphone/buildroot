@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Start sync
+#
+
+case "$1" in
+	start)
+		echo "Starting sync ..."
+		sync
+		;;
+	stop)
+		echo "Stopping sync ..."
+		sync
+		;;
+	restart|reload)
+		echo "Restarting sync ..."
+		sync
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit $?
+
