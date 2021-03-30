@@ -1,9 +1,9 @@
 #!/bin/sh
 
 FILE=${TARGET_DIR}/etc/os-release
-NAME="CVR-MIL-V2-NMTY"
+NAME="JYCZ2-TY2"
 VERSION="$(git describe --abbrev=6 --tags)"
-ID="cvr-mil-v2-nmty"
+ID="jycz2-ty2"
 VERSION_ID=${VERSION}
 PRETTY_NAME="${NAME} ${VERSION}"
 

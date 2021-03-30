@@ -1,6 +1,8 @@
-# Board: CVR-MIL-V2
+# Board: JYCZ2-TY2
 
 军用行车记录仪(第二版)，基于 IMX6Q 平台构建。
+
+适用于 V2 版投影模块。
 
 ## GnuPG 信息
 
