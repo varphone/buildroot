@@ -1,0 +1,6 @@
+config BR2_PACKAGE_QX1_FIRMWARE
+	bool "qx1-firmware"
+	help
+	  Firmware for the QX1 devices.
+
+	  https://git.vaxpl.com/qx1-docs
