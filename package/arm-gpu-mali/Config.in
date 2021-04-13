@@ -1,0 +1,119 @@
+comment "arm-gpu-mali needs a glibc toolchain with armhf enabled"
+	depends on BR2_arm
+	depends on !BR2_TOOLCHAIN_USES_GLIBC || !BR2_ARM_EABIHF
+
+comment "arm-gpu-mali needs a glibc toolchain"
+	depends on BR2_aarch64
+	depends on !BR2_TOOLCHAIN_USES_GLIBC
+
+config BR2_PACKAGE_ARM_GPU_MALI
+	bool "arm-gpu-mali"
+	# Pre-built binaries only available for ARM EABIhf
+	depends on (BR2_arm && BR2_ARM_EABIHF) || BR2_aarch64
+	# Library binaries are linked against libc.so.6
+	depends on BR2_TOOLCHAIN_USES_GLIBC
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	help
+	  Userspace libraries for Arm Mali GPU on mulitple platforms
+
+	  It contains libraries and headers for EGL, GLES, OpenCV, OpenVG, etc.
+
+	  This library is provided by Vendor as-is and doesn't have
+	  an upstream.
+
+if BR2_PACKAGE_ARM_GPU_MALI
+
+choice
+        prompt "Hardware Codename"
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWCN_DVALIN
+	bool "dvalin"
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWCN_GONDUL
+	bool "gondul"
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWCN_M540
+	bool "m450"
+
+endchoice
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWCN
+	string
+	default "dvalin" if BR2_PACKAGE_ARM_GPU_MALI_HWCN_DVALIN
+	default "gondul" if BR2_PACKAGE_ARM_GPU_MALI_HWCN_GONDUL
+	default "m450" if BR2_PACKAGE_ARM_GPU_MALI_HWCN_M450
+
+choice
+        prompt "Hardware Version"
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWVER_R7P0
+	bool "r7p0"
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWVER_R12P0
+	bool "r12p0"
+
+endchoice
+
+config BR2_PACKAGE_ARM_GPU_MALI_HWVER
+	string
+	default "r7p0" if BR2_PACKAGE_ARM_GPU_MALI_HWVER_R7P0
+	default "r12p0" if BR2_PACKAGE_ARM_GPU_MALI_HWVER_R12P0
+
+choice
+	prompt "Target"
+	help
+	  There are two versions of this library: one for
+	  direct framebuffer access, one for X11 rendering.
+	  Choose here which version to install.
+
+config BR2_PACKAGE_ARM_GPU_MALI_TARGET_DUMMY
+	bool "Dummy"
+
+config BR2_PACKAGE_ARM_GPU_MALI_TARGET_FBDEV
+	bool "Framebuffer"
+
+config BR2_PACKAGE_ARM_GPU_MALI_TARGET_WAYLAND
+	bool "Wayland"
+	select BR2_PACKAGE_LIBDRM
+	select BR2_PACKAGE_WAYLAND
+	select BR2_PACKAGE_HAS_LIBEGL_WAYLAND
+
+config BR2_PACKAGE_ARM_GPU_MALI_TARGET_X11
+	bool "X11"
+	depends on BR2_PACKAGE_XORG7
+	select BR2_PACKAGE_XLIB_LIBXDAMAGE
+	select BR2_PACKAGE_XLIB_LIBXEXT
+	select BR2_PACKAGE_XLIB_LIBXFIXES
+
+comment "X11 backend needs Xorg package"
+	depends on !BR2_PACKAGE_XORG7
+
+endchoice
+
+config BR2_PACKAGE_ARM_GPU_MALI_TARGET
+	string
+	default "dummy" if BR2_PACKAGE_ARM_GPU_MALI_TARGET_DUMMY
+	default "fbdev" if BR2_PACKAGE_ARM_GPU_MALI_TARGET_FBDEV
+	default "wayland" if BR2_PACKAGE_ARM_GPU_MALI_TARGET_WAYLAND
+	default "x11" if BR2_PACKAGE_ARM_GPU_MALI_TARGET_X11
+
+choice
+        prompt "Vendor"
+
+config BR2_PACKAGE_ARM_GPU_MALI_VENDOR_AMLOGIC
+	bool "Amlogic"
+
+endchoice
+
+config BR2_PACKAGE_ARM_GPU_MALI_VENDOR
+	string
+	default "amlogic" if BR2_PACKAGE_ARM_GPU_MALI_VENDOR_AMLOGIC
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "arm-gpu-mali"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "arm-gpu-mali"
+
+endif

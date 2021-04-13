@@ -300,6 +300,7 @@ comment "Graphic applications"
 	source "package/tesseract-ocr/Config.in"
 
 comment "Graphic libraries"
+	source "package/arm-gpu-mali/Config.in"
 	source "package/cegui/Config.in"
 	source "package/directfb/Config.in"
 	source "package/directfb-examples/Config.in"
