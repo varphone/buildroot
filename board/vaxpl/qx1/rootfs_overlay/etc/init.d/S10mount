@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Mount Filesystem(s)
+#
+
+recovery() {
+	if blkid /dev/mmcblk0p7 | grep ext4 -q; then
+		fsck.ext4 /dev/mmclkb0p7
+	else
+		mkfs.ext4 /dev/mmcblk0p7
+	fi
+
+	if blkid /dev/mmcblk0p8 | grep ext4 -q; then
+		fsck.ext4 /dev/mmclkb0p8
+	else
+		mkfs.ext4 /dev/mmcblk0p8
+	fi
+
+	if blkid /dev/mmcblk0p11 | grep ext4 -q; then
+		fsck.ext4 /dev/mmclkb0p11
+	else
+		mkfs.ext4 /dev/mmcblk0p11
+	fi
+
+	mount -a
+}
+
+mount_all() {
+	mount -a || recovery
+}
+
+case "$1" in
+	start)
+		mount_all
+		;;
+	stop)
+		;;
+	restart|reload)
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?
+

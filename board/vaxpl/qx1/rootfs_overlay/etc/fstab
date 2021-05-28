@@ -1,0 +1,8 @@
+devpts		/dev/pts	devpts		defaults,gid=5,mode=620	0	0
+tmpfs		/dev/shm	tmpfs		mode=0777		0	0
+tmpfs		/run		tmpfs		mode=0755,nosuid,nodev	0	0
+tmpfs		/tmp		tmpfs		mode=1777		0	0
+/dev/mmcblk0p7	/app		ext4		defaults,noatime	0	0
+/dev/mmcblk0p8	/misc		ext4		defaults,noatime	0	0
+/dev/mmcblk0p11	/data		ext4		defaults,noatime	0	0
+

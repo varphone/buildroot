@@ -1,0 +1,22 @@
+diff -Naur a/Makefile b/Makefile
+--- a/Makefile	2021-05-28 14:34:10.996912229 +0800
++++ b/Makefile	2021-05-28 14:43:25.327587458 +0800
+@@ -893,6 +893,9 @@
+ ALL-y += $(CONFIG_BUILD_TARGET:"%"=%)
+ endif
+ 
++# Add u-boot-z.bin to default build sequence
++ALL-y += u-boot-z.bin
++
+ LDFLAGS_u-boot += $(LDFLAGS_FINAL)
+ ifneq ($(CONFIG_SYS_TEXT_BASE),)
+ LDFLAGS_u-boot += -Ttext $(CONFIG_SYS_TEXT_BASE)
+@@ -956,6 +959,8 @@
+ 	$(call if_changed,copy)
+ endif
+ 
++$(CURDIR)/u-boot.bin: u-boot.bin
++
+ .PHONY: u-boot-z.bin
+ u-boot-z.bin: $(CURDIR)/u-boot.bin
+ 	make -C $(CURDIR)/arch/$(ARCH)/cpu/$(CPU)/$(SOC)/$(HW_DIR)/ \

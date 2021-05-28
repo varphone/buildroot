@@ -1,0 +1,44 @@
+diff --git a/arch/arm64/boot/dts/hisilicon/hi3559av100-demb-amp.dts b/arch/arm64/boot/dts/hisilicon/hi3559av100-demb-amp.dts
+index c37e189c3982..52114ec51ac0 100644
+--- a/arch/arm64/boot/dts/hisilicon/hi3559av100-demb-amp.dts
++++ b/arch/arm64/boot/dts/hisilicon/hi3559av100-demb-amp.dts
+@@ -19,7 +19,7 @@
+ /* reserved for warmreset */
+ /* reserved for arm trustedfirmware */
+ /* Modify this configuration according to the system framework */
+-/memreserve/ 0x53000000 0x00200000;
++/memreserve/ 0x47000000 0x00200000;
+ #include "hi3559av100.dtsi"
+ 
+ / {
+@@ -134,7 +134,7 @@
+ 
+ 	memory {
+ 		device_type = "memory";
+-		reg = <0x0 0x50000000 0x2 0x0>; /* system memory base */
++		reg = <0x0 0x44000000 0x2 0x0>; /* system memory base */
+ 	};
+ };
+ 
+diff --git a/arch/arm64/boot/dts/hisilicon/hi3559av100-jycz3-amp.dts b/arch/arm64/boot/dts/hisilicon/hi3559av100-jycz3-amp.dts
+index b67e2b99c45b..202448253c73 100644
+--- a/arch/arm64/boot/dts/hisilicon/hi3559av100-jycz3-amp.dts
++++ b/arch/arm64/boot/dts/hisilicon/hi3559av100-jycz3-amp.dts
+@@ -19,7 +19,7 @@
+ /* reserved for warmreset */
+ /* reserved for arm trustedfirmware */
+ /* Modify this configuration according to the system framework */
+-/memreserve/ 0x53000000 0x00200000;
++/memreserve/ 0x47000000 0x00200000;
+ #include "hi3559av100.dtsi"
+ 
+ / {
+@@ -134,7 +134,7 @@
+ 
+ 	memory {
+ 		device_type = "memory";
+-		reg = <0x0 0x50000000 0x2 0x0>; /* system memory base */
++		reg = <0x0 0x44000000 0x2 0x0>; /* system memory base */
+ 	};
+ };
+ 
