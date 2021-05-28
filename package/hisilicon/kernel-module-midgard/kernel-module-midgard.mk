@@ -1,0 +1,32 @@
+################################################################################
+#
+# kernel-module-midgard
+#
+################################################################################
+
+ifeq ($(HISILICON_CPU_CHIP),hi3559av100)
+KERNEL_MODULE_MIDGARD_VERSION = 743c452d28461f2a4269d3a53424a26a4114b855
+else
+KERNEL_MODULE_MIDGARD_VERSION = 743c452d28461f2a4269d3a53424a26a4114b855
+endif
+KERNEL_MODULE_MIDGARD_SOURCE = kernel-module-midgard-$(KERNEL_MODULE_MIDGARD_VERSION).tar.gz
+KERNEL_MODULE_MIDGARD_SITE = https://cgit.vaxpl.com/rdst/kernel-module-midgard/snapshot
+KERNEL_MODULE_MIDGARD_LICENSE = LGPL-2.1+
+KERNEL_MODULE_MIDGARD_LICENSE_FILES = COPYING-LGPL-2.1
+
+ifeq ($(HISILICON_KERNEL),linux)
+KERNEL_MODULE_MIDGARD_DEPENDENCIES += kernel-module-hi_osal
+KERNEL_MODULE_MIDGARD_EXTRA_CFLAGS = \
+	-I$(KERNEL_MODULE_HI_OSAL_DIR)/include
+KERNEL_MODULE_MIDGARD_SCONS_CFLAGS = \
+	-DCONFIG_MALI_DEVFREQ=y
+KERNEL_MODULE_MIDGARD_SCONS_CONFIGS = \
+	CONFIG_MALI_MIDGARD=m \
+	CONFIG_MALI_DEVFREQ=y
+KERNEL_MODULE_MIDGARD_MODULE_MAKE_OPTS += \
+	EXTRA_CFLAGS="$(KERNEL_MODULE_MIDGARD_EXTRA_CFLAGS) $(KERNEL_MODULE_MIDGARD_SCONS_CFLAGS)" \
+	$(KERNEL_MODULE_MIDGARD_SCONS_CONFIGS)
+endif
+
+$(eval $(kernel-module))
+$(eval $(generic-package))

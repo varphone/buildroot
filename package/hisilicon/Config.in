@@ -1,0 +1,73 @@
+config BR2_PACKAGE_HISILICON
+	bool "hisilicon"
+	help
+	  Packages for the Hi3XXX platforms.
+
+if BR2_PACKAGE_HISILICON
+
+choice
+        prompt "Chipset"
+
+config BR2_PACKAGE_HISILICON_CHIP_HI3516DV300
+	bool "hi3516dv300"
+
+config BR2_PACKAGE_HISILICON_CHIP_HI3531DV100
+	bool "hi3531dv100"
+
+config BR2_PACKAGE_HISILICON_CHIP_HI3559AV100
+	bool "hi3559av100"
+
+endchoice
+
+config BR2_PACKAGE_HISILICON_CHIP
+	string
+	default "hi3516dv300" if BR2_PACKAGE_HISILICON_CHIP_HI3516DV300
+	default "hi3531dv100" if BR2_PACKAGE_HISILICON_CHIP_HI3531DV100
+	default "hi3559av100" if BR2_PACKAGE_HISILICON_CHIP_HI3559AV100
+
+choice
+        prompt "CPU Type"
+	depends on BR2_PACKAGE_HISILICON_CHIP_HI3559AV100
+
+config BR2_PACKAGE_HISILICON_CPU_TYPE_BIG_LITTLE
+        bool "big-little"
+
+config BR2_PACKAGE_HISILICON_CPU_TYPE_MULTI_CORE
+        bool "multi-core"
+
+endchoice
+
+config BR2_PACKAGE_HISILICON_CPU_TYPE
+        string
+	depends on BR2_PACKAGE_HISILICON_CHIP_HI3559AV100
+        default "big-little" if BR2_PACKAGE_HISILICON_CPU_TYPE_BIG_LITTLE
+        default "multi-core" if BR2_PACKAGE_HISILICON_CPU_TYPE_MULTI_CORE
+
+choice
+        prompt "Kernel"
+
+config BR2_PACKAGE_HISILICON_KERNEL_LINUX
+        bool "linux"
+
+config BR2_PACKAGE_HISILICON_KERNEL_LITEOS
+        bool "liteos"
+
+endchoice
+
+config BR2_PACKAGE_HISILICON_KERNEL
+        string
+        default "linux" if BR2_PACKAGE_HISILICON_KERNEL_LINUX
+        default "liteos" if BR2_PACKAGE_HISILICON_KERNEL_LITEOS
+
+source "package/hisilicon/kernel-module-adv7280m/Config.in"
+source "package/hisilicon/kernel-module-hi_dbe/Config.in"
+source "package/hisilicon/kernel-module-hi_osal/Config.in"
+source "package/hisilicon/kernel-module-jaguar1/Config.in"
+source "package/hisilicon/kernel-module-midgard/Config.in"
+source "package/hisilicon/kernel-module-sysconfig/Config.in"
+source "package/hisilicon/mali-lib/Config.in"
+source "package/hisilicon/mpp-lib/Config.in"
+source "package/hisilicon/reg-tools/Config.in"
+
+endif
+

@@ -1,0 +1,5 @@
+config BR2_PACKAGE_KERNEL_MODULE_HI_OSAL
+	bool "kernel-module-hi_osal"
+	help
+	  Operating System Abstract Layer for the Hi3XXX platforms.
+

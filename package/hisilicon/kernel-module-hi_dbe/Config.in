@@ -1,0 +1,5 @@
+config BR2_PACKAGE_KERNEL_MODULE_HI_DBE
+	bool "kernel-module-hi_dbe"
+	help
+	  DMA Buffer Exporter for the Hi3XXX platforms.
+

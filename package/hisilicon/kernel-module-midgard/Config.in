@@ -1,0 +1,5 @@
+config BR2_PACKAGE_KERNEL_MODULE_MIDGARD
+	bool "kernel-module-midgard"
+	help
+	  Linux GPU driver the Hi3XXX platforms.
+

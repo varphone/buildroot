@@ -1,0 +1,5 @@
+config BR2_PACKAGE_MPP_LIB
+	bool "mpp-lib"
+	help
+	  Library of userspace and kernel drivers for the Hi3XXX platforms.
+

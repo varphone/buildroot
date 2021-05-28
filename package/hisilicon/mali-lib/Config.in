@@ -1,0 +1,23 @@
+config BR2_PACKAGE_MALI_LIB
+	bool "mali-lib"
+	depends on (BR2_arm && BR2_ARM_EABIHF) || BR2_aarch64
+	depends on BR2_TOOLCHAIN_USES_GLIBC
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_HAS_LIBOPENCL
+	help
+	  ARM GPU userspace library for the Hi3XXX platforms.
+
+if BR2_PACKAGE_MALI_LIB
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "mali-lib"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "mali-lib"
+
+config BR2_PACKAGE_PROVIDES_LIBOPENCL
+	default "mali-lib"
+
+endif
+

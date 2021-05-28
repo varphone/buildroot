@@ -1,0 +1,4 @@
+config BR2_PACKAGE_KERNEL_MODULE_SYSCONFIG
+	bool "kernel-module-sysconfig"
+	help
+	  System configrations for the Hi3XXX platforms.
