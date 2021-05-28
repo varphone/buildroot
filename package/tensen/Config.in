@@ -1,0 +1,42 @@
+config BR2_PACKAGE_TENSEN
+	bool "Tensen fonts"
+	help
+	  Parital of fonts from Tensentype.
+
+	  http://www.tensentype.com
+
+if BR2_PACKAGE_TENSEN
+
+config BR2_PACKAGE_TENSEN_RUIHEIJ_W1
+	bool "RuiHei - W1 fonts (Simplified)"
+	default n
+
+config BR2_PACKAGE_TENSEN_RUIHEIJ_W2
+	bool "RuiHei - W2 fonts (Simplified)"
+	default y
+
+config BR2_PACKAGE_TENSEN_XIHEIJ
+	bool "XiHei fonts (Simplified)"
+	default n
+
+config BR2_PACKAGE_TENSEN_XINYUANJ_W1
+	bool "XinYuan - W1 fonts (Simplified)"
+	default n
+
+config BR2_PACKAGE_TENSEN_ZHIHEIJ_W2
+	bool "ZhiHei - W2 fonts (Simplified)"
+	default n
+
+config BR2_PACKAGE_TENSEN_ZHIHEIJ_W3
+	bool "ZhiHei - W3 fonts (Simplified)"
+	default n
+
+config BR2_PACKAGE_TENSEN_ZHONGHEIJ
+	bool "ZhongHei fonts (Simplified)"
+	default n
+
+config BR2_PACKAGE_TENSEN_ZHONGYUANJ
+	bool "ZhongYuan fonts (Simplified)"
+	default n
+
+endif
