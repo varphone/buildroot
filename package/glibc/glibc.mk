@@ -11,7 +11,7 @@ GLIBC_SOURCE = glibc-$(GLIBC_VERSION).tar.gz
 else
 # Generate version string using:
 #   git describe --match 'glibc-*' --abbrev=40 origin/release/MAJOR.MINOR/master
-GLIBC_VERSION = glibc-2.26-107-g73a92363619e52c458146e903dfb9b1ba823aa40
+GLIBC_VERSION = glibc-2.23-109-gb039fd85db0717aca309b61925d00a5a6547a649
 # Upstream doesn't officially provide an https download link.
 # There is one (https://sourceware.org/git/glibc.git) but it's not reliable,
 # sometimes the connection times out. So use an unofficial github mirror.
