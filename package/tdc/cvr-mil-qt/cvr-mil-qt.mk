@@ -10,7 +10,7 @@ else
 CVR_MIL_QT_VERSION = 1.3.0-CVR-MIL-V1
 endif
 CVR_MIL_QT_SOURCE = cvr-mil-qt-$(CVR_MIL_QT_VERSION).tar.xz
-CVR_MIL_QT_SITE = https://10.0.2.2/cgit/rdst/cvr-mil-qt.git/snapshot
+CVR_MIL_QT_SITE = https://cgit.vaxpl.com/rdst/cvr-mil-qt/snapshot
 CVR_MIL_QT_STRIP_COMPONENTS = 1
 CVR_MIL_QT_INSTALL_STAGING = NO
 CVR_MIL_QT_DEPENDENCIES = qt
